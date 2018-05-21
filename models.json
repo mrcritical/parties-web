@@ -1,0 +1,218 @@
+{
+  "account": {
+    "id": "String",
+    "openedAt": "DateTime",
+    "closedAt": "DateTime",
+    "catalogs": ["Catalog"],
+    "settings": {
+      "automaticPost": "Boolean",
+      "allowHostTo": {
+        "post": "Boolean",
+        "directChat": "Boolean"
+      },
+      "defaultTemplate": "String"
+    },
+    "assets": ["Asset"],
+    "parties": ["Party"]
+  },
+  "asset": {
+    "id": "String",
+    "name": "String",
+    "url": "String",
+    "type": "String",
+    "subType": "String",
+    "width": "Number",
+    "height": "Number"
+  },
+  "party": {
+    "id": "String",
+    "status": "String",
+    "createdBy": {
+      "at": "DateTime",
+      "userId": "String"
+    },
+    "name": "String",
+    "description": "String",
+    "banner": "Asset",
+    "start": {
+      "at": "DateTime",
+      "actual": "DateTime"
+    },
+    "end": {
+      "at": "DateTime",
+      "actual": "DateTime"
+    },
+    "closeOut": {
+      "at": "DateTime",
+      "actual": "DateTime"
+    },
+    "settings": {
+      "automaticPost": "Boolean",
+      "allowHostTo": {
+        "post": "Boolean",
+        "directChat": "Boolean"
+      },
+      "template": "String"
+    },
+    "posts": ["Post"],
+    "runBy": "ProfileReference",
+    "hostedBy": "ProfileReference",
+    "attendees": ["Attendee"],
+    "plans": ["Plan"],
+    "archived": {
+      "at": "DateTime",
+      "url": "String"
+    }
+  },
+  "attendee": {
+    "id": "String",
+    "status": "String",
+    "userId": "String",
+    "handle": "String",
+    "favorites": [
+      {
+        "catalogId": "String",
+        "productId": "String"
+      }
+    ],
+    "cart": {
+      "totals": {
+        "amount": "Number",
+        "count": "Number"
+      },
+      "items": [
+        {
+          "quantity": "Number",
+          "name": "String",
+          "productId": "String",
+          "thumbnail": "String"
+        }
+      ]
+    },
+    "chats": [
+      {
+        "with": ["String"],
+        "messages": ["Message"]
+      }
+    ]
+  },
+  "message": {
+    "at": "DateTime",
+    "who": "String",
+    "text": "String"
+  },
+  "catalog": {
+    "id": "String",
+    "name": "String",
+    "products": ["Product"]
+  },
+  "product": {
+    "id": "String",
+    "name": "String",
+    "images": {
+      "fullSize": {
+        "url": "String",
+        "width": "Number",
+        "height": "Number"
+      },
+      "thumbnail": {
+        "url": "String",
+        "width": "Number",
+        "height": "Number"
+      }
+    },
+    "facets": ["String"]
+  },
+  "post": {
+    "id": "String",
+    "at": "DateTime",
+    "by": "String",
+    "likes": [
+      "String"
+    ],
+    "modifiedAt": "DateTime",
+    "parentId": "String",
+    "comment": {
+      "text": "",
+      "mentions": [
+        {
+          "id": "String",
+          "handle": "String",
+          "indices": ["Number", "Number"]
+        }
+      ],
+      "urls": [
+        {
+          "url": "String",
+          "indices": ["Number", "Number"]
+        }
+      ],
+      "tags": [
+        {
+          "name": "String",
+          "indices": ["Number", "Number"]
+        }
+      ]
+    },
+    "actions": [{
+      "name": "String",
+      "trigger": "String"
+    }],
+    "media": [
+      {
+        "name": "String",
+        "url": "String",
+        "type": "String",
+        "subType": "String",
+        "width": "Number",
+        "height": "Number"
+      }
+    ]
+  },
+  "profile": {
+    "id": "String",
+    "avatar": {
+      "url": "String"
+    },
+    "name": {
+      "first": "String",
+      "last": "String"
+    },
+    "handle": "String",
+    "emailAddress": "String",
+    "phoneNumbers": [
+      {
+        "type": "String",
+        "number": "String"
+      }
+    ],
+    "enabled": "Boolean"
+  },
+  "user": {
+    "id": "String",
+    "accountId": "String",
+    "profile": "Reference",
+    "roles": ["String"]
+  },
+  "plan": [
+    {
+      "id": "String",
+      "at": "DateTime",
+      "by": "String",
+      "action": {
+        "type": "String",
+        "text": "String",
+        "media": [
+          {
+            "name": "String",
+            "url": "String",
+            "type": "String",
+            "subType": "String",
+            "width": "Number",
+            "height": "Number"
+          }
+        ]
+      }
+    }
+  ]
+}
