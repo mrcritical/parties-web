@@ -10,7 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import {withStyles} from '@material-ui/core/styles';
 import withRoot from '../withRoot';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
-import Login from 'components/Login/Login';
+import PartyPage from "./Party/PartyPage";
+import LoginPage from "./Party/LoginPage";
 
 const styles = theme => ({
     root: {
@@ -67,8 +68,11 @@ class Index extends React.Component {
                             </Button>
                         </div>
                     )}/>
+                    <Route path="/parties/:partyId/login" render={props => (
+                        <LoginPage {...props}/>
+                    )}/>
                     <Route path="/parties/:partyId" render={props => (
-                        <Login {...props}/>
+                        <PartyPage {...props}/>
                     )}/>
                 </div>
             </Router>

@@ -1,8 +1,9 @@
 import React from 'react';
 import repos from "store";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import LoginCard from 'components/Party/Login/LoginCard';
 
-class Login extends React.Component {
+class LoginPage extends React.Component {
 
     componentDidMount() {
         const firebase = repos.firebase();
@@ -35,16 +36,17 @@ class Login extends React.Component {
                 .catch(function (error) {
                     // Some error occurred, you can inspect the code: error.code
                     // Common errors could be invalid email and invalid or expired OTPs.
-                    console.error('Login failed', error);
+                    console.error('LoginPage failed', error);
                 });
         }
     }
 
     render() {
         return <div>
+            <LoginCard/>
             <CircularProgress />
         </div>;
     }
 }
 
-export default Login;
+export default LoginPage;
