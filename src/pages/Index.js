@@ -12,6 +12,7 @@ import withRoot from '../withRoot';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import PartyPage from "./Party/PartyPage";
 import LoginPage from "./Party/LoginPage";
+import 'typeface-roboto';
 
 const styles = theme => ({
     root: {

@@ -1,7 +1,37 @@
 import React from 'react';
 import repos from "store";
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { withStyles } from '@material-ui/core/styles';
 import LoginCard from 'components/Party/Login/LoginCard';
+import Grid from '@material-ui/core/Grid';
+
+const styles = theme => ({
+    root: {
+        flexGrow: 1,
+    },
+    // paper: {
+    //     height: 140,
+    //     width: 100,
+    // },
+    control: {
+        padding: theme.spacing.unit * 2,
+    },
+    card: {
+        minWidth: 275,
+        maxWidth: 500,
+    },
+    bullet: {
+        display: 'inline-block',
+        margin: '0 2px',
+        transform: 'scale(0.8)',
+    },
+    title: {
+        marginBottom: 16,
+        fontSize: 14,
+    },
+    pos: {
+        marginBottom: 12,
+    },
+});
 
 class LoginPage extends React.Component {
 
@@ -42,11 +72,16 @@ class LoginPage extends React.Component {
     }
 
     render() {
-        return <div>
-            <LoginCard/>
-            <CircularProgress />
-        </div>;
+        const { classes } = this.props;
+
+        return <Grid container className={classes.root} spacing={16}>
+            <Grid item xs={12}>
+                <Grid container justify="center" spacing={16}>
+                    <LoginCard/>
+                </Grid>
+            </Grid>
+        </Grid>;
     }
 }
 
-export default LoginPage;
+export default withStyles(styles)(LoginPage);
