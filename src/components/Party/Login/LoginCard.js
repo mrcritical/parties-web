@@ -5,16 +5,13 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
 import {TextValidator, ValidatorForm} from 'react-material-ui-form-validator';
 
 const styles = theme => ({
     root: {
         flexGrow: 1,
     },
-    // paper: {
-    //     height: 140,
-    //     width: 100,
-    // },
     control: {
         padding: theme.spacing.unit * 2,
     },
@@ -23,9 +20,23 @@ const styles = theme => ({
     },
     actions: {
         display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        marginBottom: 10,
     },
-    button: {
-        marginLeft: 'auto'
+    avatars: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: 10,
+    },
+    avatar: {
+        width: 52,
+        height: 52,
+        marginLeft: 5,
+        marginRight: 5,
+    },
+    avatarContainer: {
+        marginTop: 30
     }
 });
 
@@ -42,12 +53,18 @@ class LoginCard extends React.Component {
         this.setState({email});
     }
 
+    handleHandleChange(event) {
+        const handle = event.target.value;
+        this.setState({handle});
+    }
+
     joinParty() {
         // your submit logic
     }
 
     render() {
         const {email} = this.state;
+        const {handle} = this.state;
         const {classes} = this.props;
         return (
             <ValidatorForm
@@ -67,11 +84,34 @@ class LoginCard extends React.Component {
                             onChange={this.handleChange}
                             name="email"
                             value={email}
+                            fullWidth={true}
                             validators={['required', 'isEmail']}
                             errorMessages={['this field is required', 'email is not valid']}
                         />
+
+                        <TextValidator
+                            label="Handle"
+                            helperText="Choose a name (handle) to allow others to chat with you"
+                            onChange={this.handleHandleChange}
+                            name="handle"
+                            value={handle}
+                            fullWidth={true}
+                            validators={['required']}
+                            errorMessages={['this field is required', 'email is not valid']}
+                        />
+                        <div className={classes.avatarContainer}>
+                            <Typography color="textSecondary" variant={"caption"} align={"left"}>
+                                Please select an avatar to represent you, visually:
+                            </Typography>
+                            <div className={classes.avatars}>
+                                <Avatar className={classes.avatar}>1</Avatar>
+                                <Avatar className={classes.avatar}>2</Avatar>
+                                <Avatar className={classes.avatar}>3</Avatar>
+                                <Avatar className={classes.avatar}>4</Avatar>
+                            </div>
+                        </div>
                     </CardContent>
-                    <CardActions>
+                    <CardActions className={classes.actions}>
                         <Button variant="raised" color="primary" classes={classes.button}>Join</Button>
                     </CardActions>
                 </Card>
