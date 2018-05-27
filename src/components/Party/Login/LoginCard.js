@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import {TextValidator, ValidatorForm} from 'react-material-ui-form-validator';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AvatarSelector from './AvatarSelector';
+import {shape, number, string, arrayOf} from 'prop-types';
 
 const styles = theme => ({
     root: {
@@ -38,8 +39,8 @@ class LoginCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            handle: '',
+            email: props.email,
+            handle: props.handle,
         };
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handleHandleChange = this.handleHandleChange.bind(this);
@@ -116,5 +117,15 @@ class LoginCard extends React.Component {
         );
     }
 }
+
+LoginCard.propTypes = {
+    email: string.isRequired,
+    handle: string,
+};
+
+LoginCard.defaultProps = {
+    email: 'jane.doe@gmail.com',
+    handle: 'jane.doe'
+};
 
 export default withStyles(styles)(LoginCard);
