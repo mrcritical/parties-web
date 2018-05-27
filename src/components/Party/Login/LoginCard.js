@@ -5,8 +5,9 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
 import {TextValidator, ValidatorForm} from 'react-material-ui-form-validator';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import AvatarSelector from './AvatarSelector';
 
 const styles = theme => ({
     root: {
@@ -24,19 +25,11 @@ const styles = theme => ({
         justifyContent: 'flex-end',
         marginBottom: 10,
     },
-    avatars: {
-        display: 'flex',
-        justifyContent: 'center',
+    emailField: {
         marginTop: 10,
     },
-    avatar: {
-        width: 52,
-        height: 52,
-        marginLeft: 5,
-        marginRight: 5,
-    },
-    avatarContainer: {
-        marginTop: 30
+    handleField: {
+        marginTop: 10,
     }
 });
 
@@ -44,11 +37,19 @@ class LoginCard extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {email: ''};
-        this.handleChange = this.handleChange.bind(this);
+        this.state = {
+            email: '',
+            handle: '',
+        };
+        this.handleEmailChange = this.handleEmailChange.bind(this);
+        this.handleHandleChange = this.handleHandleChange.bind(this);
     }
 
-    handleChange(event) {
+    componentDidMount() {
+        document.title = "Login to Join the Party";
+    }
+
+    handleEmailChange(event) {
         const email = event.target.value;
         this.setState({email});
     }
@@ -76,16 +77,17 @@ class LoginCard extends React.Component {
                         <Typography color="primary" variant={"title"} align={"left"} gutterBottom>
                             Login
                         </Typography>
-                        <Typography color="textSecondary" variant={"paragraph"} align={"left"}>
+                        <Typography color="textSecondary" variant={"body1"} align={"left"}>
                             {`We just need a couple more things from you before you join the party.`}
                         </Typography>
                         <TextValidator
                             label="Email"
-                            onChange={this.handleChange}
+                            onChange={this.handleEmailChange}
                             name="email"
                             value={email}
                             fullWidth={true}
                             validators={['required', 'isEmail']}
+                            className={classes.emailField}
                             errorMessages={['this field is required', 'email is not valid']}
                         />
 
@@ -97,19 +99,14 @@ class LoginCard extends React.Component {
                             value={handle}
                             fullWidth={true}
                             validators={['required']}
+                            className={classes.handleField}
+                            InputProps={{
+                                startAdornment: <InputAdornment position="start">@</InputAdornment>,
+                            }}
                             errorMessages={['this field is required', 'email is not valid']}
                         />
-                        <div className={classes.avatarContainer}>
-                            <Typography color="textSecondary" variant={"caption"} align={"left"}>
-                                Please select an avatar to represent you, visually:
-                            </Typography>
-                            <div className={classes.avatars}>
-                                <Avatar className={classes.avatar}>1</Avatar>
-                                <Avatar className={classes.avatar}>2</Avatar>
-                                <Avatar className={classes.avatar}>3</Avatar>
-                                <Avatar className={classes.avatar}>4</Avatar>
-                            </div>
-                        </div>
+
+                        <AvatarSelector/>
                     </CardContent>
                     <CardActions className={classes.actions}>
                         <Button variant="raised" color="primary" classes={classes.button}>Join</Button>

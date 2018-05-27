@@ -4,38 +4,17 @@ import { withStyles } from '@material-ui/core/styles';
 import LoginCard from 'components/Party/Login/LoginCard';
 import Grid from '@material-ui/core/Grid';
 
-const styles = theme => ({
+const styles = () => ({
     root: {
         flexGrow: 1,
-    },
-    // paper: {
-    //     height: 140,
-    //     width: 100,
-    // },
-    control: {
-        padding: theme.spacing.unit * 2,
-    },
-    card: {
-        minWidth: 275,
-        maxWidth: 500,
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    title: {
-        marginBottom: 16,
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
     },
 });
 
 class LoginPage extends React.Component {
 
     componentDidMount() {
+        document.title = "Login to Join the Party";
+
         const firebase = repos.firebase();
         if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
             // Additional state parameters can also be passed via URL.
