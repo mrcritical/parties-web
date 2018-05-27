@@ -27,10 +27,10 @@ const styles = theme => ({
         marginBottom: 10,
     },
     emailField: {
-        marginTop: 10,
+        marginTop: 20,
     },
     handleField: {
-        marginTop: 10,
+        marginTop: 20,
     }
 });
 
@@ -89,12 +89,12 @@ class LoginCard extends React.Component {
                             fullWidth={true}
                             validators={['required', 'isEmail']}
                             className={classes.emailField}
-                            errorMessages={['this field is required', 'email is not valid']}
+                            errorMessages={['This field is required', 'Email is not valid']}
                         />
 
                         <TextValidator
                             label="Handle"
-                            helperText="Choose a name (handle) to allow others to chat with you"
+                            helperText="Choose a handle to allow others to mention (refer to) you"
                             onChange={this.handleHandleChange}
                             name="handle"
                             value={handle}
