@@ -1,7 +1,6 @@
 import React from 'react';
 import repos from "store";
-import { withStyles } from '@material-ui/core/styles';
-import LoginCard from 'components/Party/Login/LoginCard';
+import {withStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
 const styles = () => ({
@@ -13,34 +12,17 @@ const styles = () => ({
 class LoginPage extends React.Component {
 
     componentDidMount() {
-        document.title = "Login to Join the Party";
+        document.title = "Join the Party";
 
+        const url = window.location.href;
         const firebase = repos.firebase();
-        if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
-            // Additional state parameters can also be passed via URL.
-            // This can be used to continue the user's intended action before triggering
-            // the sign-in operation.
-            // Get the email if available. This should be available if the user completes
-            // the flow on the same device where they started it.
-            let email = window.localStorage.getItem('emailForSignIn');
-            if (!email) {
-                // User opened the link on a different device. To prevent session fixation
-                // attacks, ask the user to provide the associated email again. For example:
-                email = window.prompt('Please provide your email for confirmation');
-            }
+        if (firebase.auth().isSignInWithEmailLink(url)) {
+            const email = LoginPage.getParameterByName('email', url);
             // The client SDK will parse the code from the link for you.
-            firebase.auth().signInWithEmailLink(email, window.location.href)
+            firebase.auth().signInWithEmailLink(email, url)
                 .then(function (result) {
                     // Redirect to landing
-                    window.location.replace('/');
-
-                    // Clear email from storage.
-                    //window.localStorage.removeItem('emailForSignIn');
-                    // You can access the new user via result.user
-                    // Additional user info profile not available via:
-                    // result.additionalUserInfo.profile == null
-                    // You can check if the user is new or existing:
-                    // result.additionalUserInfo.isNewUser
+                    window.location.replace('/parties/1');
                 })
                 .catch(function (error) {
                     // Some error occurred, you can inspect the code: error.code
@@ -50,13 +32,21 @@ class LoginPage extends React.Component {
         }
     }
 
+    static getParameterByName(name, url) {
+        name = name.replace(/[\[\]]/g, "\\$&");
+        const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
     render() {
-        const { classes } = this.props;
+        const {classes} = this.props;
 
         return <Grid container className={classes.root} spacing={16}>
             <Grid item xs={12}>
                 <Grid container justify="center" spacing={16}>
-                    <LoginCard/>
+                    <AttendeeSetupCard/>
                 </Grid>
             </Grid>
         </Grid>;

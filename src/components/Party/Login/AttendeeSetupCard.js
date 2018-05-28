@@ -26,33 +26,23 @@ const styles = theme => ({
         justifyContent: 'flex-end',
         marginBottom: 10,
     },
-    emailField: {
-        marginTop: 20,
-    },
     handleField: {
         marginTop: 20,
     }
 });
 
-class LoginCard extends React.Component {
+class AttendeeSetupCard extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            email: props.email,
             handle: props.handle,
         };
-        this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handleHandleChange = this.handleHandleChange.bind(this);
     }
 
     componentDidMount() {
         document.title = "Login to Join the Party";
-    }
-
-    handleEmailChange(event) {
-        const email = event.target.value;
-        this.setState({email});
     }
 
     handleHandleChange(event) {
@@ -65,7 +55,6 @@ class LoginCard extends React.Component {
     }
 
     render() {
-        const {email} = this.state;
         const {handle} = this.state;
         const {classes} = this.props;
         return (
@@ -76,22 +65,11 @@ class LoginCard extends React.Component {
                 <Card className={classes.card}>
                     <CardContent>
                         <Typography color="primary" variant={"title"} align={"left"} gutterBottom>
-                            Login
+                            Almost there!
                         </Typography>
                         <Typography color="textSecondary" variant={"body1"} align={"left"}>
                             {`We just need a couple more things from you before you join the party.`}
                         </Typography>
-                        <TextValidator
-                            label="Email"
-                            onChange={this.handleEmailChange}
-                            name="email"
-                            value={email}
-                            fullWidth={true}
-                            validators={['required', 'isEmail']}
-                            className={classes.emailField}
-                            errorMessages={['This field is required', 'Email is not valid']}
-                        />
-
                         <TextValidator
                             label="Handle"
                             helperText="Choose a handle to allow others to mention (refer to) you"
@@ -106,7 +84,6 @@ class LoginCard extends React.Component {
                             }}
                             errorMessages={['this field is required', 'email is not valid']}
                         />
-
                         <AvatarSelector/>
                     </CardContent>
                     <CardActions className={classes.actions}>
@@ -118,14 +95,12 @@ class LoginCard extends React.Component {
     }
 }
 
-LoginCard.propTypes = {
-    email: string.isRequired,
+AttendeeSetupCard.propTypes = {
     handle: string,
 };
 
-LoginCard.defaultProps = {
-    email: 'jane.doe@gmail.com',
+AttendeeSetupCard.defaultProps = {
     handle: 'jane.doe'
 };
 
-export default withStyles(styles)(LoginCard);
+export default withStyles(styles)(AttendeeSetupCard);
