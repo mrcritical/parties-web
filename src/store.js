@@ -24,7 +24,7 @@ class CurrentUser {
 
 // Detect changes to the logged in user. Keep the profile in local storage while logged in.
 firebase.auth().onAuthStateChanged((authUser) => {
-    if (authUser) {
+    if (null != authUser) {
         // User logged in
         firebase
             .firestore()
