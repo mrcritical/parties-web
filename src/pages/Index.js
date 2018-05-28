@@ -69,7 +69,7 @@ class Index extends React.Component {
                             </Button>
                         </div>
                     )}/>
-                    <Route path="/parties/:partyId/login" render={props => (
+                    <Route path="/parties/:partyId/join" render={props => (
                         <LoginPage {...props}/>
                     )}/>
                     <Route path="/parties/:partyId" render={props => (

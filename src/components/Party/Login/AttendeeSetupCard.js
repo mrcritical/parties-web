@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import {TextValidator, ValidatorForm} from 'react-material-ui-form-validator';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AvatarSelector from './AvatarSelector';
-import {shape, number, string, arrayOf} from 'prop-types';
+import {string} from 'prop-types';
 
 const styles = theme => ({
     root: {

@@ -2,6 +2,7 @@ import React from 'react';
 import repos from "store";
 import {withStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import AttendeeSetupCard from 'components/Party/Login/AttendeeSetupCard';
 
 const styles = () => ({
     root: {
@@ -33,6 +34,7 @@ class LoginPage extends React.Component {
     }
 
     static getParameterByName(name, url) {
+        // eslint-disable-next-line
         name = name.replace(/[\[\]]/g, "\\$&");
         const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url);
         if (!results) return null;
