@@ -2,20 +2,34 @@ import React from 'react';
 import repos from "store";
 import {withStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import purple from '@material-ui/core/colors/purple';
 import AttendeeSetupCard from 'components/Party/Login/AttendeeSetupCard';
+import Typography from '@material-ui/core/Typography';
 
 const styles = () => ({
     root: {
         flexGrow: 1,
     },
+    failureMessage: {
+        padding: 10
+    },
 });
 
 class LoginPage extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            loginInProgress: false,//null !== this.props.partyId,
+            loginSucceeded: true
+        };
+    }
+
     componentDidMount() {
         document.title = "Join the Party";
-
         const url = window.location.href;
+
         const firebase = repos.firebase();
         if (firebase.auth().isSignInWithEmailLink(url)) {
             const email = LoginPage.getParameterByName('email', url);
@@ -44,14 +58,50 @@ class LoginPage extends React.Component {
 
     render() {
         const {classes} = this.props;
+        const {partyId} = this.props;
+        const {loginInProgress} = this.state;
+        const {loginSucceeded} = this.state;
 
-        return <Grid container className={classes.root} spacing={16}>
-            <Grid item xs={12}>
-                <Grid container justify="center" spacing={16}>
-                    <AttendeeSetupCard/>
+        // Waiting for login
+        if (loginInProgress) {
+            return <Grid container className={classes.root} spacing={16}>
+                <Grid item xs={12}>
+                    <Grid container justify="center" spacing={16}>
+                        <CircularProgress className={classes.progress}
+                                          style={{color: purple[500]}}
+                                          size={120}
+                                          thickness={7}/>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </Grid>;
+            </Grid>;
+
+            // Login succeeded, get additional details from attendee
+        } else if (loginSucceeded) {
+            return <Grid container className={classes.root} spacing={16}>
+                <Grid item xs={12}>
+                    <Grid container
+                          justify="center"
+                          spacing={16}>
+                        <AttendeeSetupCard partyId={partyId}/>
+                    </Grid>
+                </Grid>
+            </Grid>;
+
+            // Login failed, show failed message
+        } else {
+            return <Grid container className={classes.root} spacing={16}>
+                <Grid item xs={12}>
+                    <Grid container justify="center" spacing={16}>
+                        <Typography color="textSecondary"
+                                    variant={"headline"}
+                                    align={"center"}
+                                    className={classes.failureMessage}>
+                            Login failed. Please contact your stylist to request a new login email.
+                        </Typography>
+                    </Grid>
+                </Grid>
+            </Grid>;
+        }
     }
 }
 

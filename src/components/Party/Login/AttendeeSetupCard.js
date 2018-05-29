@@ -8,7 +8,9 @@ import Button from '@material-ui/core/Button';
 import {TextValidator, ValidatorForm} from 'react-material-ui-form-validator';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AvatarSelector from './AvatarSelector';
-import {string} from 'prop-types';
+import {string, object} from 'prop-types';
+import {withRouter} from 'react-router-dom'
+import compose from 'recompose/compose';
 
 const styles = theme => ({
     root: {
@@ -50,8 +52,9 @@ class AttendeeSetupCard extends React.Component {
         this.setState({handle});
     }
 
-    joinParty() {
-        // your submit logic
+    joinParty(e) {
+        e.preventDefault();
+        this.props.history.push('/parties/' + this.props.partyId);
     }
 
     render() {
@@ -59,7 +62,7 @@ class AttendeeSetupCard extends React.Component {
         const {classes} = this.props;
         return (
             <ValidatorForm
-                onSubmit={this.joinParty}
+                onSubmit={this.joinParty.bind(this)}
                 onError={errors => console.log(errors)}
             >
                 <Card className={classes.card}>
@@ -87,7 +90,7 @@ class AttendeeSetupCard extends React.Component {
                         <AvatarSelector/>
                     </CardContent>
                     <CardActions className={classes.actions}>
-                        <Button variant="raised" color="primary" classes={classes.button}>Join</Button>
+                        <Button variant="raised" color="primary" type={'submit'} classes={classes.button}>Join</Button>
                     </CardActions>
                 </Card>
             </ValidatorForm>
@@ -97,10 +100,16 @@ class AttendeeSetupCard extends React.Component {
 
 AttendeeSetupCard.propTypes = {
     handle: string,
+    partyId: string.isRequired,
+    history: object.isRequired,
 };
 
 AttendeeSetupCard.defaultProps = {
-    handle: 'jane.doe'
+    handle: 'jane.doe',
+    partyId: "1",
 };
 
-export default withStyles(styles)(AttendeeSetupCard);
+export default compose(
+    withRouter,
+    withStyles(styles),
+)(AttendeeSetupCard);
