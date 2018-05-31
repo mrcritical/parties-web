@@ -1,5 +1,6 @@
 import React from 'react';
 import repos from "store";
+import store from "store";
 import {withStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -21,29 +22,53 @@ class LoginPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loginInProgress: false,//null !== this.props.partyId,
-            loginSucceeded: true
+            loginInProgress: null !== this.props.partyId,
+            loginSucceeded: false
         };
     }
 
     componentDidMount() {
-        document.title = "Join the Party";
-        const url = window.location.href;
+        const {partyId} = this.props;
+        const auth = repos.firebase.auth();
 
-        const firebase = repos.firebase();
-        if (firebase.auth().isSignInWithEmailLink(url)) {
+        document.title = "Join the Party";
+
+        const url = window.location.href;
+        if (auth.isSignInWithEmailLink(url)) {
             const email = LoginPage.getParameterByName('email', url);
-            // The client SDK will parse the code from the link for you.
-            firebase.auth().signInWithEmailLink(email, url)
-                .then(function (result) {
-                    // Redirect to landing
-                    window.location.replace('/parties/1');
-                })
-                .catch(function (error) {
-                    // Some error occurred, you can inspect the code: error.code
-                    // Common errors could be invalid email and invalid or expired OTPs.
-                    console.error('LoginPage failed', error);
-                });
+            if (null !== auth.currentUser) {
+                console.log('Already logged in');
+
+            } else {
+                auth
+                    .signInWithEmailLink(email, url)
+                    .then(result => {
+                        const uid = result.user.uid;
+                        if (uid) {
+                            // Set the party and attendee
+                            return store
+                                .setParty(partyId)
+                                .then(() => store.setAttendee(uid))
+                                .then(() => {
+                                    this.setState({
+                                        loginInProgress: false,
+                                        loginSucceeded: true
+                                    });
+                                });
+                        } else {
+                            return Promise.reject(new Error('Failed to login with: ' + JSON.stringify(result)));
+                        }
+                    })
+                    .catch(error => {
+                        // Some error occurred, you can inspect the code: error.code
+                        // Common errors could be invalid email and invalid or expired OTPs.
+                        console.error('Login failed', error);
+                        this.setState({
+                            loginInProgress: false,
+                            loginSucceeded: false
+                        });
+                    });
+            }
         }
     }
 

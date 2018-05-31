@@ -1,6 +1,6 @@
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
-import {shape, number, string, arrayOf} from 'prop-types';
+import {func, string, number, shape, arrayOf} from 'prop-types';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Typography from '@material-ui/core/Typography';
 
@@ -41,6 +41,7 @@ class AvatarSelector extends React.Component {
 
     selectAvatar(selectedAvatar) {
         this.setState({selectedAvatar});
+        this.props.onChange(selectedAvatar);
     }
 
     render() {
@@ -56,7 +57,7 @@ class AvatarSelector extends React.Component {
                 <div className={classes.list}>
                     {avatars.map(avatar => {
                         let avatarClassName = classes.unselected;
-                        if (avatar.id === this.state.selectedAvatar) {
+                        if (this.state.selectedAvatar && avatar.id === this.state.selectedAvatar.id) {
                             avatarClassName = classes.selected;
                         }
                         return (
@@ -71,7 +72,7 @@ class AvatarSelector extends React.Component {
                                 }}
                             >
                                 <img src={avatar.url}
-                                     onClick={() => this.selectAvatar(avatar.id)}
+                                     onClick={() => this.selectAvatar(avatar)}
                                      className={avatarClassName}
                                      alt={""}
                                      {...styles.hover}
@@ -88,7 +89,8 @@ class AvatarSelector extends React.Component {
 
 AvatarSelector.propTypes = {
     helperText: string,
-    avatars: arrayOf(avatarType).isRequired
+    avatars: arrayOf(avatarType).isRequired,
+    onChange: func.isRequired,
 };
 
 AvatarSelector.defaultProps = {

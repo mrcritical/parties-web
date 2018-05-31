@@ -70,10 +70,10 @@ class Index extends React.Component {
                         </div>
                     )}/>
                     <Route path="/parties/:partyId/join" render={props => (
-                        <LoginPage {...props}/>
+                        <LoginPage {...props.match.params}/>
                     )}/>
                     <Route path="/parties/:partyId" render={props => (
-                        <PartyPage {...props}/>
+                        <PartyPage {...props.match.params}/>
                     )}/>
                 </div>
             </Router>

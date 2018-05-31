@@ -11,6 +11,7 @@ import AvatarSelector from './AvatarSelector';
 import {string, object} from 'prop-types';
 import {withRouter} from 'react-router-dom'
 import compose from 'recompose/compose';
+import store from 'store';
 
 const styles = theme => ({
     root: {
@@ -39,8 +40,10 @@ class AttendeeSetupCard extends React.Component {
         super(props);
         this.state = {
             handle: props.handle,
+            avatar: null,
         };
         this.handleHandleChange = this.handleHandleChange.bind(this);
+        this.handleAvatarChange = this.handleAvatarChange.bind(this);
     }
 
     componentDidMount() {
@@ -52,9 +55,21 @@ class AttendeeSetupCard extends React.Component {
         this.setState({handle});
     }
 
+    handleAvatarChange(avatar) {
+        this.setState({avatar});
+    }
+
     joinParty(e) {
         e.preventDefault();
-        this.props.history.push('/parties/' + this.props.partyId);
+        // Add handling to set the attendee's preferences
+        store
+            .saveAttendeePreferences({
+                handle: null !== this.state.handle ? this.state.handle : null,
+                avatar: null !== this.state.avatar ? this.state.avatar : null,
+            })
+            .then(() => {
+                this.props.history.push('/parties/' + this.props.partyId);
+            });
     }
 
     render() {
@@ -87,7 +102,7 @@ class AttendeeSetupCard extends React.Component {
                             }}
                             errorMessages={['this field is required', 'email is not valid']}
                         />
-                        <AvatarSelector/>
+                        <AvatarSelector onChange={this.handleAvatarChange}/>
                     </CardContent>
                     <CardActions className={classes.actions}>
                         <Button variant="raised" color="primary" type={'submit'} classes={classes.button}>Join</Button>

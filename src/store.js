@@ -54,28 +54,145 @@ firebase.auth().onAuthStateChanged((authUser) => {
     }
 });
 
-const repository = {
-    currentUser: currentUser,
+class Repository {
+
+    constructor(firebase) {
+        this.firebase = firebase;
+        this.current = {
+            user: currentUser,
+            account: null,
+            attendee: null,
+            party: null
+        };
+        this.setAttendee = this.setAttendee.bind(this);
+        this.saveAttendeePreferences = this.saveAttendeePreferences.bind(this);
+        this.setParty = this.setParty.bind(this);
+    }
+
+    setParty(partyId) {
+        const that = this;
+        return firebase
+            .firestore()
+            .collection('/party-mappings')
+            .doc(partyId)
+            .get()
+            .then(documentSnapshot => {
+                if (documentSnapshot.exists) {
+                    return documentSnapshot
+                        .data()
+                        .party
+                        .get()
+                        .then(partySnapshot => {
+                            if (partySnapshot.exists) {
+                                let party = partySnapshot.data();
+                                party.id = partySnapshot.id;
+                                party.ref = partySnapshot.ref;
+                                that.current.party = party;
+                                const accountRef = partySnapshot.ref.parent.parent;
+                                return accountRef
+                                    .get()
+                                    .then(accountSnapshot => {
+                                        if (accountSnapshot.exists) {
+                                            let account = accountSnapshot.data();
+                                            account.id = accountSnapshot.id;
+                                            account.ref = accountSnapshot.ref;
+                                            that.current.account = account;
+                                            return account;
+                                        } else {
+                                            return Promise.reject(new Error('No accountSnapshot found'));
+                                        }
+                                    })
+                                    .then(() => party);
+                            } else {
+                                return Promise.reject(new Error('No party found'));
+                            }
+                        });
+                } else {
+                    return Promise.reject(new Error('No party found'));
+                }
+            });
+    }
+
+    setAttendee(userId) {
+        if (this.current.account && this.current.party) {
+            const that = this;
+            return firebase
+                .firestore()
+                .collection('accounts/' + this.current.account.id + '/parties/' + this.current.party.id + '/profiles')
+                .where('userId', '==', userId)
+                .limit(1)
+                .get()
+                .then(querySnapshot => {
+                    if (querySnapshot.size > 0) {
+                        const attendeeSnapshot = querySnapshot.docs[0];
+                        let attendee = attendeeSnapshot.data();
+                        attendee.id = attendeeSnapshot.id;
+                        attendee.ref = attendeeSnapshot.ref;
+                        that.current.attendee = attendee;
+                        return attendee;
+                    } else {
+                        return Promise.reject(new Error('Failed to find the attendee'));
+                    }
+                });
+        } else {
+            return Promise.reject(new Error('No party and/or account set. Please set these first'));
+        }
+    }
+
+    saveAttendeePreferences(prefs) {
+        return this.current.attendee.ref.set(
+            {
+                handle: prefs.handle,
+                avatar: {
+                    url: prefs.avatar.url
+                },
+            },
+            {
+                merge: true
+            });
+    }
 
     // Get, an listen to updates, on the party
-    party: (accountId, partyId) => new Document('accounts/' + accountId + '/parties/' + partyId),
+    party() {
+        return new Document('accounts/' + this.current.account.id + '/parties/' + this.current.party.id);
+    }
+
     // Get, and listen, to all attendees in the party
-    attendees: (accountId, partyId) => new Collection('accounts/' + accountId + '/parties/' + partyId + '/attendees'),
+    attendees() {
+        return new Collection('accounts/' + this.current.account.id + '/parties/' + this.current.party.id + '/attendees');
+    }
+
     // Get, and listen to updates, to all posts in the party
-    posts: (accountId, partyId) => new Collection('accounts/' + accountId + '/parties/' + partyId + '/posts'),
+    posts() {
+        return new Collection('accounts/' + this.current.account.id + '/parties/' + this.current.party.id + '/posts');
+    }
+
     // Get, and listen to updates, to all plans for the party
-    plans: (accountId, partyId) => new Collection('accounts/' + accountId + '/parties/' + partyId + '/plans'),
+    plans() {
+        return new Collection('accounts/' + this.current.account.id + '/parties/' + this.current.party.id + '/plans');
+    }
 
     // Admin functions
-    parties: (accountId) => new Collection('accounts/' + accountId + '/parties'),
-    assets: (accountId) => new Collection('accounts/' + accountId + '/assets'),
-    profiles: (accountId) => new Collection('accounts/' + accountId + '/profiles'),
+    parties() {
+        return new Collection('accounts/' + this.current.account.id + '/parties');
+    }
 
-    accounts: () => new Collection('accounts'),
-    users: () => new Collection('users'),
+    assets() {
+        return new Collection('accounts/' + this.current.account.id + '/assets');
+    }
 
-    // Expose Firebase itself
-    firebase: () => firebase
-};
+    profiles() {
+        return new Collection('accounts/' + this.current.account.id + '/profiles');
+    }
 
-export default repository;
+    static accounts() {
+        return new Collection('accounts');
+    }
+
+    static users() {
+        return new Collection('users');
+    }
+
+}
+
+export default new Repository(firebase);
