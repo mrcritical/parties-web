@@ -102,12 +102,15 @@ class LoginPage extends React.Component {
 
             // Login succeeded, get additional details from attendee
         } else if (loginSucceeded) {
+            const name = store.current.attendee.name;
+            const handle = name.first.toLowerCase() + '.' + name.last.toLowerCase();
+
             return <Grid container className={classes.root} spacing={16}>
                 <Grid item xs={12}>
                     <Grid container
                           justify="center"
                           spacing={16}>
-                        <AttendeeSetupCard partyId={partyId}/>
+                        <AttendeeSetupCard partyId={partyId} handle={handle}/>
                     </Grid>
                 </Grid>
             </Grid>;

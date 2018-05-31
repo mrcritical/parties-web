@@ -144,7 +144,7 @@ class Repository {
             {
                 handle: prefs.handle,
                 avatar: {
-                    url: prefs.avatar.url
+                    url: prefs.avatar ? prefs.avatar.url : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTs1Mtx-INbdQ5D3Xmsyq-D3HjpKmXnhKiqJsyzfNxzJ8gx-ewB'
                 },
             },
             {
