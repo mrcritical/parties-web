@@ -2,17 +2,10 @@ import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Avatar from '@material-ui/core/Avatar';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import CommentIcon from '@material-ui/icons/Comment';
+import Posts from 'components/Party/Posts/Posts';
 import red from '@material-ui/core/colors/red';
+import PartyAttendeeList from 'components/Party/SideBar/AttendeeList/PartyAttendeeList';
+import Drawer from '@material-ui/core/Drawer';
 
 const styles = theme => ({
     root: {
@@ -22,12 +15,19 @@ const styles = theme => ({
     },
     main: {
         width: '100%',
+        overflow: 'scroll',
+        padding: theme.spacing.unit,
     },
     header: {
         height: theme.spacing.unit * 20,
     },
     paper: {
-        padding: theme.spacing.unit * 2,
+        padding: theme.spacing.unit,
+        textAlign: 'center',
+        height: '100%',
+        color: theme.palette.text.secondary,
+    },
+    attendeePaper: {
         textAlign: 'center',
         height: '100%',
         color: theme.palette.text.secondary,
@@ -49,12 +49,39 @@ const styles = theme => ({
     avatar: {
         backgroundColor: red[500],
     },
+    drawer: {
+        width: theme.spacing.unit * 54,
+    }
 });
 
 class PartyPage extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            detailsOpen: false,
+            post: null,
+        };
+        this.showDetails = this.showDetails.bind(this);
+        this.hideDetails = this.hideDetails.bind(this);
+    }
+
     componentDidMount() {
         document.title = "Welcome to the Party";
+    }
+
+    showDetails(post) {
+        this.setState({
+            detailsOpen: true,
+            post: post,
+        });
+    }
+
+    hideDetails() {
+        this.setState({
+            detailsOpen: false,
+            post: null,
+        });
     }
 
     render() {
@@ -75,43 +102,27 @@ class PartyPage extends React.Component {
                             <div className={classes.paper}>Header</div>
                         </Grid>
                         <Grid item>
-                            <Card className={classes.card}>
-                                <CardHeader
-                                    avatar={
-                                        <Avatar aria-label="Stylist" className={classes.avatar}>
-                                            S
-                                        </Avatar>
-                                    }
-                                    title="Stylist Name @stylist"
-                                />
-                                <CardMedia
-                                    className={classes.media}
-                                    image="/static/images/temp/color-street-begin.jpg"
-                                    title="Let the fun begin!"
-                                />
-                                <CardContent className={classes.cardContent}>
-                                    <Typography component={"p"}>
-                                        Brief description about this picture or video.
-                                    </Typography>
-                                </CardContent>
-                                <CardActions>
-                                    <Button size="small" color="primary" aria-label="Favorite">
-                                        <FavoriteIcon className={classes.icon}/>
-                                        10 Likes
-                                    </Button>
-                                    <Button size="small" color="primary" aria-label="Comment">
-                                        <CommentIcon className={classes.icon}/>
-                                        3 Comments
-                                    </Button>
-                                </CardActions>
-                            </Card>
+                            <Posts onClick={this.showDetails}/>
                         </Grid>
                     </Grid>
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                    <Paper className={classes.paper}>Chat</Paper>
+                    <Paper className={classes.attendeePaper}>
+                        <PartyAttendeeList/>
+                    </Paper>
                 </Grid>
             </Grid>
+            <Drawer anchor="right" open={this.state.detailsOpen} onClose={this.hideDetails}>
+                <div
+                    tabIndex={0}
+                    role="button"
+                    onClick={this.hideDetails}
+                    onKeyDown={this.hideDetails}
+                    className={classes.drawer}
+                >
+                    {this.state.post ? this.state.post.description : ''}
+                </div>
+            </Drawer>
         </Grid>;
     }
 }
