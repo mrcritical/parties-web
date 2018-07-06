@@ -1,130 +1,251 @@
 import React from 'react';
-import {withStyles} from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Posts from 'components/Party/Posts/Posts';
-import red from '@material-ui/core/colors/red';
-import PartyAttendeeList from 'components/Party/SideBar/AttendeeList/PartyAttendeeList';
-import Drawer from '@material-ui/core/Drawer';
+import {Avatar, Box, Button, Column, Heading, IconButton, Image, Text} from 'gestalt';
+import 'gestalt/dist/gestalt.css';
+import styled from 'styled-components';
 
-const styles = theme => ({
-    root: {
-        flexGrow: 1,
-        padding: theme.spacing.unit * 2,
-        height: '100%',
-    },
-    main: {
-        width: '100%',
-        overflow: 'scroll',
-        padding: theme.spacing.unit,
-    },
-    header: {
-        height: theme.spacing.unit * 20,
-    },
-    paper: {
-        padding: theme.spacing.unit,
-        textAlign: 'center',
-        height: '100%',
-        color: theme.palette.text.secondary,
-    },
-    attendeePaper: {
-        textAlign: 'center',
-        height: '100%',
-        color: theme.palette.text.secondary,
-    },
-    cardContent: {
+// All CSS measurements based on 4px * x
 
-    },
-    title: {
-        marginBottom: 16,
-    },
-    media: {
-        height: 0,
-        paddingTop: '20%',
-        backgroundPosition: 'initial'
-    },
-    icon: {
-        marginRight: theme.spacing.unit,
-    },
-    avatar: {
-        backgroundColor: red[500],
-    },
-    drawer: {
-        width: theme.spacing.unit * 54,
-    }
-});
+const PageHeader = styled.div`
+  font-size: 1.5em;
+  text-align: center;
+  background-color: #5b2677;
+  height: 200px;
+  padding: 16px;
+`;
 
 class PartyPage extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            detailsOpen: false,
-            post: null,
-        };
-        this.showDetails = this.showDetails.bind(this);
-        this.hideDetails = this.hideDetails.bind(this);
     }
 
     componentDidMount() {
         document.title = "Welcome to the Party";
     }
 
-    showDetails(post) {
-        this.setState({
-            detailsOpen: true,
-            post: post,
-        });
-    }
-
-    hideDetails() {
-        this.setState({
-            detailsOpen: false,
-            post: null,
-        });
-    }
-
     render() {
-        const {classes} = this.props;
-        return <Grid container className={classes.root}>
-            <Grid container
-                  spacing={24}
-                  alignItems={"stretch"}
-                  direction={"row"}
-            >
-                <Grid item xs={12} sm={8}>
-                    <Grid container
-                          className={classes.main}
-                          spacing={0}
-                          alignItems={"stretch"}
-                          direction={"column"}>
-                        <Grid item className={classes.header}>
-                            <div className={classes.paper}>Header</div>
-                        </Grid>
-                        <Grid item>
-                            <Posts onClick={this.showDetails}/>
-                        </Grid>
-                    </Grid>
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                    <Paper className={classes.attendeePaper}>
-                        <PartyAttendeeList/>
-                    </Paper>
-                </Grid>
-            </Grid>
-            <Drawer anchor="right" open={this.state.detailsOpen} onClose={this.hideDetails}>
-                <div
-                    tabIndex={0}
-                    role="button"
-                    onClick={this.hideDetails}
-                    onKeyDown={this.hideDetails}
-                    className={classes.drawer}
-                >
-                    {this.state.post ? this.state.post.description : ''}
-                </div>
-            </Drawer>
-        </Grid>;
+        return <Box
+            direction="row"
+            display="flex"
+            height="100%"
+            wrap
+        >
+            <Column span={12} mdSpan={8}>
+                <Box overflow="auto">
+                    <PageHeader>
+                        <Box justifyContent="between"
+                             alignItems="start"
+                             direction="row"
+                             display="flex"
+                             height="100%">
+                            <Box alignItems="center"
+                                 direction="row"
+                                 display="flex"
+                                 height="100%">
+                                <Heading size="lg" color="white">
+                                    Hello
+                                </Heading>
+                            </Box>
+                            <IconButton
+                                accessibilityLabel="Shopping Bag"
+                                icon="shopping-bag"
+                                iconColor="white"
+                            />
+                        </Box>
+                    </PageHeader>
+                    <Box
+                        padding={4}>
+                        <Box color="white" shape="rounded">
+                            <Box
+                                alignItems="center"
+                                direction="row"
+                                display="flex"
+                                padding={4}>
+                                <Box paddingX={1}>
+                                    <Avatar name="stylist" size="md"/>
+                                </Box>
+                                <Box paddingX={1} flex="grow">
+                                    <Text bold>Your Stylist</Text>
+                                    <Text italic color="gray">10 minutes ago</Text>
+                                </Box>
+                            </Box>
+                            <Box>
+                                <Box
+                                    color="darkGray"
+                                    height={200}
+                                    width="100%"
+                                >
+                                    <Image src="https://picsum.photos/200/300/?random"
+                                           fit="cover"
+                                           alt="Random Image"
+                                           naturalHeight={300}
+                                           naturalWidth={200}
+                                    >
+                                        <Box padding={3}>
+                                            <Text color="white">
+                                                Cool Image!
+                                            </Text>
+                                        </Box>
+                                    </Image>
+                                </Box>
+                                <Box padding={4}>
+                                    <Text>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tristique
+                                        tincidunt
+                                        justo at dapibus. Quisque dictum a nibh non mattis. Fusce faucibus tortor
+                                        libero, ut
+                                        dignissim erat ultrices at.
+                                    </Text>
+                                </Box>
+                            </Box>
+                            <Box
+                                direction="row"
+                                display="flex"
+                                padding={4}
+                                marginTop={-4}>
+                                <Button text="10 Likes" inline/>
+                                <Button text="2 Comments" inline/>
+                            </Box>
+                        </Box>
+                    </Box>
+                </Box>
+            </Column>
+            <Column span={12} mdSpan={4}>
+                <Box color="white" height="100%">
+                    <Box id="attendee-list">
+                        <Box
+                            alignItems="center"
+                            direction="row"
+                            display="flex"
+                            color="green"
+                            padding="4">
+                            <Box paddingX={1}>
+                                <Avatar name="stylist" size="md"/>
+                            </Box>
+                            <Box paddingX={1} flex="grow">
+                                <Text bold color="white">Your Stylist</Text>
+                                <Text color="white">@stylist</Text>
+                            </Box>
+                        </Box>
+                        <Box
+                            alignItems="center"
+                            direction="row"
+                            display="flex"
+                            color="green"
+                            padding="4">
+                            <Box paddingX={1}>
+                                <Avatar name="host" size="md"/>
+                            </Box>
+                            <Box paddingX={1} flex="grow">
+                                <Text bold color="white">Your Host</Text>
+                                <Text color="white">@host</Text>
+                            </Box>
+                        </Box>
+                        <Box
+                            alignItems="center"
+                            direction="row"
+                            display="flex"
+                            padding="4">
+                            <Box paddingX={1}>
+                                <Avatar name="chrislloyd" size="md"/>
+                            </Box>
+                            <Box paddingX={1} flex="grow">
+                                <Text bold>Chris Lloyd</Text>
+                                <Text>@chrislloyd</Text>
+                            </Box>
+                        </Box>
+                        <Box
+                            alignItems="center"
+                            direction="row"
+                            display="flex"
+                            padding="4">
+                            <Box paddingX={1}>
+                                <Avatar name="chrislloyd" size="md"/>
+                            </Box>
+                            <Box paddingX={1} flex="grow">
+                                <Text bold>Chris Lloyd</Text>
+                                <Text>@chrislloyd</Text>
+                            </Box>
+                        </Box>
+                        <Box
+                            alignItems="center"
+                            direction="row"
+                            display="flex"
+                            padding="4">
+                            <Box paddingX={1}>
+                                <Avatar name="chrislloyd" size="md"/>
+                            </Box>
+                            <Box paddingX={1} flex="grow">
+                                <Text bold>Chris Lloyd</Text>
+                                <Text>@chrislloyd</Text>
+                            </Box>
+                        </Box>
+                    </Box>
+                    <Box id="chat-with-list"
+                         direction="row"
+                         display="visuallyHidden"
+                         height="100%">
+                        <Column span={9}>
+                            <Box id="chat">
+                                <Text>Chat Window</Text>
+                            </Box>
+                        </Column>
+                        <Column span={3}>
+                            <Box direction="column"
+                                 display="flex"
+                                 justifyContent="start"
+                                 alignItems="stretch"
+                                 color="lightGray"
+                                 height="100%">
+                                <Box
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    direction="row"
+                                    display="flex"
+                                    color="green"
+                                    padding="4">
+                                    <Avatar name="stylist" size="md"/>
+                                </Box>
+                                <Box
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    direction="row"
+                                    display="flex"
+                                    color="green"
+                                    padding="4">
+                                    <Avatar name="host" size="md"/>
+                                </Box>
+                                <Box
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    direction="row"
+                                    display="flex"
+                                    padding="4">
+                                    <Avatar name="chrislloyd" size="md"/>
+                                </Box>
+                                <Box
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    direction="row"
+                                    display="flex"
+                                    padding="4">
+                                    <Avatar name="chrislloyd" size="md"/>
+                                </Box>
+                                <Box
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    direction="row"
+                                    display="flex"
+                                    padding="4">
+                                    <Avatar name="chrislloyd" size="md"/>
+                                </Box>
+                            </Box>
+                        </Column>
+                    </Box>
+                </Box>
+            </Column>
+        </Box>;
     }
 }
 
-export default withStyles(styles)(PartyPage);
+export default PartyPage;
