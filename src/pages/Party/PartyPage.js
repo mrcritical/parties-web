@@ -1,12 +1,10 @@
 import React from 'react';
-import {Avatar, Box, Button, Column, Heading, IconButton, Image, Tabs, Text} from 'gestalt';
-import 'gestalt/dist/gestalt.css';
+import {Box, Column, Heading, IconButton, Tabs} from 'gestalt';
 import styled from 'styled-components';
 import AttendeeList from 'components/Party/SideBar/AttendeeList/AttendeeList';
 import Chat from 'components/Party/SideBar/Chat/Chat';
 import Comments from 'components/Party/SideBar/Comments/Comments';
-import Moment from 'react-moment';
-import 'moment-timezone';
+import PostCard from "components/Party/Posts/Card/PostCard";
 
 // All CSS measurements based on 4px * x
 
@@ -23,13 +21,24 @@ class PartyPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeIndex: 0
+            activeIndex: 0,
+            activePost: null,
         };
         this.handleChange = this._handleChange.bind(this);
+        this._handleComments = this._handleComments.bind(this);
+        this._handleNewComment = this._handleNewComment.bind(this);
     }
 
     componentDidMount() {
         document.title = "Welcome to the Party";
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.activePost !== this.state.activePost) {
+            this.setState({
+                activeIndex: 2,
+            });
+        }
     }
 
     _handleChange({activeTabIndex, event}) {
@@ -37,9 +46,31 @@ class PartyPage extends React.Component {
         this.setState({
             activeIndex: activeTabIndex
         });
+        if (activeTabIndex === 2) {
+            // Scroll to the post, making sure it is in view
+            if (this.state.postCardRef.current) {
+                this.state.postCardRef.current.scrollIntoView({behavior: "smooth"});
+            }
+        }
     }
 
-    render() {
+    _handleComments(post, ref) {
+        this.setState({
+            activePost: post,
+            activeIndex: 0,
+            postCardRef: ref,
+        });
+    }
+
+    _handleNewComment(id, comment) {
+        const post = posts.find((post) => post.id === id);
+        if (post) {
+            post.comments.push(comment);
+        }
+        this.forceUpdate();
+    }
+
+    _handleContent(activePost) {
         let content;
         switch (this.state.activeIndex) {
             case 1:
@@ -51,17 +82,37 @@ class PartyPage extends React.Component {
             case 2:
                 // Comments
                 content = <Comments me={attendee1}
-                                    post={posts[0]}
-                                    comments={comments}/>;
+                                    post={activePost}
+                                    onComment={this._handleNewComment}/>;
                 break;
             default:
                 content = <AttendeeList stylist={stylist}
                                         host={host}
                                         attendees={[attendee1, attendee2]}/>;
         }
+        return content;
+    }
 
-        const post = posts[0];
-        const stylistDisplayName = stylist.name.first + ' ' + stylist.name.last;
+    render() {
+        const {activePost} = this.state;
+        const content = this._handleContent(activePost);
+
+        let tabs = [
+            {
+                text: "Attendees",
+                href: "#"
+            },
+            {
+                text: "Chat",
+                href: "#"
+            }
+        ];
+        if (activePost !== null) {
+            tabs.push({
+                text: "Comments",
+                href: "#"
+            });
+        }
 
         return <Box
             direction="row"
@@ -70,7 +121,10 @@ class PartyPage extends React.Component {
             wrap
         >
             <Column span={12} mdSpan={8}>
-                <Box overflow="auto">
+                <Box flex="grow"
+                     display="flex"
+                     direction="column"
+                     height="100%">
                     <PageHeader>
                         <Box justifyContent="between"
                              alignItems="start"
@@ -93,65 +147,18 @@ class PartyPage extends React.Component {
                         </Box>
                     </PageHeader>
                     <Box
-                        padding={4}>
-                        <Box color="white" shape="rounded">
-                            <Box
-                                alignItems="center"
-                                direction="row"
-                                display="flex"
-                                padding={4}>
-                                <Box paddingX={1}>
-                                    <Avatar name={stylistDisplayName} size="md"/>
-                                </Box>
-                                <Box paddingX={1} flex="grow">
-                                    <Box direction="row"
-                                         display="flex">
-                                        <Box>
-                                            <Text bold>{stylistDisplayName}</Text>
-                                        </Box>
-                                        <Box paddingX={1}>
-                                            <Text italic color="darkGray">@{stylist.handle}</Text>
-                                        </Box>
-                                    </Box>
-                                    <Text italic color="gray">
-                                        <Moment fromNow>{post.when}</Moment>
-                                    </Text>
-                                </Box>
-                            </Box>
-                            <Box>
-                                <Box
-                                    color="darkGray"
-                                    height={200}
-                                    width="100%"
-                                >
-                                    <Image src="https://picsum.photos/200/300/?random"
-                                           fit="cover"
-                                           alt="Random Image"
-                                           naturalHeight={300}
-                                           naturalWidth={200}
-                                    >
-                                        <Box padding={3}>
-                                            <Text color="white">
-                                                Cool Image!
-                                            </Text>
-                                        </Box>
-                                    </Image>
-                                </Box>
-                                <Box padding={4}>
-                                    <Text>
-                                        {post.text}
-                                    </Text>
-                                </Box>
-                            </Box>
-                            <Box
-                                direction="row"
-                                display="flex"
-                                padding={4}
-                                marginTop={-4}>
-                                <Button text="10 Likes" inline/>
-                                <Button text="2 Comments" inline/>
-                            </Box>
-                        </Box>
+                        display="flex"
+                        direction="column"
+                        padding={4}
+                        flex="grow"
+                        overflow="auto">
+                        {posts.map(post => {
+                            return <PostCard
+                                post={post}
+                                key={post.id}
+                                highlighted={activePost && post.id === activePost.id}
+                                onSelect={this._handleComments}/>;
+                        })}
                     </Box>
                 </Box>
             </Column>
@@ -163,20 +170,7 @@ class PartyPage extends React.Component {
                     <Box
                         padding={2}>
                         <Tabs
-                            tabs={[
-                                {
-                                    text: "Attendees",
-                                    href: "#"
-                                },
-                                {
-                                    text: "Chat",
-                                    href: "#"
-                                },
-                                {
-                                    text: "Comments",
-                                    href: "#"
-                                }
-                            ]}
+                            tabs={tabs}
                             activeTabIndex={this.state.activeIndex}
                             onChange={this.handleChange}
                         />
@@ -253,21 +247,11 @@ const messages = [
         text: 'Done.'
     },
     {
-        id: '4',
+        id: '5',
         from: stylist,
         when: '2018-07-06T18:03:00-0500',
         text: 'I now want to test a much longer message to see if it works and how wraps. Does this look ok? I hope so. If not you should fix it.'
     },
-];
-
-const posts = [
-    {
-        id: '1',
-        from: stylist,
-        when: '2018-07-06T18:01:00-0500',
-        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dictum, lacus vel convallis dictum, orci lectus rutrum purus, vel tincidunt nisi nunc nec nisi. Vestibulum auctor urna sed elementum cursus. Suspendisse nec pellentesque urna. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
-        likes: 2
-    }
 ];
 
 const comments = [
@@ -318,6 +302,25 @@ const comments = [
         when: '2018-07-06T18:02:30-0500',
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque viverra erat ac pretium volutpat. Vivamus a arcu vitae sapien semper vehicula.',
         likes: 20,
+    },
+];
+
+const posts = [
+    {
+        id: '1',
+        from: stylist,
+        when: '2018-07-06T18:01:00-0500',
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dictum, lacus vel convallis dictum, orci lectus rutrum purus, vel tincidunt nisi nunc nec nisi. Vestibulum auctor urna sed elementum cursus. Suspendisse nec pellentesque urna. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
+        likes: 2,
+        comments: comments
+    },
+    {
+        id: '2',
+        from: stylist,
+        when: '2018-07-06T18:01:00-0500',
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dictum, lacus vel convallis dictum, orci lectus rutrum purus, vel tincidunt nisi nunc nec nisi. Vestibulum auctor urna sed elementum cursus. Suspendisse nec pellentesque urna. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
+        likes: 5,
+        comments: []
     },
 ];
 

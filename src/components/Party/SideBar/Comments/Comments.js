@@ -1,7 +1,7 @@
 import React from 'react';
 import {Avatar, Box, Divider, IconButton, Text, TextArea} from 'gestalt';
-import {arrayOf, number, shape, string} from "prop-types";
-import {AttendeeType, CommentType, PostType} from 'types/Types';
+import {arrayOf, func, number, shape, string} from "prop-types";
+import {AttendeeType, PostType} from 'types/Types';
 import Moment from 'react-moment';
 import * as moment from 'moment';
 import 'moment-timezone';
@@ -14,7 +14,7 @@ class Comments extends React.Component {
         this._handleNewMessage = this._handleNewMessage.bind(this);
         this.me = props.me;
         this.state = {
-            comments: props.comments,
+            comments: props.post.comments,
             value: '',
         };
         this.messagesEnd = null;
@@ -37,18 +37,19 @@ class Comments extends React.Component {
     }
 
     _handleNewMessage() {
-        const updated = this.state.comments.concat(
-            {
-                id: Math.floor(Math.random() * 1001),
-                from: this.me,
-                when: new Date(),
-                text: this.state.value,
-            }
-        );
+        const comment = {
+            id: Math.floor(Math.random() * 1001),
+            from: this.me,
+            when: new Date(),
+            text: this.state.value,
+        };
+        const updated = this.state.comments.concat(comment);
         this.setState({
             comments: updated,
             value: '',
         });
+        // Inform the parent that this post has a new comment
+        this.props.onComment(this.props.post.id, comment);
     }
 
     render() {
@@ -118,7 +119,7 @@ class Comments extends React.Component {
                     }
 
                     return (
-                        <Box>
+                        <Box key={comment.id}>
                             <Box direction="row"
                                  display="flex"
                                  paddingX={4}
@@ -177,7 +178,7 @@ class Comments extends React.Component {
                     <TextArea
                         id="comment"
                         placeholder="What would you like to say?"
-                        rows="1"
+                        rows={1}
                         onChange={this.handleChange}
                         value={this.state.value}
                     />
@@ -199,8 +200,8 @@ class Comments extends React.Component {
 
 Comments.propTypes = {
     me: AttendeeType.isRequired,
-    comments: arrayOf(CommentType).isRequired,
     post: PostType.isRequired,
+    onComment: func.isRequired,
 };
 
 export default Comments;

@@ -9,6 +9,8 @@ import PartyPage from "./Party/PartyPage";
 import LoginPage from "./Party/LoginPage";
 import 'typeface-roboto';
 import Moment from 'react-moment';
+import 'moment-timezone';
+import 'gestalt/dist/gestalt.css';
 
 // Start the pooled timer which runs every 60 seconds
 // (60000 milliseconds) by default.

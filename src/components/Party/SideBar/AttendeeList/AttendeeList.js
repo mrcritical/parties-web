@@ -18,7 +18,7 @@ class AttendeeList extends React.Component {
                 direction="row"
                 display="flex"
                 color="green"
-                padding="4">
+                padding={4}>
                 <Box paddingX={1}>
                     <Avatar name={stylistDisplayName} size="md" />
                 </Box>
@@ -32,7 +32,7 @@ class AttendeeList extends React.Component {
                 direction="row"
                 display="flex"
                 color="green"
-                padding="4">
+                padding={4}>
                 <Box paddingX={1}>
                     <Avatar name={hostDisplayName} size="md" />
                 </Box>
@@ -47,7 +47,9 @@ class AttendeeList extends React.Component {
                     alignItems="center"
                     direction="row"
                     display="flex"
-                    padding="4">
+                    padding={4}
+                    key={attendee.id}
+                >
                     <Box paddingX={1}>
                         <Avatar name={displayName} size="md"/>
                     </Box>

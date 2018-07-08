@@ -66,7 +66,9 @@ class Chat extends React.Component {
                                  display="flex"
                                  paddingX={4}
                                  paddingY={2}
-                                 justifyContent="end">
+                                 justifyContent="end"
+                                 key={message.id}
+                            >
                                 <Box direction="column"
                                      display="flex">
                                     <Box color="blue"
@@ -89,7 +91,9 @@ class Chat extends React.Component {
                                  display="flex"
                                  paddingX={4}
                                  paddingY={2}
-                                 justifyContent="start">
+                                 justifyContent="start"
+                                 key={message.id}
+                            >
                                 <Box>
                                     <Avatar name={message.from.name.first + ' ' + message.from.name.last}
                                             size="md"/>
@@ -101,7 +105,7 @@ class Chat extends React.Component {
                                          paddingY={2}
                                          marginLeft={2}
                                          shape="rounded">
-                                        <Text color="black">{message.text}</Text>
+                                        <Text color="midnight">{message.text}</Text>
                                     </Box>
                                 </Box>
                             </Box>
@@ -126,7 +130,7 @@ class Chat extends React.Component {
                     <TextArea
                         id="comment"
                         placeholder="What would you like to say?"
-                        rows="1"
+                        rows={1}
                         onChange={this.handleChange}
                         value={this.state.value}
                     />

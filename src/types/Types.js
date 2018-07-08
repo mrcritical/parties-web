@@ -1,4 +1,4 @@
-import {number, shape, string} from "prop-types";
+import {number, shape, string, any, arrayOf} from "prop-types";
 
 const NameType = shape({
     first: string.isRequired,
@@ -14,7 +14,7 @@ const AttendeeType = shape({
 const CommentType = shape({
     id: string.isRequired,
     from: AttendeeType.isRequired,
-    when: string.isRequired,
+    when: any.isRequired,
     text: string.isRequired,
     likes: number,
 });
@@ -22,15 +22,16 @@ const CommentType = shape({
 const PostType = shape({
     id: string.isRequired,
     from: AttendeeType.isRequired,
-    when: string.isRequired,
+    when: any.isRequired,
     text: string.isRequired,
     likes: number,
+    comments: arrayOf(CommentType)
 });
 
 const MessageType = shape({
     id: string.isRequired,
     from: AttendeeType.isRequired,
-    when: string.isRequired,
+    when: any.isRequired,
     text: string.isRequired,
 });
 
