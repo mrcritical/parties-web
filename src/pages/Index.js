@@ -8,6 +8,11 @@ import {BrowserRouter as Router, Route} from 'react-router-dom';
 import PartyPage from "./Party/PartyPage";
 import LoginPage from "./Party/LoginPage";
 import 'typeface-roboto';
+import Moment from 'react-moment';
+
+// Start the pooled timer which runs every 60 seconds
+// (60000 milliseconds) by default.
+Moment.startPooledTimer();
 
 const styles = () => ({
     root: {
