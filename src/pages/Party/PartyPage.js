@@ -10,17 +10,13 @@ import Bag from "components/Party/Bag";
 // All CSS measurements based on 4px * x
 
 const PageHeader = styled.div`
+  position: relative;
   font-size: 1.5em;
   text-align: center;
   background-color: #5b2677;
   height: 200px;
   padding: 16px;
-`;
-
-const BagContainer = styled.div`
-    z-index: 1000;
-    display: flex;
-    flex: flex-grow;
+  z-index: 1000;
 `;
 
 class PartyPage extends React.Component {
@@ -174,17 +170,17 @@ class PartyPage extends React.Component {
                                     iconColor="white"
                                     onClick={this._handleBag}
                                 />
+                                {this.state.showingBag &&
+                                    <Flyout
+                                        anchor={this.bagAnchor}
+                                        onDismiss={this._handleHideBag}
+                                        idealDirection="down"
+                                        size="lg"
+                                    >
+                                        <Bag bag={bag}/>
+                                    </Flyout>
+                                }
                             </div>
-                            {this.state.showingBag &&
-                            <BagContainer>
-                                <Flyout
-                                    anchor={this.bagAnchor}
-                                    onDismiss={this._handleHideBag}
-                                    idealDirection="down">
-                                    <Bag bag={bag}/>
-                                </Flyout>
-                            </BagContainer>
-                            }
                         </Box>
                     </PageHeader>
                     <Box
@@ -376,7 +372,8 @@ const bag = {
         quantity: 2,
         costPer: 10,
         total: 20
-    }]
+    }],
+    total: 20
 };
 
 export default PartyPage;
