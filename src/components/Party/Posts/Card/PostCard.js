@@ -33,7 +33,7 @@ class PostCard extends React.Component {
 
         const commentsLabel = post.comments.length + ' Comment' + (post.comments.length !== 1 ? 's' : '');
         const likesLabel = post.likes + ' Like' + (post.likes !== 1 ? 's' : '');
-        const highLightColor = highlighted ? 'green' : 'white';
+        const highLightColor = highlighted ? 'darkGray' : 'white';
         const byDisplayName = post.from.name.first + ' ' + post.from.name.last;
 
         return <div ref={this.myRef}>
@@ -41,7 +41,7 @@ class PostCard extends React.Component {
                  shape="rounded"
                  marginBottom={4}
             >
-                <Box padding={2}
+                <Box padding={1}
                      shape="rounded"
                      color={highLightColor}>
                     <Box
