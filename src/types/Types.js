@@ -36,11 +36,26 @@ const MessageType = PropTypes.shape({
     text: PropTypes.string.isRequired,
 });
 
+const BagItemType = PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    quantity: PropTypes.number.isRequired,
+    costPer: PropTypes.number.isRequired,
+    total: PropTypes.number.isRequired,
+});
+
+const BagType = PropTypes.shape({
+    items: PropTypes.arrayOf(BagItemType),
+    total: PropTypes.number.isRequired,
+});
+
 export {
     NameType,
     AttendeeType,
     CommentType,
     PostType,
-    MessageType
+    MessageType,
+    BagType,
+    BagItemType,
 };
 

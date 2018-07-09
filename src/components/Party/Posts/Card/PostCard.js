@@ -3,7 +3,7 @@ import {Avatar, Box, Button, Image, Text} from 'gestalt';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import {PostType} from "types/Types";
-import {arrayOf, bool, func} from "prop-types";
+import PropTypes from "prop-types";
 
 class PostCard extends React.Component {
 
@@ -117,9 +117,9 @@ class PostCard extends React.Component {
 }
 
 PostCard.propTypes = {
-    post: arrayOf(PostType).isRequired,
-    onSelect: func.isRequired,
-    highlighted: bool,
+    post: PropTypes.arrayOf(PostType).isRequired,
+    onSelect: PropTypes.func.isRequired,
+    highlighted: PropTypes.bool,
 };
 
 PostCard.defaultProps = {

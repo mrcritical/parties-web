@@ -1,6 +1,6 @@
 import React from 'react';
 import {Avatar, Box, Divider, IconButton, Text, TextArea} from 'gestalt';
-import {arrayOf, func, number, shape, string} from "prop-types";
+import PropTypes from "prop-types";
 import {AttendeeType, PostType} from 'types/Types';
 import Moment from 'react-moment';
 import * as moment from 'moment';
@@ -201,7 +201,7 @@ class Comments extends React.Component {
 Comments.propTypes = {
     me: AttendeeType.isRequired,
     post: PostType.isRequired,
-    onComment: func.isRequired,
+    onComment: PropTypes.func.isRequired,
 };
 
 export default Comments;

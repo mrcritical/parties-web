@@ -1,5 +1,5 @@
 import React from 'react';
-import {arrayOf, shape, string} from "prop-types";
+import PropTypes from "prop-types";
 import {Avatar, Box, Text} from 'gestalt';
 import {AttendeeType} from 'types/Types';
 
@@ -72,7 +72,7 @@ class AttendeeList extends React.Component {
 AttendeeList.propTypes = {
     stylist: AttendeeType.isRequired,
     host: AttendeeType.isRequired,
-    attendees: arrayOf(AttendeeType).isRequired,
+    attendees: PropTypes.arrayOf(AttendeeType).isRequired,
 };
 
 export default AttendeeList;

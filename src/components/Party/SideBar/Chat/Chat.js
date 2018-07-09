@@ -1,6 +1,6 @@
 import React from 'react';
 import {Avatar, Box, IconButton, Text, TextArea} from 'gestalt';
-import {arrayOf, shape, string} from "prop-types";
+import PropTypes from "prop-types";
 import {AttendeeType, MessageType} from 'types/Types';
 import styled from 'styled-components';
 
@@ -154,7 +154,7 @@ Chat.propTypes = {
     stylist: AttendeeType.isRequired,
     host: AttendeeType.isRequired,
     me: AttendeeType.isRequired,
-    messages: arrayOf(MessageType).isRequired,
+    messages: PropTypes.arrayOf(MessageType).isRequired,
 };
 
 export default Chat;

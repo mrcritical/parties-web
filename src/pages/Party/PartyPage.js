@@ -1,10 +1,11 @@
 import React from 'react';
-import {Box, Column, Heading, IconButton, Tabs} from 'gestalt';
+import {Box, Column, Flyout, Heading, IconButton, Tabs} from 'gestalt';
 import styled from 'styled-components';
 import AttendeeList from 'components/Party/SideBar/AttendeeList/AttendeeList';
 import Chat from 'components/Party/SideBar/Chat/Chat';
 import Comments from 'components/Party/SideBar/Comments/Comments';
 import PostCard from "components/Party/Posts/Card/PostCard";
+import Bag from "components/Party/Bag/Bag";
 
 // All CSS measurements based on 4px * x
 
@@ -16,6 +17,10 @@ const PageHeader = styled.div`
   padding: 16px;
 `;
 
+const BagContainer = styled.div`
+    z-index: 1000;
+`;
+
 class PartyPage extends React.Component {
 
     constructor(props) {
@@ -23,10 +28,13 @@ class PartyPage extends React.Component {
         this.state = {
             activeIndex: 0,
             activePost: null,
+            showingBag: false,
         };
         this.handleChange = this._handleChange.bind(this);
         this._handleComments = this._handleComments.bind(this);
         this._handleNewComment = this._handleNewComment.bind(this);
+        this._handleBag = this._handleBag.bind(this);
+        this._handleHideBag = this._handleHideBag.bind(this);
     }
 
     componentDidMount() {
@@ -95,6 +103,18 @@ class PartyPage extends React.Component {
         return content;
     }
 
+    _handleBag() {
+        this.setState({
+            showingBag: !this.state.showingBag
+        });
+    }
+
+    _handleHideBag() {
+        this.setState({
+            showingBag: false
+        });
+    }
+
     render() {
         const {activePost} = this.state;
         const content = this._handleContent(activePost);
@@ -141,11 +161,28 @@ class PartyPage extends React.Component {
                                     Hello
                                 </Heading>
                             </Box>
-                            <IconButton
-                                accessibilityLabel="Shopping Bag"
-                                icon="shopping-bag"
-                                iconColor="white"
-                            />
+                            <div
+                                ref={i => {
+                                    this.bagAnchor = i;
+                                }}>
+                                <IconButton
+                                    accessibilityLabel="Shopping Bag"
+                                    accessibilityHaspopup
+                                    icon="shopping-bag"
+                                    iconColor="white"
+                                    onClick={this._handleBag}
+                                />
+                            </div>
+                            {this.state.showingBag &&
+                            <BagContainer>
+                            <Flyout
+                                anchor={this.bagAnchor}
+                                onDismiss={this._handleHideBag}
+                                idealDirection="down">
+                                    <Bag bag={bag}/>
+                            </Flyout>
+                            </BagContainer>
+                            }
                         </Box>
                     </PageHeader>
                     <Box
@@ -329,5 +366,15 @@ const posts = [
         comments: []
     },
 ];
+
+const bag = {
+    items: [{
+        image: '',
+        name: 'Atlantis',
+        quantity: 2,
+        costPer: 10,
+        total: 20
+    }]
+};
 
 export default PartyPage;
