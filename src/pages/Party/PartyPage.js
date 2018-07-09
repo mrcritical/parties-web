@@ -35,6 +35,7 @@ class PartyPage extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevState.activePost !== this.state.activePost) {
+            // Switch to the "comments" tab when the active post has changed
             this.setState({
                 activeIndex: 2,
             });
@@ -43,11 +44,12 @@ class PartyPage extends React.Component {
 
     _handleChange({activeTabIndex, event}) {
         event.preventDefault();
+        // Change the active tab
         this.setState({
             activeIndex: activeTabIndex
         });
         if (activeTabIndex === 2) {
-            // Scroll to the post, making sure it is in view
+            // Scroll to the post, if showing comments, making sure it is in view
             if (this.state.postCardRef.current) {
                 this.state.postCardRef.current.scrollIntoView({behavior: "smooth"});
             }
