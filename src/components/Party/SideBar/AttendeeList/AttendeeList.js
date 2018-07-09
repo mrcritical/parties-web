@@ -20,7 +20,9 @@ class AttendeeList extends React.Component {
                 color="green"
                 padding={4}>
                 <Box paddingX={1}>
-                    <Avatar name={stylistDisplayName} size="md" />
+                    <Avatar name={stylistDisplayName}
+                            size="md"
+                            verified={stylist.status === 'present'} />
                 </Box>
                 <Box paddingX={1} flex="grow">
                     <Text bold color="white">{stylistDisplayName}</Text>
@@ -34,7 +36,9 @@ class AttendeeList extends React.Component {
                 color="green"
                 padding={4}>
                 <Box paddingX={1}>
-                    <Avatar name={hostDisplayName} size="md" />
+                    <Avatar name={hostDisplayName}
+                            size="md"
+                            verified={host.status === 'present'} />
                 </Box>
                 <Box paddingX={1} flex="grow">
                     <Text bold color="white">{hostDisplayName}</Text>
@@ -51,7 +55,9 @@ class AttendeeList extends React.Component {
                     key={attendee.id}
                 >
                     <Box paddingX={1}>
-                        <Avatar name={displayName} size="md"/>
+                        <Avatar name={displayName}
+                                size="md"
+                                verified={attendee.status === 'present'}/>
                     </Box>
                     <Box paddingX={1} flex="grow">
                         <Text bold>{displayName}</Text>

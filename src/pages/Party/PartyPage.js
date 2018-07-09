@@ -192,6 +192,7 @@ const stylist = {
         last: 'Lastname',
     },
     handle: 'stylist',
+    status: 'present',
 };
 
 const host = {
@@ -201,6 +202,7 @@ const host = {
         last: 'Lastname',
     },
     handle: 'host',
+    status: 'present',
 };
 
 const attendee1 = {
@@ -210,6 +212,7 @@ const attendee1 = {
         last: 'Doe',
     },
     handle: 'jane.doe',
+    status: 'present',
 };
 
 const attendee2 = {
@@ -219,6 +222,7 @@ const attendee2 = {
         last: 'Smith',
     },
     handle: 'stacy.smith',
+    status: 'invited',
 };
 
 const messages = [

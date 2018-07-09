@@ -1,38 +1,39 @@
-import {number, shape, string, any, arrayOf} from "prop-types";
+import PropTypes from "prop-types";
 
-const NameType = shape({
-    first: string.isRequired,
-    last: string.isRequired,
+const NameType = PropTypes.shape({
+    first: PropTypes.string.isRequired,
+    last: PropTypes.string.isRequired,
 });
 
-const AttendeeType = shape({
-    id: string.isRequired,
+const AttendeeType = PropTypes.shape({
+    id: PropTypes.string.isRequired,
     name: NameType.isRequired,
-    handle: string.isRequired,
+    handle: PropTypes.string.isRequired,
+    status: PropTypes.oneOf(['present','joined','no-show','invited']),
 });
 
-const CommentType = shape({
-    id: string.isRequired,
+const CommentType = PropTypes.shape({
+    id: PropTypes.string.isRequired,
     from: AttendeeType.isRequired,
-    when: any.isRequired,
-    text: string.isRequired,
-    likes: number,
+    when: PropTypes.any.isRequired,
+    text: PropTypes.string.isRequired,
+    likes: PropTypes.number,
 });
 
-const PostType = shape({
-    id: string.isRequired,
+const PostType = PropTypes.shape({
+    id: PropTypes.string.isRequired,
     from: AttendeeType.isRequired,
-    when: any.isRequired,
-    text: string.isRequired,
-    likes: number,
-    comments: arrayOf(CommentType)
+    when: PropTypes.any.isRequired,
+    text: PropTypes.string.isRequired,
+    likes: PropTypes.number,
+    comments: PropTypes.arrayOf(CommentType)
 });
 
-const MessageType = shape({
-    id: string.isRequired,
+const MessageType = PropTypes.shape({
+    id: PropTypes.string.isRequired,
     from: AttendeeType.isRequired,
-    when: any.isRequired,
-    text: string.isRequired,
+    when: PropTypes.any.isRequired,
+    text: PropTypes.string.isRequired,
 });
 
 export {
