@@ -1,11 +1,11 @@
 import React from 'react';
 import {Box, Column, Flyout, Heading, IconButton, Tabs} from 'gestalt';
 import styled from 'styled-components';
-import AttendeeList from 'components/Party/SideBar/AttendeeList/AttendeeList';
-import Chat from 'components/Party/SideBar/Chat/Chat';
-import Comments from 'components/Party/SideBar/Comments/Comments';
-import PostCard from "components/Party/Posts/Card/PostCard";
-import Bag from "components/Party/Bag/Bag";
+import AttendeeList from 'components/Party/AttendeeList';
+import Chat from 'components/Party/Chat';
+import Comments from 'components/Party/Comments';
+import PostCard from "components/Party/PostCard";
+import Bag from "components/Party/Bag";
 
 // All CSS measurements based on 4px * x
 
