@@ -26,18 +26,22 @@ class Bag extends React.Component {
             </Box>
             <Box direction="column"
                  display="flex"
+                 flex="grow"
                  padding={2}>
                 {bag.items.map(item => {
                     return <Box direction="row"
-                                display="flex">
-                        <Box>
+                                display="flex"
+                                justifyContent="between"
+                                alignItems="center">
+                        <Box width={50}
+                            height={50}>
                             <Image src={item.image}
                                    alt={item.name}
                                    color="rgb(111, 91, 77)"
-                                   naturalWidth={50}
-                                   naturalHeight={50}/>
+                                   naturalWidth={350}
+                                   naturalHeight={350}/>
                         </Box>
-                        <Box>
+                        <Box marginLeft={2}>
                             <Box>
                                 <Text>{item.name}</Text>
                             </Box>

@@ -19,6 +19,8 @@ const PageHeader = styled.div`
 
 const BagContainer = styled.div`
     z-index: 1000;
+    display: flex;
+    flex: flex-grow;
 `;
 
 class PartyPage extends React.Component {
@@ -175,12 +177,12 @@ class PartyPage extends React.Component {
                             </div>
                             {this.state.showingBag &&
                             <BagContainer>
-                            <Flyout
-                                anchor={this.bagAnchor}
-                                onDismiss={this._handleHideBag}
-                                idealDirection="down">
+                                <Flyout
+                                    anchor={this.bagAnchor}
+                                    onDismiss={this._handleHideBag}
+                                    idealDirection="down">
                                     <Bag bag={bag}/>
-                            </Flyout>
+                                </Flyout>
                             </BagContainer>
                             }
                         </Box>
@@ -369,7 +371,7 @@ const posts = [
 
 const bag = {
     items: [{
-        image: '',
+        image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
         name: 'Atlantis',
         quantity: 2,
         costPer: 10,
