@@ -1,18 +1,12 @@
 import React from 'react';
 import {Box, IconButton, Image, Text} from 'gestalt';
 import {BagType} from "types/Types";
+import PropTypes from "prop-types";
 
 class Bag extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            bag: props.bag,
-        }
-    }
-
     render() {
-        const {bag} = this.state;
+        const {bag} = this.props;
 
         return <Box padding={3}
                     direction="column"
@@ -33,7 +27,8 @@ class Bag extends React.Component {
                     return <Box direction="row"
                                 display="flex"
                                 justifyContent="between"
-                                alignItems="center">
+                                alignItems="center"
+                                padding={2}>
                         <Box width={50}
                              height={50}
                              flex="none">
@@ -68,7 +63,9 @@ class Bag extends React.Component {
                             <IconButton
                                 accessibilityLabel="Remove Item"
                                 size="sm"
-                                icon="cancel"/>
+                                icon="cancel"
+                                onClick={() => this.props.onRemove(item)}
+                            />
                         </Box>
                     </Box>;
                 })}
@@ -93,6 +90,7 @@ class Bag extends React.Component {
 
 Bag.propTypes = {
     bag: BagType.isRequired,
+    onRemove: PropTypes.func.isRequired,
 };
 
 export default Bag;

@@ -38,8 +38,6 @@ class Chat extends React.Component {
     }
 
     render() {
-        const {stylist} = this.props;
-        const {host} = this.props;
         const {messages} = this.state;
 
         const Container = styled.div`
@@ -151,8 +149,6 @@ class Chat extends React.Component {
 }
 
 Chat.propTypes = {
-    stylist: AttendeeType.isRequired,
-    host: AttendeeType.isRequired,
     me: AttendeeType.isRequired,
     messages: PropTypes.arrayOf(MessageType).isRequired,
 };

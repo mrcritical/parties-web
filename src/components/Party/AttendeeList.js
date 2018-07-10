@@ -8,9 +8,12 @@ class AttendeeList extends React.Component {
         const {stylist} = this.props;
         const {host} = this.props;
         const {attendees} = this.props;
+        const {me} = this.props;
 
-        const stylistDisplayName = stylist.name.first + ' ' + stylist.name.last;
-        const hostDisplayName = host.name.first + ' ' + host.name.last;
+        const stylistAvatarName = stylist.name.first + ' ' + stylist.name.last;
+        const stylistDisplayName = me.id === stylist.id ? 'Me' : stylistAvatarName;
+        const hostAvatarName = host.name.first + ' ' + host.name.last;
+        const hostDisplayName = me.id === host.id ? 'Me' : hostAvatarName;
 
         return <Box>
             <Box
@@ -20,7 +23,7 @@ class AttendeeList extends React.Component {
                 color="green"
                 padding={4}>
                 <Box paddingX={1}>
-                    <Avatar name={stylistDisplayName}
+                    <Avatar name={stylistAvatarName}
                             size="md"
                             verified={stylist.status === 'present'} />
                 </Box>
@@ -36,7 +39,7 @@ class AttendeeList extends React.Component {
                 color="green"
                 padding={4}>
                 <Box paddingX={1}>
-                    <Avatar name={hostDisplayName}
+                    <Avatar name={hostAvatarName}
                             size="md"
                             verified={host.status === 'present'} />
                 </Box>
@@ -46,7 +49,8 @@ class AttendeeList extends React.Component {
                 </Box>
             </Box>
             {attendees.map(attendee => {
-                const displayName = attendee.name.first + ' ' + attendee.name.last;
+                const avatarName = attendee.name.first + ' ' + attendee.name.last;
+                const displayName = me.id === attendee.id ? 'Me' : avatarName;
                 return (<Box
                     alignItems="center"
                     direction="row"
@@ -55,7 +59,7 @@ class AttendeeList extends React.Component {
                     key={attendee.id}
                 >
                     <Box paddingX={1}>
-                        <Avatar name={displayName}
+                        <Avatar name={avatarName}
                                 size="md"
                                 verified={attendee.status === 'present'}/>
                     </Box>
@@ -72,6 +76,7 @@ class AttendeeList extends React.Component {
 AttendeeList.propTypes = {
     stylist: AttendeeType.isRequired,
     host: AttendeeType.isRequired,
+    me: AttendeeType.isRequired,
     attendees: PropTypes.arrayOf(AttendeeType).isRequired,
 };
 

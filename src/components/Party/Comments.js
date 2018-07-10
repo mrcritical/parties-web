@@ -55,6 +55,7 @@ class Comments extends React.Component {
     render() {
         const {comments} = this.state;
         const {post} = this.props;
+        const {me} = this.props;
         const displayPostByName = post.from.name.first + ' ' + post.from.name.last;
         const now = moment();
 
@@ -138,7 +139,7 @@ class Comments extends React.Component {
                                              display="flex">
                                             <Box>
                                                 <Text
-                                                    bold>{comment.from.name.first + ' ' + comment.from.name.last}</Text>
+                                                    bold>{me.id === comment.from.id ? 'Me' : comment.from.name.first + ' ' + comment.from.name.last}</Text>
                                             </Box>
                                             <Box paddingX={1}>
                                                 <Text italic color="darkGray">@{comment.from.handle}</Text>

@@ -76,7 +76,7 @@ class PostCard extends React.Component {
                             height={200}
                             width="100%"
                         >
-                            <Image src="https://picsum.photos/200/300/?random"
+                            <Image src="http://www.nailposse.com/wp-content/uploads/2017/07/Mardi-Gras-Blue-Glitter_slider.jpg"
                                    fit="cover"
                                    alt="Random Image"
                                    naturalHeight={300}

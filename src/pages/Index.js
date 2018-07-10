@@ -18,8 +18,7 @@ Moment.startPooledTimer();
 
 const styles = () => ({
     root: {
-        height: '100%',
-        backgroundColor: 'rgb(238, 238, 238)',
+        height: '100%'
     },
 });
 

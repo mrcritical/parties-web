@@ -6,6 +6,8 @@ import Chat from 'components/Party/Chat';
 import Comments from 'components/Party/Comments';
 import PostCard from "components/Party/PostCard";
 import Bag from "components/Party/Bag";
+import Catalog from "components/Party/Catalog";
+import update from 'immutability-helper';
 
 // All CSS measurements based on 4px * x
 
@@ -27,12 +29,16 @@ class PartyPage extends React.Component {
             activeIndex: 0,
             activePost: null,
             showingBag: false,
+            showingCatalog: false,
         };
         this.handleChange = this._handleChange.bind(this);
         this._handleComments = this._handleComments.bind(this);
         this._handleNewComment = this._handleNewComment.bind(this);
-        this._handleBag = this._handleBag.bind(this);
+        this._handleBagButton = this._handleBagButton.bind(this);
         this._handleHideBag = this._handleHideBag.bind(this);
+        this._toggleCatalog = this._toggleCatalog.bind(this);
+        this._addToBag = this._addToBag.bind(this);
+        this._removeFromBag = this._removeFromBag.bind(this);
     }
 
     componentDidMount() {
@@ -78,7 +84,7 @@ class PartyPage extends React.Component {
         this.forceUpdate();
     }
 
-    _handleContent(activePost) {
+    _handleSideBar(activePost) {
         let content;
         switch (this.state.activeIndex) {
             case 1:
@@ -94,14 +100,44 @@ class PartyPage extends React.Component {
                                     onComment={this._handleNewComment}/>;
                 break;
             default:
-                content = <AttendeeList stylist={stylist}
+                content = <AttendeeList me={attendee1}
+                                        stylist={stylist}
                                         host={host}
                                         attendees={[attendee1, attendee2]}/>;
         }
         return content;
     }
 
-    _handleBag() {
+    _handleMainContent(activePost) {
+        if(this.state.showingCatalog) {
+            return <Box
+                display="flex"
+                direction="column"
+                color="lightGray"
+                flex="grow">
+                <Catalog catalog={catalog}
+                         onAddToBag={this._addToBag} />
+            </Box>;
+        } else {
+            return <Box
+                display="flex"
+                direction="column"
+                padding={4}
+                flex="grow"
+                overflow="auto"
+                color="lightGray">
+                {posts.map(post => {
+                    return <PostCard
+                        post={post}
+                        key={post.id}
+                        highlighted={activePost && post.id === activePost.id}
+                        onSelect={this._handleComments}/>;
+                })}
+            </Box>;
+        }
+    }
+
+    _handleBagButton() {
         this.setState({
             showingBag: !this.state.showingBag
         });
@@ -113,9 +149,41 @@ class PartyPage extends React.Component {
         });
     }
 
+    _toggleCatalog() {
+        this.setState({
+            showingCatalog: !this.state.showingCatalog
+        })
+    }
+
+    _removeFromBag(itemToRemove) {
+        const index = bag.items.findIndex(item => item.id === itemToRemove.id);
+        if (index > -1) {
+            bag = update(bag, {
+                items: {$splice: [[index, 1]]},
+                total: {$set: bag.total - itemToRemove.total}
+            });
+            this.forceUpdate();
+        }
+    }
+
+    _addToBag(product, quantity) {
+        const itemTotal = product.cost * quantity;
+        bag.items.push({
+            id: Math.floor((Math.random() * 10000) + 1),
+            name: product.name,
+            image: product.image,
+            cost: product.cost,
+            quantity: quantity,
+            total: itemTotal
+        });
+        bag.total += itemTotal;
+        this.forceUpdate();
+    }
+
     render() {
         const {activePost} = this.state;
-        const content = this._handleContent(activePost);
+        const sideBarContent = this._handleSideBar(activePost);
+        const mainContent = this._handleMainContent(activePost);
 
         let tabs = [
             {
@@ -137,6 +205,7 @@ class PartyPage extends React.Component {
         return <Box
             direction="row"
             display="flex"
+            flex="grow"
             height="100%"
             wrap
         >
@@ -158,6 +227,10 @@ class PartyPage extends React.Component {
                                 <Heading size="lg" color="white">
                                     Hello
                                 </Heading>
+                                <IconButton accessibilityLabel="Show Catalog"
+                                            onClick={() => this._toggleCatalog()}
+                                            icon="menu"
+                                />
                             </Box>
                             <div
                                 ref={i => {
@@ -168,35 +241,23 @@ class PartyPage extends React.Component {
                                     accessibilityHaspopup
                                     icon="shopping-bag"
                                     iconColor="white"
-                                    onClick={this._handleBag}
+                                    onClick={this._handleBagButton}
                                 />
                                 {this.state.showingBag &&
                                     <Flyout
                                         anchor={this.bagAnchor}
                                         onDismiss={this._handleHideBag}
                                         idealDirection="down"
-                                        size="lg"
+                                        size="xl"
                                     >
-                                        <Bag bag={bag}/>
+                                        <Bag bag={bag}
+                                             onRemove={this._removeFromBag}/>
                                     </Flyout>
                                 }
                             </div>
                         </Box>
                     </PageHeader>
-                    <Box
-                        display="flex"
-                        direction="column"
-                        padding={4}
-                        flex="grow"
-                        overflow="auto">
-                        {posts.map(post => {
-                            return <PostCard
-                                post={post}
-                                key={post.id}
-                                highlighted={activePost && post.id === activePost.id}
-                                onSelect={this._handleComments}/>;
-                        })}
-                    </Box>
+                    {mainContent}
                 </Box>
             </Column>
             <Column span={12} mdSpan={4}>
@@ -212,7 +273,7 @@ class PartyPage extends React.Component {
                             onChange={this.handleChange}
                         />
                     </Box>
-                    {content}
+                    {sideBarContent}
                 </Box>
             </Column>
         </Box>;
@@ -365,7 +426,7 @@ const posts = [
     },
 ];
 
-const bag = {
+let bag = {
     items: [{
         image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
         name: 'Atlantis',
@@ -374,6 +435,68 @@ const bag = {
         total: 20
     }],
     total: 20
+};
+
+const catalog = {
+  products: [
+      {
+          id: '1',
+          image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          name: 'Atlantis 1',
+          cost: 10
+      },
+      {
+          id: '2',
+          image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          name: 'Atlantis 2',
+          cost: 10
+      },
+      {
+          id: '3',
+          image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          name: 'Atlantis 3',
+          cost: 10
+      },
+      {
+          id: '4',
+          image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          name: 'Atlantis 4',
+          cost: 10
+      },
+      {
+          id: '5',
+          image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          name: 'Atlantis 5',
+          cost: 10
+      },
+      {
+          id: '6',
+          image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          name: 'Atlantis 6',
+          cost: 10,
+          tags: [
+              'pretty', 'blue'
+          ],
+      },
+      {
+          id: '7',
+          image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          name: 'Atlantis 7',
+          cost: 10,
+          tags: [
+              'blue'
+          ],
+      },
+      {
+          id: '8',
+          image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          name: 'Atlantis 8',
+          cost: 10,
+          tags: [
+              'cool'
+          ],
+      }
+  ]
 };
 
 export default PartyPage;

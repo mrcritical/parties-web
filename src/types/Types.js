@@ -37,16 +37,29 @@ const MessageType = PropTypes.shape({
 });
 
 const BagItemType = PropTypes.shape({
+    id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     quantity: PropTypes.number.isRequired,
-    costPer: PropTypes.number.isRequired,
+    cost: PropTypes.number.isRequired,
     total: PropTypes.number.isRequired,
 });
 
 const BagType = PropTypes.shape({
     items: PropTypes.arrayOf(BagItemType),
     total: PropTypes.number.isRequired,
+});
+
+const ProductType = PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    cost: PropTypes.number.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.string),
+});
+
+const CatalogType = PropTypes.shape({
+    products: PropTypes.arrayOf(ProductType),
 });
 
 export {
@@ -57,5 +70,7 @@ export {
     MessageType,
     BagType,
     BagItemType,
+    CatalogType,
+    ProductType,
 };
 
