@@ -28,7 +28,14 @@ class ProductCard extends React.Component {
 
     render() {
         const product = this.props.data;
-        // this.props.onAddToBag(product, 1)
+
+        let amountOptions = [];
+        for (let i = 1; i <= 20; i++) {
+            amountOptions.push({
+                value: i,
+                label: i + ""
+            });
+        }
 
         return <Box
             color="white"
@@ -89,25 +96,7 @@ class ProductCard extends React.Component {
                                             <SelectList
                                                 id={product.id + '-' + 'quantity'}
                                                 onChange={this._handleChange}
-                                                options={[{
-                                                    value: 1,
-                                                    label: "1",
-                                                }, {
-                                                    value: 2,
-                                                    label: "2",
-                                                }, {
-                                                    value: 3,
-                                                    label: "3",
-                                                }, {
-                                                    value: 4,
-                                                    label: "4",
-                                                }, {
-                                                    value: 5,
-                                                    label: "5",
-                                                }, {
-                                                    value: 10,
-                                                    label: "10",
-                                                }]}
+                                                options={amountOptions}
                                                 value={this.state.quantity}
                                             />
                                         </Box>
