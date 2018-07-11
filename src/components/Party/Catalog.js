@@ -1,6 +1,6 @@
 import React from 'react';
 import {CatalogType} from "types/Types";
-import {Box, Masonry, SearchField} from 'gestalt';
+import {Box, Masonry, SearchField, Tabs} from 'gestalt';
 import ProductCard from 'components/Party/ProductCard';
 import PropTypes from "prop-types";
 
@@ -11,20 +11,76 @@ class Catalog extends React.Component {
         this.state = {
             value: '',
             products: this.props.catalog.products,
+            activeIndex: 0,
         };
         this._find = this._find.bind(this);
+        this._handleTabChange = this._handleTabChange.bind(this);
+        this.tabs = [
+            {
+                text: "All",
+                href: "#",
+                query: ''
+            },
+            {
+                text: "French",
+                href: "#",
+                query: 'french'
+            },
+            {
+                text: "Solids",
+                href: "#",
+                query: 'solid'
+            },
+            {
+                text: "Glitter",
+                href: "#",
+                query: 'glitter'
+            },
+            {
+                text: "Glitter Designs",
+                href: "#",
+                query: 'glitter-design'
+            },
+            {
+                text: "Nail Art",
+                href: "#",
+                query: 'nail-art'
+            },
+            {
+                text: "Seasonal",
+                href: "#",
+                query: 'seasonal'
+            }
+        ];
     }
 
-    _find(query) {
+    _search(query) {
+        this._find(query, false);
+        this.setState({
+            value: query, // Add text to search box
+            activeIndex: null, // No tab highlighted
+        });
+    }
+
+    _find(query, exact) {
         const {products} = this.props.catalog;
         const normalized = query.toLowerCase();
         const matches = products.filter(product => {
-            return product.name.toLowerCase().includes(normalized) || (product.tags ? product.tags.find(tag => tag.toLowerCase().includes(normalized)) : false);
+            return product.name.toLowerCase().includes(normalized) || (product.tags ? product.tags.find(tag => exact ? tag.toLowerCase() === normalized : tag.toLowerCase().includes(normalized)) : false);
         });
         this.setState({
-            value: query,
-            products: matches
+            value: '', // No text in search box
+            products: matches,
         });
+    }
+
+    _handleTabChange({activeTabIndex, event}) {
+        event.preventDefault();
+        // Change the active tab
+        this.setState({
+            activeIndex: activeTabIndex
+        });
+        this._find(this.tabs[activeTabIndex].query, true);
     }
 
     render() {
@@ -33,18 +89,28 @@ class Catalog extends React.Component {
 
         return <Box direction="column"
                     display="flex">
-            <Box direction="row"
+            <Box direction="column"
                  display="flex"
-                 flex="none">
-                <Box flex="grow"
-                     color="white"
-                     padding={6}>
+                 color="white"
+                 flex="none"
+                 padding={6}>
+                <Box flex="grow">
                     <SearchField
                         accessibilityLabel="Demo Search Field"
                         id="searchField"
-                        onChange={({value}) => this._find(value)}
+                        onChange={({value}) => this._search(value)}
                         placeholder="Find my perfect nails"
                         value={this.state.value}
+                    />
+                </Box>
+                <Box display="flex"
+                     alignItems="center"
+                     justifyContent="center"
+                     marginTop={2}>
+                    <Tabs
+                        tabs={this.tabs}
+                        activeTabIndex={this.state.activeIndex}
+                        onChange={this._handleTabChange}
                     />
                 </Box>
             </Box>

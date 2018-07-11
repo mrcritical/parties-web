@@ -443,31 +443,46 @@ const catalog = {
           id: '1',
           image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
           name: 'Atlantis 1',
-          cost: 10
+          cost: 10,
+          tags: [
+              'nail-art'
+          ]
       },
       {
           id: '2',
           image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
           name: 'Atlantis 2',
-          cost: 10
+          cost: 10,
+          tags: [
+              'solid'
+          ]
       },
       {
           id: '3',
           image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
           name: 'Atlantis 3',
-          cost: 10
+          cost: 10,
+          tags: [
+              'solid'
+          ]
       },
       {
           id: '4',
           image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
           name: 'Atlantis 4',
-          cost: 10
+          cost: 10,
+          tags: [
+              'glitter-designs'
+          ]
       },
       {
           id: '5',
           image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
           name: 'Atlantis 5',
-          cost: 10
+          cost: 10,
+          tags: [
+              'glitter-design'
+          ]
       },
       {
           id: '6',
@@ -475,7 +490,9 @@ const catalog = {
           name: 'Atlantis 6',
           cost: 10,
           tags: [
-              'pretty', 'blue'
+              'pretty',
+              'blue',
+              'french'
           ],
       },
       {
@@ -484,7 +501,8 @@ const catalog = {
           name: 'Atlantis 7',
           cost: 10,
           tags: [
-              'blue'
+              'blue',
+              'nail-art'
           ],
       },
       {
@@ -493,7 +511,8 @@ const catalog = {
           name: 'Atlantis 8',
           cost: 10,
           tags: [
-              'cool'
+              'cool',
+              'glitter'
           ],
       }
   ]
