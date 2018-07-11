@@ -94,7 +94,7 @@ class ProductCard extends React.Component {
                                          padding={2}>
                                         <Box>
                                             <SelectList
-                                                id={product.id + '-' + 'quantity'}
+                                                id={product.id + '-quantity'}
                                                 onChange={this._handleChange}
                                                 options={amountOptions}
                                                 value={this.state.quantity}
