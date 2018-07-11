@@ -15,43 +15,21 @@ class Catalog extends React.Component {
         };
         this._find = this._find.bind(this);
         this._handleTabChange = this._handleTabChange.bind(this);
-        this.tabs = [
-            {
-                text: "All",
+        if (props.catalog.categories && props.catalog.categories.length > 0) {
+            this.tabs = [{
+                text: 'All',
+                query: '',
                 href: "#",
-                query: ''
-            },
-            {
-                text: "French",
-                href: "#",
-                query: 'french'
-            },
-            {
-                text: "Solids",
-                href: "#",
-                query: 'solid'
-            },
-            {
-                text: "Glitter",
-                href: "#",
-                query: 'glitter'
-            },
-            {
-                text: "Glitter Designs",
-                href: "#",
-                query: 'glitter-design'
-            },
-            {
-                text: "Nail Art",
-                href: "#",
-                query: 'nail-art'
-            },
-            {
-                text: "Seasonal",
-                href: "#",
-                query: 'seasonal'
-            }
-        ];
+            }];
+            const that = this;
+            props.catalog.categories.forEach(category => {
+                that.tabs.push({
+                    text: category.name,
+                    query: category.id,
+                    href: "#",
+                });
+            });
+        }
     }
 
     _search(query) {
@@ -66,7 +44,8 @@ class Catalog extends React.Component {
         const {products} = this.props.catalog;
         const normalized = query.toLowerCase();
         const matches = products.filter(product => {
-            return product.name.toLowerCase().includes(normalized) || (product.tags ? product.tags.find(tag => exact ? tag.toLowerCase() === normalized : tag.toLowerCase().includes(normalized)) : false);
+            return product.name.toLowerCase().includes(normalized)
+                || (product.tags ? product.tags.find(tag => exact ? tag.toLowerCase() === normalized : tag.toLowerCase().includes(normalized)) : false);
         });
         this.setState({
             value: '', // No text in search box
@@ -86,6 +65,18 @@ class Catalog extends React.Component {
     render() {
         const {products} = this.state;
         const handler = this.props.onAddToBag;
+        const tabContent = this.tabs ?
+            <Box display="flex"
+                 alignItems="center"
+                 justifyContent="center"
+                 marginTop={2}>
+                <Tabs
+                    tabs={this.tabs}
+                    activeTabIndex={this.state.activeIndex}
+                    onChange={this._handleTabChange}
+                />
+            </Box>
+            : null;
 
         return <Box direction="column"
                     display="flex">
@@ -103,16 +94,7 @@ class Catalog extends React.Component {
                         value={this.state.value}
                     />
                 </Box>
-                <Box display="flex"
-                     alignItems="center"
-                     justifyContent="center"
-                     marginTop={2}>
-                    <Tabs
-                        tabs={this.tabs}
-                        activeTabIndex={this.state.activeIndex}
-                        onChange={this._handleTabChange}
-                    />
-                </Box>
+                {tabContent}
             </Box>
             <Box padding={4}
                  direction="column"

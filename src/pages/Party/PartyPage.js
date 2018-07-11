@@ -438,7 +438,33 @@ let bag = {
 };
 
 const catalog = {
-  products: [
+    categories: [
+        {
+            id: 'french',
+            name: 'French',
+        },
+        {
+            id: 'solid',
+            name: 'Solids',
+        },
+        {
+            id: 'glitter',
+            name: 'Glitter',
+        },
+        {
+            id: 'glitter-designs',
+            name: 'Glitter Designs',
+        },
+        {
+            id: 'nail-art',
+            name: 'Nail Art',
+        },
+        {
+            id: 'seasonal',
+            name: 'Seasonal',
+        }
+    ],
+    products: [
       {
           id: '1',
           image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',

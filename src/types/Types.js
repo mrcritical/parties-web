@@ -58,8 +58,14 @@ const ProductType = PropTypes.shape({
     tags: PropTypes.arrayOf(PropTypes.string),
 });
 
+const CategoryType = PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+});
+
 const CatalogType = PropTypes.shape({
     products: PropTypes.arrayOf(ProductType),
+    categories: PropTypes.arrayOf(CategoryType),
 });
 
 export {
