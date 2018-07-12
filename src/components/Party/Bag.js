@@ -61,6 +61,7 @@ class Bag extends React.Component {
                                   italic
                                   align="left">
                                 <FormattedNumber value={item.total}
+                                    // eslint-disable-next-line
                                                  style="currency"
                                                  currency={this.props.currency}/>
                             </Text>
@@ -90,6 +91,7 @@ class Bag extends React.Component {
                          marginRight={3}>
                         <Text bold>
                             <FormattedNumber value={bag.total}
+                                // eslint-disable-next-line
                                              style="currency"
                                              currency={this.props.currency}/>
                         </Text>

@@ -105,8 +105,9 @@ class PostCard extends React.Component {
                                         }}
                                     />
                                 </Box>;
+                            } else {
+                                return null;
                             }
-                            break;
 
                         default:
                             // Unknown trigger
