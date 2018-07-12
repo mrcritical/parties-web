@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box, Column, Flyout, Heading, IconButton, Tabs} from 'gestalt';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import AttendeeList from 'components/Party/AttendeeList';
 import Chat from 'components/Party/Chat';
 import Comments from 'components/Party/Comments';
@@ -15,10 +15,28 @@ const PageHeader = styled.div`
   position: relative;
   font-size: 1.5em;
   text-align: center;
-  background-color: #5b2677;
+  background-color: ${props => props.backgroundColor};
   height: 200px;
   padding: 16px;
   z-index: 1000;
+  ${props => props.image && css`
+    background-image: url(${props => props.image});
+    background-size: cover;
+    -ms-background-size: cover; 
+    -o-background-size: cover; 
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+  `}
+`;
+
+const ContrastingContainer = styled.div`
+  position: relative;
+  padding: 12px 0;
+  width: 100%;
+  z-index: -1;
+  ${props => props.contrast && css`
+    background: rgba(0, 0, 0, 0.5);
+  `}
 `;
 
 class PartyPage extends React.Component {
@@ -214,36 +232,33 @@ class PartyPage extends React.Component {
                      display="flex"
                      direction="column"
                      height="100%">
-                    <PageHeader>
-                        <Box justifyContent="between"
-                             alignItems="start"
-                             direction="row"
+                    <PageHeader image={party.image}
+                                backgroundColor={party.colors.header.background}
+                                headerContrast={party.colors.header.contrast}>
+                        <Box direction="column"
                              display="flex"
                              height="100%">
-                            <Box alignItems="center"
+                            <Box justifyContent="end"
+                                 alignItems="start"
                                  direction="row"
-                                 display="flex"
-                                 height="100%">
-                                <Heading size="lg" color="white">
-                                    Hello
-                                </Heading>
+                                 display="flex">
                                 <IconButton accessibilityLabel="Show Catalog"
                                             onClick={() => this._toggleCatalog()}
                                             icon="menu"
+                                            iconColor={party.colors.header.bag}
                                 />
-                            </Box>
-                            <div
-                                ref={i => {
-                                    this.bagAnchor = i;
-                                }}>
-                                <IconButton
-                                    accessibilityLabel="Shopping Bag"
-                                    accessibilityHaspopup
-                                    icon="shopping-bag"
-                                    iconColor="white"
-                                    onClick={this._handleBagButton}
-                                />
-                                {this.state.showingBag &&
+                                <div
+                                    ref={i => {
+                                        this.bagAnchor = i;
+                                    }}>
+                                    <IconButton
+                                        accessibilityLabel="Shopping Bag"
+                                        accessibilityHaspopup
+                                        icon="shopping-bag"
+                                        iconColor={party.colors.header.bag}
+                                        onClick={this._handleBagButton}
+                                    />
+                                    {this.state.showingBag &&
                                     <Flyout
                                         anchor={this.bagAnchor}
                                         onDismiss={this._handleHideBag}
@@ -253,8 +268,21 @@ class PartyPage extends React.Component {
                                         <Bag bag={bag}
                                              onRemove={this._removeFromBag}/>
                                     </Flyout>
-                                }
-                            </div>
+                                    }
+                                </div>
+                            </Box>
+                            <Box alignItems="center"
+                                 direction="row"
+                                 display="flex"
+                                 width="100%"
+                                 height="100%">
+                                <ContrastingContainer contrast={party.colors.header.contrast}>
+                                    <Heading color={party.colors.header.text}
+                                             size="lg">
+                                        {party.name}
+                                    </Heading>
+                                </ContrastingContainer>
+                            </Box>
                         </Box>
                     </PageHeader>
                     {mainContent}
@@ -414,6 +442,9 @@ const posts = [
         when: '2018-07-06T18:01:00-0500',
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dictum, lacus vel convallis dictum, orci lectus rutrum purus, vel tincidunt nisi nunc nec nisi. Vestibulum auctor urna sed elementum cursus. Suspendisse nec pellentesque urna. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
         likes: 2,
+        image: {
+          src: 'http://www.nailposse.com/wp-content/uploads/2017/07/Mardi-Gras-Blue-Glitter_slider.jpg',
+        },
         comments: comments
     },
     {
@@ -422,6 +453,10 @@ const posts = [
         when: '2018-07-06T18:01:00-0500',
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dictum, lacus vel convallis dictum, orci lectus rutrum purus, vel tincidunt nisi nunc nec nisi. Vestibulum auctor urna sed elementum cursus. Suspendisse nec pellentesque urna. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
         likes: 5,
+        video: {
+            src: 'https://www.youtube.com/embed/sTYETQ2Dn7Y',
+            type: 'youtube',
+        },
         comments: []
     },
 ];
@@ -542,6 +577,21 @@ const catalog = {
           ],
       }
   ]
+};
+
+const party = {
+    name: "Ava's Nail Party",
+    // image: 'http://www.nailposse.com/wp-content/uploads/2017/07/Mardi-Gras-Blue-Glitter_slider.jpg',
+    image: 'https://vnailpro.com/wp-content/uploads/2017/08/5StarRSBanner1-min.png',
+    colors: {
+        // color: 'darkGray'
+        header: {
+            text: 'white',
+            background: '#5b2677',
+            contrast: true,
+            bag: 'white',
+        }
+    }
 };
 
 export default PartyPage;

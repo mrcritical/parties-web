@@ -20,13 +20,32 @@ const CommentType = PropTypes.shape({
     likes: PropTypes.number,
 });
 
+const ImageType = PropTypes.shape({
+    src: PropTypes.string.isRequired,
+});
+
+const VideoType = PropTypes.shape({
+    src: PropTypes.string.isRequired,
+    type: PropTypes.oneOf([
+        'youtube',
+        'facebook',
+        'soundcloud',
+        'vimeo',
+        'mp4'
+    ]).isRequired,
+    width: PropTypes.number,
+    height: PropTypes.number,
+});
+
 const PostType = PropTypes.shape({
     id: PropTypes.string.isRequired,
     from: AttendeeType.isRequired,
     when: PropTypes.any.isRequired,
     text: PropTypes.string.isRequired,
     likes: PropTypes.number,
-    comments: PropTypes.arrayOf(CommentType)
+    comments: PropTypes.arrayOf(CommentType),
+    image: ImageType,
+    video: VideoType,
 });
 
 const MessageType = PropTypes.shape({

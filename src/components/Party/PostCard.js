@@ -4,6 +4,7 @@ import Moment from 'react-moment';
 import 'moment-timezone';
 import {PostType} from "types/Types";
 import PropTypes from "prop-types";
+import ReactPlayer from 'react-player';
 
 class PostCard extends React.Component {
 
@@ -27,6 +28,42 @@ class PostCard extends React.Component {
         this.forceUpdate();
     }
 
+    static getMediaContent(post) {
+        if (post.image) {
+            return <Box
+                color="darkGray"
+                height={200}
+                width="100%"
+                marginTop={4}
+            >
+                <Image src={post.image.src}
+                       fit="cover"
+                       alt="Random Image"
+                       naturalHeight={300}
+                       naturalWidth={200}
+                />
+            </Box>;
+
+        } else if (post.video) {
+            return <Box
+                color="white"
+                height={post.video.height ? post.video.height : 360}
+                width="100%"
+                direction="row"
+                display="flex"
+                justifyContent="center"
+                marginTop={4}
+            >
+                <ReactPlayer url={post.video.src}
+                             width={post.video.width ? post.video.width : 640}
+                             height={post.video.height ? post.video.height : 360}
+                             controls/>
+            </Box>;
+        } else {
+            return null;
+        }
+    }
+
     render() {
         const {post} = this.state;
         const {highlighted} = this.props;
@@ -36,10 +73,12 @@ class PostCard extends React.Component {
         const highLightColor = highlighted ? 'darkGray' : 'white';
         const byDisplayName = post.from.name.first + ' ' + post.from.name.last;
 
+        const mediaContent = PostCard.getMediaContent(post);
+
         return <div ref={this.myRef}>
             <Box color="white"
                  shape="rounded"
-                 marginBottom={4}
+                 marginTop={4}
             >
                 <Box padding={1}
                      shape="rounded"
@@ -50,7 +89,8 @@ class PostCard extends React.Component {
                         display="flex"
                         color="white"
                         shape="roundedTop"
-                        padding={4}>
+                        padding={4}
+                        marginBottom={-4}>
                         <Box paddingX={1}>
                             <Avatar name={byDisplayName} size="md"/>
                         </Box>
@@ -71,24 +111,7 @@ class PostCard extends React.Component {
                     </Box>
                     <Box
                         color="white">
-                        <Box
-                            color="darkGray"
-                            height={200}
-                            width="100%"
-                        >
-                            <Image src="http://www.nailposse.com/wp-content/uploads/2017/07/Mardi-Gras-Blue-Glitter_slider.jpg"
-                                   fit="cover"
-                                   alt="Random Image"
-                                   naturalHeight={300}
-                                   naturalWidth={200}
-                            >
-                                <Box padding={3}>
-                                    <Text color="white">
-                                        Cool Image!
-                                    </Text>
-                                </Box>
-                            </Image>
-                        </Box>
+                        {mediaContent}
                         <Box padding={4}>
                             <Text>
                                 {post.text}
