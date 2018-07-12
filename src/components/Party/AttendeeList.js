@@ -6,11 +6,11 @@ import Attendee from 'components/Party/Attendee';
 
 class AttendeeList extends React.Component {
     render() {
-        const {stylist, host, attendees, me} = this.props;
+        const {presenter, host, attendees, me} = this.props;
         return <Box>
             <Attendee me={me}
-                      attendee={stylist}
-                      presence={stylist.status === 'present'}
+                      attendee={presenter}
+                      presence={presenter.status === 'present'}
                       highlight={true}
             />
             <Attendee me={me}
@@ -29,7 +29,7 @@ class AttendeeList extends React.Component {
 }
 
 AttendeeList.propTypes = {
-    stylist: AttendeeType.isRequired,
+    presenter: AttendeeType.isRequired,
     host: AttendeeType.isRequired,
     me: AttendeeType.isRequired,
     attendees: PropTypes.arrayOf(AttendeeType).isRequired,

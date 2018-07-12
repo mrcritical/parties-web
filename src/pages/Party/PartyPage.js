@@ -106,9 +106,7 @@ class PartyPage extends React.Component {
         let content;
         switch (this.state.activeIndex) {
             case 1:
-                content = <Chat stylist={stylist}
-                                host={host}
-                                me={attendee1}
+                content = <Chat me={attendee1}
                                 messages={messages}/>;
                 break;
             case 2:
@@ -119,7 +117,7 @@ class PartyPage extends React.Component {
                 break;
             default:
                 content = <AttendeeList me={attendee1}
-                                        stylist={stylist}
+                                        presenter={stylist}
                                         host={host}
                                         attendees={[attendee1, attendee2]}/>;
         }
