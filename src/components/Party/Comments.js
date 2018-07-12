@@ -125,7 +125,7 @@ class Comments extends React.Component {
                     let momentsAgo;
                     // Only show when if more then 5 minutes ago
                     if (minutes >= 5) {
-                        momentsAgo = <Box>
+                        momentsAgo = <Box marginTop={2}>
                             <Text italic color="gray">
                                 <Moment fromNow>{comment.when}</Moment>
                             </Text>
@@ -157,7 +157,7 @@ class Comments extends React.Component {
                                                 <Text italic color="darkGray">@{comment.by.handle}</Text>
                                             </Box>
                                         </Box>
-                                        <Box paddingY={2}>
+                                        <Box marginTop={2}>
                                             <Text>{comment.text}</Text>
                                         </Box>
                                         {momentsAgo}
