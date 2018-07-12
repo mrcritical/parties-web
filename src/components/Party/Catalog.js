@@ -1,15 +1,19 @@
 import React from 'react';
 import {CatalogType} from "types/Types";
-import {Box, Masonry, SearchField, Tabs} from 'gestalt';
+import {Box, Button, Masonry, SearchField, Tabs} from 'gestalt';
 import ProductCard from 'components/Party/ProductCard';
 import PropTypes from "prop-types";
-import {intlShape, injectIntl, defineMessages} from 'react-intl';
+import {defineMessages, injectIntl, intlShape} from 'react-intl';
 
 const translations = defineMessages({
     searchPlaceHolder: {
         id: 'catalog.search_place_holder',
         defaultMessage: 'Find my perfect match',
     },
+    closeCatalog: {
+        id: 'catalog.close_button',
+        defaultMessage: 'Back',
+    }
 });
 
 class Catalog extends React.Component {
@@ -93,8 +97,24 @@ class Catalog extends React.Component {
                  display="flex"
                  color="white"
                  flex="none"
-                 padding={6}>
-                <Box flex="grow">
+                 padding={6}
+                 marginTop={-2}
+            >
+                <Box direction="row"
+                     display="flex"
+                     marginBottom={2}
+                >
+                    <Box>
+                        <Button
+                            text={formatMessage(translations.closeCatalog)}
+                            accessibilityLabel={formatMessage(translations.closeCatalog)}
+                            color="red"
+                            size="sm"
+                            onClick={() => this.props.hide()}/>
+                    </Box>
+                </Box>
+                <Box
+                    flex="grow">
                     <SearchField
                         accessibilityLabel={formatMessage(translations.searchPlaceHolder)}
                         id="searchField"
@@ -130,6 +150,7 @@ class Catalog extends React.Component {
 Catalog.propTypes = {
     catalog: CatalogType.isRequired,
     onAddToBag: PropTypes.func.isRequired,
+    hide: PropTypes.func.isRequired,
     currency: PropTypes.string,
     intl: intlShape.isRequired,
 };

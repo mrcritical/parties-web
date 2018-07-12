@@ -2,7 +2,7 @@ import React from 'react';
 import {Box, Button, Image, Text} from 'gestalt';
 import Moment from 'react-moment';
 import 'moment-timezone';
-import {PostType} from "types/Types";
+import {AvailableActionType, PostType} from "types/Types";
 import PropTypes from "prop-types";
 import ReactPlayer from 'react-player';
 import AttendeeAvatar from 'components/Party/AttendeeAvatar';
@@ -20,6 +20,10 @@ const translations = defineMessages({
     defaultImageCaption: {
         id: 'post.default_image_caption',
         defaultMessage: 'Posted Image',
+    },
+    catalogActionButton: {
+        id: 'post.actions.catalog',
+        defaultMessage: 'View Catalog',
     },
 });
 
@@ -82,6 +86,44 @@ class PostCard extends React.Component {
         }
     }
 
+    getActions(post) {
+        const {formatMessage} = this.props.intl;
+        if (post.actions) {
+            return <Box padding={2}
+                        marginTop={-4}
+                        direction="row"
+                        display="flex"
+                        justifyContent="start"
+                        alignItems="center">
+                {post.actions.map((action) => {
+                    switch (action.trigger) {
+                        case 'catalog':
+                            const match = this.props.availableActions.find((availableAction) => availableAction.name === action.trigger);
+                            if (match) {
+                                const openCatalog = match.action;
+                                return <Box padding={2} flex="grow">
+                                    <Button
+                                        text={formatMessage(translations.catalogActionButton)}
+                                        accessibilityLabel={action.name}
+                                        color="blue"
+                                        size="lg"
+                                        onClick={() => {
+                                            openCatalog();
+                                        }}
+                                    />
+                                </Box>;
+                            }
+                        default:
+                            // Unknown trigger
+                            return null;
+                    }
+                })}
+            </Box>;
+        } else {
+            return null;
+        }
+    }
+
     render() {
         const {post} = this.state;
         const {highlighted} = this.props;
@@ -93,6 +135,7 @@ class PostCard extends React.Component {
         const byDisplayName = post.by.name.first + ' ' + post.by.name.last;
 
         const mediaContent = this.getMediaContent(post);
+        const actions = this.getActions(post);
 
         return <div ref={this.myRef}>
             <Box color="white"
@@ -136,6 +179,7 @@ class PostCard extends React.Component {
                                 {post.text}
                             </Text>
                         </Box>
+                        {actions}
                     </Box>
                     <Box
                         direction="row"
@@ -162,6 +206,7 @@ PostCard.propTypes = {
     post: PropTypes.arrayOf(PostType).isRequired,
     onSelect: PropTypes.func.isRequired,
     highlighted: PropTypes.bool,
+    availableActions: PropTypes.arrayOf(AvailableActionType),
     intl: intlShape.isRequired,
 };
 

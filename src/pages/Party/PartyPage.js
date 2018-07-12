@@ -17,10 +17,6 @@ const translations = defineMessages({
         id: 'page.party.shopping_bag',
         defaultMessage: 'Shopping Bag',
     },
-    showCatalog: {
-        id: 'page.party.show_catalog',
-        defaultMessage: 'Show Catalog',
-    },
     attendeeTabLabel: {
         id: 'page.party.tabs.attendees',
         defaultMessage: 'Attendees',
@@ -160,7 +156,9 @@ class PartyPage extends React.Component {
                 color="lightGray"
                 flex="grow">
                 <Catalog catalog={catalog}
-                         onAddToBag={this._addToBag} />
+                         onAddToBag={this._addToBag}
+                         hide={this._toggleCatalog}
+                />
             </Box>;
         } else {
             return <Box
@@ -175,7 +173,14 @@ class PartyPage extends React.Component {
                         post={post}
                         key={post.id}
                         highlighted={activePost && post.id === activePost.id}
-                        onSelect={this._handleComments}/>;
+                        onSelect={this._handleComments}
+                        availableActions={[
+                            {
+                                name: 'catalog',
+                                action: this._toggleCatalog
+                            }
+                        ]}
+                    />;
                 })}
             </Box>;
         }
@@ -283,11 +288,6 @@ class PartyPage extends React.Component {
                                  alignItems="start"
                                  direction="row"
                                  display="flex">
-                                <IconButton accessibilityLabel={formatMessage(translations.showCatalog)}
-                                            onClick={() => this._toggleCatalog()}
-                                            icon="menu"
-                                            iconColor={party.colors.header.bag}
-                                />
                                 <div
                                     ref={i => {
                                         this.bagAnchor = i;
@@ -493,7 +493,10 @@ const posts = [
         image: {
           src: 'http://www.nailposse.com/wp-content/uploads/2017/07/Mardi-Gras-Blue-Glitter_slider.jpg',
         },
-        comments: comments
+        comments: comments,
+        actions: [{
+            trigger: 'catalog',
+        }],
     },
     {
         id: '2',

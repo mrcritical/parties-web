@@ -1,7 +1,6 @@
 {
   "en": {
     "page.party.shopping_bag": "Shopping Bag",
-    "page.party.show_catalog": "Show Catalog",
     "page.party.tabs.attendees": "Attendees",
     "page.party.tabs.chat": "Chat",
     "page.party.tabs.comments": "Comments",
@@ -12,9 +11,11 @@
     "post.comments_label": "{itemCount, plural, one {Comment} other {Comments}}",
     "post.likes_label": "{itemCount, plural, one {Like} other {Likes}}",
     "post.default_image_caption": "Posted Image",
+    "post.actions.catalog": "View Catalog",
     "bag.title": "Shopping List",
     "product.add_to_bag_button": "Add to Bag",
     "product.add_button": "Add",
-    "catalog.search_place_holder": "Find my perfect match"
+    "catalog.search_place_holder": "Find my perfect match",
+    "catalog.close_button": "Back"
   }
 }

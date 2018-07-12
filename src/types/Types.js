@@ -41,6 +41,15 @@ const VideoType = PropTypes.shape({
     height: PropTypes.number,
 });
 
+const AvailableActionType = PropTypes.shape({
+    name: PropTypes.oneOf(['catalog']),
+    action: PropTypes.func.isRequired,
+});
+
+const PostActionTriggerType = PropTypes.shape({
+    trigger: PropTypes.oneOf(['catalog']),
+});
+
 const PostType = PropTypes.shape({
     id: PropTypes.string.isRequired,
     by: AttendeeType.isRequired,
@@ -50,6 +59,7 @@ const PostType = PropTypes.shape({
     comments: PropTypes.arrayOf(CommentType),
     image: ImageType,
     video: VideoType,
+    actions: PropTypes.arrayOf(PostActionTriggerType),
 });
 
 const MessageType = PropTypes.shape({
@@ -104,10 +114,13 @@ export {
     AttendeeType,
     CommentType,
     PostType,
+    PostActionTriggerType,
+    AvailableActionType,
     MessageType,
     BagType,
     BagItemType,
     CatalogType,
+    CategoryType,
     ProductType,
     AttendeeColorsType,
 };
