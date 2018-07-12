@@ -31,22 +31,12 @@ class PostCard extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            post: props.post,
-        };
         this._handleLike = this._handleLike.bind(this);
         this.myRef = React.createRef();
     }
 
     _handleLike(post) {
-        if (post.liked) {
-            post.likes--;
-            post.liked = false;
-        } else {
-            post.likes++;
-            post.liked = true;
-        }
-        this.forceUpdate();
+        this.props.onLike(post);
     }
 
     getMediaContent(post) {
@@ -128,7 +118,7 @@ class PostCard extends React.Component {
     }
 
     render() {
-        const {post} = this.state;
+        const {post} = this.props;
         const {highlighted} = this.props;
         const {formatMessage} = this.props.intl;
 
@@ -208,6 +198,7 @@ class PostCard extends React.Component {
 PostCard.propTypes = {
     post: PropTypes.arrayOf(PostType).isRequired,
     onSelect: PropTypes.func.isRequired,
+    onLike: PropTypes.func.isRequired,
     highlighted: PropTypes.bool,
     availableActions: PropTypes.arrayOf(AvailableActionType),
     intl: intlShape.isRequired,

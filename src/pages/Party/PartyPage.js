@@ -78,6 +78,7 @@ class PartyPage extends React.Component {
         this._addToBag = this._addToBag.bind(this);
         this._removeFromBag = this._removeFromBag.bind(this);
         this._onChatMessage = this._onChatMessage.bind(this);
+        this._onPostLike = this._onPostLike.bind(this);
     }
 
     componentDidMount() {
@@ -177,6 +178,7 @@ class PartyPage extends React.Component {
                         key={post.id}
                         highlighted={activePost && post.id === activePost.id}
                         onSelect={this._handleComments}
+                        onLike={this._onPostLike}
                         availableActions={[
                             {
                                 name: 'catalog',
@@ -247,6 +249,17 @@ class PartyPage extends React.Component {
 
     _onChatMessage(message) {
         messages.push(message);
+        this.forceUpdate();
+    }
+
+    _onPostLike(post) {
+        if (post.liked) {
+            post.likes--;
+            post.liked = false;
+        } else {
+            post.likes++;
+            post.liked = true;
+        }
         this.forceUpdate();
     }
 
