@@ -77,6 +77,7 @@ class PartyPage extends React.Component {
         this._toggleCatalog = this._toggleCatalog.bind(this);
         this._addToBag = this._addToBag.bind(this);
         this._removeFromBag = this._removeFromBag.bind(this);
+        this._onChatMessage = this._onChatMessage.bind(this);
     }
 
     componentDidMount() {
@@ -127,7 +128,8 @@ class PartyPage extends React.Component {
         switch (this.state.activeIndex) {
             case 1:
                 content = <Chat me={attendee1}
-                                messages={messages}
+                                messages={Array.from(messages).reverse()}
+                                onNewMessage={this._onChatMessage}
                 />;
                 break;
             case 2:
@@ -241,6 +243,11 @@ class PartyPage extends React.Component {
             // Sow the bag after adding to it
             showingBag: true
         });
+    }
+
+    _onChatMessage(message) {
+        messages.push(message);
+        this.forceUpdate();
     }
 
     render() {

@@ -4,7 +4,7 @@ import AttendeeAvatar from 'components/Party/AttendeeAvatar';
 import PropTypes from "prop-types";
 import {AttendeeType, MessageType} from 'types/Types';
 import styled from 'styled-components';
-import {intlShape, injectIntl, defineMessages} from 'react-intl';
+import {defineMessages, injectIntl, intlShape} from 'react-intl';
 
 const translations = defineMessages({
     placeholder: {
@@ -24,7 +24,6 @@ class Chat extends React.Component {
         this.handleChange = this._handleChange.bind(this);
         this._handleNewMessage = this._handleNewMessage.bind(this);
         this.state = {
-            messages: props.messages.reverse(),
             value: '',
         };
         this.me = props.me;
@@ -39,22 +38,20 @@ class Chat extends React.Component {
     _handleNewMessage() {
         // Only add a message if there is something there
         if(this.state.value && this.state.value.length > 0) {
-            const updated = Array.from(this.state.messages);
-            updated.unshift({
+            this.props.onNewMessage({
                 id: Math.floor(Math.random() * 1001),
                 by: this.me,
                 when: new Date(),
                 text: this.state.value,
             });
             this.setState({
-                messages: updated,
                 value: '',
             });
         }
     }
 
     render() {
-        const {messages} = this.state;
+        const {messages} = this.props;
         const {formatMessage} = this.props.intl;
 
         const Container = styled.div`
@@ -174,6 +171,7 @@ class Chat extends React.Component {
 Chat.propTypes = {
     me: AttendeeType.isRequired,
     messages: PropTypes.arrayOf(MessageType).isRequired,
+    onNewMessage: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
 };
 
