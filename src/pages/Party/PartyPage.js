@@ -221,7 +221,10 @@ class PartyPage extends React.Component {
             total: itemTotal
         });
         bag.total += itemTotal;
-        this.forceUpdate();
+        this.setState({
+            // Sow the bag after adding to it
+            showingBag: true
+        });
     }
 
     render() {
