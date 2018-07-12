@@ -22,7 +22,6 @@ class Catalog extends React.Component {
         super(props);
         this.state = {
             value: '',
-            products: this.props.catalog.products,
             activeIndex: 0,
         };
         this._find = this._find.bind(this);
@@ -75,7 +74,7 @@ class Catalog extends React.Component {
     }
 
     render() {
-        const {products} = this.state;
+        const {products} = this.props.catalog;
         const {formatMessage} = this.props.intl;
         const handler = this.props.onAddToBag;
         const tabContent = this.tabs ?

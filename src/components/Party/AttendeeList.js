@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import {Box} from 'gestalt';
-import {AttendeeType, AttendeeColorsType} from 'types/Types';
+import {AttendeeColorsType, AttendeeType} from 'types/Types';
 import Attendee from 'components/Party/Attendee';
 
-class AttendeeList extends React.Component {
-    render() {
-        const {presenter, host, attendees, me, colors} = this.props;
-        return <Box>
+function AttendeeList(props) {
+    const {presenter, host, attendees, me, colors} = props;
+    return <Box>
             <Attendee me={me}
                       attendee={presenter}
                       presence={presenter.status === 'present'}
@@ -26,8 +25,7 @@ class AttendeeList extends React.Component {
                                  attendee={attendee}
                                  presence={attendee.status === 'present'}/>;
             })}
-        </Box>;
-    }
+    </Box>;
 }
 
 AttendeeList.propTypes = {
