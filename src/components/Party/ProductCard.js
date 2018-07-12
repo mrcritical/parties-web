@@ -49,13 +49,22 @@ class ProductCard extends React.Component {
                     />
                 }>
                 <Box padding={4}>
-                    <Text align="center"
-                          bold
-                          size="xl">
-                        {product.name}
-                    </Text>
+                    <Box>
+                        <Text align="center"
+                              bold
+                              size="xl">
+                            {product.name}
+                        </Text>
+                    </Box>
+                    <Box marginTop={2}>
+                        <Text align="center"
+                              size="lg">
+                            ${product.cost}{product.qualifier ? ' / ' + product.qualifier : ''}
+                        </Text>
+                    </Box>
                 </Box>
-                <Box padding={6}>
+                <Box padding={2}
+                     marginBottom={8}>
                     <Container>
                         <div ref={i => {
                             this.addButtonAnchor = i;

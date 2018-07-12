@@ -78,6 +78,7 @@ const ProductType = PropTypes.shape({
     name: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     cost: PropTypes.number.isRequired,
+    qualifier: PropTypes.string,
     tags: PropTypes.arrayOf(PropTypes.string),
 });
 

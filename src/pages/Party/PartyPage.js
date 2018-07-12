@@ -508,6 +508,7 @@ const catalog = {
           image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
           name: 'Atlantis 1',
           cost: 10,
+          qualifier: 'set',
           tags: [
               'nail-art'
           ]
@@ -535,6 +536,7 @@ const catalog = {
           image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
           name: 'Atlantis 4',
           cost: 10,
+          qualifier: 'set',
           tags: [
               'glitter-designs'
           ]
@@ -544,6 +546,7 @@ const catalog = {
           image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
           name: 'Atlantis 5',
           cost: 10,
+          qualifier: 'set',
           tags: [
               'glitter-design'
           ]
@@ -553,6 +556,7 @@ const catalog = {
           image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
           name: 'Atlantis 6',
           cost: 10,
+          qualifier: 'set',
           tags: [
               'pretty',
               'blue',
@@ -564,6 +568,7 @@ const catalog = {
           image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
           name: 'Atlantis 7',
           cost: 10,
+          qualifier: 'set',
           tags: [
               'blue',
               'nail-art'
@@ -574,6 +579,7 @@ const catalog = {
           image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
           name: 'Atlantis 8',
           cost: 10,
+          qualifier: 'set',
           tags: [
               'cool',
               'glitter'
