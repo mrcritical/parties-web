@@ -27,7 +27,6 @@ class Comments extends React.Component {
         this._handleNewMessage = this._handleNewMessage.bind(this);
         this.me = props.me;
         this.state = {
-            comments: props.post.comments,
             value: '',
         };
         this.messagesEnd = null;
@@ -50,24 +49,21 @@ class Comments extends React.Component {
     }
 
     _handleNewMessage() {
-        const comment = {
+        this.setState({
+            value: '',
+        });
+        // Inform the parent that this post has a new comment
+        this.props.onComment(this.props.post.id, {
             id: Math.floor(Math.random() * 1001),
             by: this.me,
             when: new Date(),
             text: this.state.value,
-        };
-        const updated = this.state.comments.concat(comment);
-        this.setState({
-            comments: updated,
-            value: '',
         });
-        // Inform the parent that this post has a new comment
-        this.props.onComment(this.props.post.id, comment);
     }
 
     render() {
-        const {comments} = this.state;
         const {post, me} = this.props;
+        const {comments} = this.props.post;
         const displayPostByName = post.by.name.first + ' ' + post.by.name.last;
         const now = moment();
         const {formatMessage} = this.props.intl;
