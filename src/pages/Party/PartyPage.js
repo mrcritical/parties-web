@@ -509,7 +509,7 @@ const posts = [
             src: 'https://www.youtube.com/embed/sTYETQ2Dn7Y',
             type: 'youtube',
         },
-        comments: []
+        comments: [],
     },
 ];
 

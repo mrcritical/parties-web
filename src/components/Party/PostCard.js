@@ -56,7 +56,8 @@ class PostCard extends React.Component {
                 color="white"
                 height={post.image.height ? post.image.height : 200}
                 width="100%"
-                marginTop={4}
+                marginTop={-4}
+                padding={4}
             >
                 <Image src={post.image.src}
                        fit="cover"
@@ -74,7 +75,9 @@ class PostCard extends React.Component {
                 direction="row"
                 display="flex"
                 justifyContent="center"
-                marginTop={4}
+                marginTop={-4}
+                padding={4}
+                marginBottom={8}
             >
                 <ReactPlayer url={post.video.src}
                              width={post.video.width ? post.video.width : 640}
@@ -173,12 +176,12 @@ class PostCard extends React.Component {
                     </Box>
                     <Box
                         color="white">
-                        {mediaContent}
                         <Box padding={4}>
-                            <Text>
+                            <Text size="lg">
                                 {post.text}
                             </Text>
                         </Box>
+                        {mediaContent}
                         {actions}
                     </Box>
                     <Box
