@@ -512,7 +512,9 @@ const posts = [
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dictum, lacus vel convallis dictum, orci lectus rutrum purus, vel tincidunt nisi nunc nec nisi. Vestibulum auctor urna sed elementum cursus. Suspendisse nec pellentesque urna. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
         likes: 2,
         image: {
-          src: 'http://www.nailposse.com/wp-content/uploads/2017/07/Mardi-Gras-Blue-Glitter_slider.jpg',
+            src: 'http://www.nailposse.com/wp-content/uploads/2017/07/Mardi-Gras-Blue-Glitter_slider.jpg',
+            width: 561,
+            height: 425
         },
         comments: comments,
         actions: [{
