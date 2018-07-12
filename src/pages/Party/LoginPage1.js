@@ -17,7 +17,7 @@ const styles = () => ({
     },
 });
 
-class LoginPage extends React.Component {
+class LoginPage1 extends React.Component {
 
     constructor(props) {
         super(props);
@@ -35,7 +35,7 @@ class LoginPage extends React.Component {
 
         const url = window.location.href;
         if (auth.isSignInWithEmailLink(url)) {
-            const email = LoginPage.getParameterByName('email', url);
+            const email = LoginPage1.getParameterByName('email', url);
             if (null !== auth.currentUser) {
                 console.log('Already logged in');
 
@@ -133,4 +133,4 @@ class LoginPage extends React.Component {
     }
 }
 
-export default withStyles(styles)(LoginPage);
+export default withStyles(styles)(LoginPage1);

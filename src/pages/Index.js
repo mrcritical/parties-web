@@ -6,7 +6,7 @@ import {withStyles} from '@material-ui/core/styles';
 import withRoot from '../withRoot';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import PartyPage from "./Party/PartyPage";
-import LoginPage from "./Party/LoginPage";
+import LoginPage from "./Party/LoginPage1";
 import 'typeface-roboto';
 import Moment from 'react-moment';
 import 'moment-timezone';
