@@ -37,17 +37,20 @@ class Chat extends React.Component {
     }
 
     _handleNewMessage() {
-        const updated = Array.from(this.state.messages);
-        updated.unshift({
-            id: Math.floor(Math.random() * 1001),
-            from: this.me,
-            when: new Date(),
-            text: this.state.value,
-        });
-        this.setState({
-            messages: updated,
-            value: '',
-        });
+        // Only add a message if there is something there
+        if(this.state.value && this.state.value.length > 0) {
+            const updated = Array.from(this.state.messages);
+            updated.unshift({
+                id: Math.floor(Math.random() * 1001),
+                by: this.me,
+                when: new Date(),
+                text: this.state.value,
+            });
+            this.setState({
+                messages: updated,
+                value: '',
+            });
+        }
     }
 
     render() {
@@ -56,12 +59,18 @@ class Chat extends React.Component {
 
         const Container = styled.div`
            display: flex;
+           -ms-flex-direction: column-reverse;
            flex-direction: column-reverse;
-           flex: <flex-grow>;
            background-color: white;
            overflow: auto;
+           -ms-flex: 1 1 auto;
+           flex: 1 1 auto;
+           min-height: 0;
+           min-width: 0;
            padding: 16px;
            height: 100%;
+           -webkit-box-sizing: border-box;
+           box-sizing: border-box;
         `;
 
         return <Box
@@ -79,6 +88,7 @@ class Chat extends React.Component {
                                  paddingX={4}
                                  paddingY={2}
                                  justifyContent="end"
+                                 flex="none"
                                  key={message.id}
                             >
                                 <Box direction="column"
@@ -103,6 +113,7 @@ class Chat extends React.Component {
                                  paddingX={4}
                                  paddingY={2}
                                  justifyContent="start"
+                                 flex="none"
                                  key={message.id}
                             >
                                 <Box>
