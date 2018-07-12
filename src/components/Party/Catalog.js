@@ -44,7 +44,7 @@ class Catalog extends React.Component {
         this._find(query, false);
         this.setState({
             value: query, // Add text to search box
-            activeIndex: null, // No tab highlighted
+            activeIndex: query.length === 0 ? 0 : null, // No tab highlighted if there is a value
         });
     }
 
