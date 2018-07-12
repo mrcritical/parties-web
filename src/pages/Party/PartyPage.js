@@ -357,31 +357,31 @@ const attendee2 = {
 const messages = [
     {
         id: '1',
-        from: attendee1,
+        by: attendee1,
         when: '2018-07-06T18:01:00-0500',
         text: 'This product is cool. I want to buy it!'
     },
     {
         id: '2',
-        from: stylist,
+        by: stylist,
         when: '2018-07-06T18:02:00-0500',
         text: 'Ok. How many?'
     },
     {
         id: '3',
-        from: attendee1,
+        by: attendee1,
         when: '2018-07-06T18:02:30-0500',
         text: '3'
     },
     {
         id: '4',
-        from: stylist,
+        by: stylist,
         when: new Date(),
         text: 'Done.'
     },
     {
         id: '5',
-        from: stylist,
+        by: stylist,
         when: '2018-07-06T18:03:00-0500',
         text: 'I now want to test a much longer message to see if it works and how wraps. Does this look ok? I hope so. If not you should fix it.'
     },

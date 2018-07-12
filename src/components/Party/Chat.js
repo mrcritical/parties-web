@@ -1,5 +1,6 @@
 import React from 'react';
-import {Avatar, Box, IconButton, Text, TextArea} from 'gestalt';
+import {Box, IconButton, Text, TextArea} from 'gestalt';
+import AttendeeAvatar from 'components/Party/AttendeeAvatar';
 import PropTypes from "prop-types";
 import {AttendeeType, MessageType} from 'types/Types';
 import styled from 'styled-components';
@@ -57,7 +58,7 @@ class Chat extends React.Component {
             height="100%">
             <Container>
                 {messages.map(message => {
-                    const myMessage = message.from === this.me;
+                    const myMessage = message.by === this.me;
                     if (myMessage) {
                         return (
                             <Box direction="row"
@@ -78,8 +79,7 @@ class Chat extends React.Component {
                                     </Box>
                                 </Box>
                                 <Box>
-                                    <Avatar name={message.from.name.first + ' ' + message.from.name.last}
-                                            size="md"/>
+                                    <AttendeeAvatar me={message.by}/>
                                 </Box>
                             </Box>
                         );
@@ -93,8 +93,7 @@ class Chat extends React.Component {
                                  key={message.id}
                             >
                                 <Box>
-                                    <Avatar name={message.from.name.first + ' ' + message.from.name.last}
-                                            size="md"/>
+                                    <AttendeeAvatar me={message.by}/>
                                 </Box>
                                 <Box direction="column"
                                      display="flex">
@@ -122,7 +121,7 @@ class Chat extends React.Component {
             >
                 <Box
                     paddingX={4}>
-                    <Avatar name={this.me.name.first + ' ' + this.me.name.last} size="md"/>
+                    <AttendeeAvatar me={this.me}/>
                 </Box>
                 <Box width="100%">
                     <TextArea

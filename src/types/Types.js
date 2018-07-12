@@ -54,7 +54,7 @@ const PostType = PropTypes.shape({
 
 const MessageType = PropTypes.shape({
     id: PropTypes.string.isRequired,
-    from: AttendeeType.isRequired,
+    by: AttendeeType.isRequired,
     when: PropTypes.any.isRequired,
     text: PropTypes.string.isRequired,
 });
