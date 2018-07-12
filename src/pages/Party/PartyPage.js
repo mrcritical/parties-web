@@ -165,6 +165,7 @@ class PartyPage extends React.Component {
                 display="flex"
                 direction="column"
                 padding={4}
+                marginTop={-4}
                 flex="grow"
                 overflow="auto"
                 color="lightGray">
