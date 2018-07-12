@@ -8,7 +8,7 @@ import PostCard from "components/Party/PostCard";
 import Bag from "components/Party/Bag";
 import Catalog from "components/Party/Catalog";
 import update from 'immutability-helper';
-import {intlShape, injectIntl, defineMessages} from 'react-intl';
+import {defineMessages, injectIntl, intlShape} from 'react-intl';
 
 // All CSS measurements based on 4px * x
 
@@ -212,14 +212,24 @@ class PartyPage extends React.Component {
 
     _addToBag(product, quantity) {
         const itemTotal = product.cost * quantity;
-        bag.items.push({
-            id: Math.floor((Math.random() * 10000) + 1),
-            name: product.name,
-            image: product.image,
-            cost: product.cost,
-            quantity: quantity,
-            total: itemTotal
-        });
+
+        let existingItem = bag.items.find((item) => item.name === product.name);
+        if (existingItem) {
+            // Modify existing item
+            existingItem.quantity += quantity;
+            existingItem.total += itemTotal;
+
+        } else {
+            // Add new item
+            bag.items.push({
+                id: Math.floor((Math.random() * 10000) + 1),
+                name: product.name,
+                image: product.image,
+                cost: product.cost,
+                quantity: quantity,
+                total: itemTotal
+            });
+        }
         bag.total += itemTotal;
         this.setState({
             // Sow the bag after adding to it

@@ -130,7 +130,7 @@ class ProductCard extends React.Component {
                                             <Button accessibilityLabel={formatMessage(translations.addButton)}
                                                     color="red"
                                                     text={formatMessage(translations.addButton)}
-                                                    onClick={() => this.props.onAddToBag(product, this.state.quantity)}/>
+                                                    onClick={() => this.props.onAddToBag(product, Number(this.state.quantity))}/>
                                         </Box>
                                     </Box>
                                 </Box>
