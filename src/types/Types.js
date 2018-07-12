@@ -7,6 +7,9 @@ const NameType = PropTypes.shape({
 
 const ImageType = PropTypes.shape({
     src: PropTypes.string.isRequired,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    caption: PropTypes.string,
 });
 
 const AttendeeType = PropTypes.shape({

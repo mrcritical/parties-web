@@ -32,16 +32,16 @@ class PostCard extends React.Component {
     static getMediaContent(post) {
         if (post.image) {
             return <Box
-                color="darkGray"
-                height={200}
+                color="white"
+                height={post.image.height ? post.image.height : 200}
                 width="100%"
                 marginTop={4}
             >
                 <Image src={post.image.src}
                        fit="cover"
-                       alt="Random Image"
-                       naturalHeight={300}
-                       naturalWidth={200}
+                       alt={post.image.caption ? post.image.caption : 'Posted image'}
+                       naturalWidth={post.image.width ? post.image.width : 0}
+                       naturalHeight={post.image.height ? post.image.height : 0}
                 />
             </Box>;
 
