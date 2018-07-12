@@ -5,23 +5,24 @@ const NameType = PropTypes.shape({
     last: PropTypes.string.isRequired,
 });
 
+const ImageType = PropTypes.shape({
+    src: PropTypes.string.isRequired,
+});
+
 const AttendeeType = PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: NameType.isRequired,
     handle: PropTypes.string.isRequired,
     status: PropTypes.oneOf(['present','joined','no-show','invited']),
+    avatar: ImageType,
 });
 
 const CommentType = PropTypes.shape({
     id: PropTypes.string.isRequired,
-    from: AttendeeType.isRequired,
+    by: AttendeeType.isRequired,
     when: PropTypes.any.isRequired,
     text: PropTypes.string.isRequired,
     likes: PropTypes.number,
-});
-
-const ImageType = PropTypes.shape({
-    src: PropTypes.string.isRequired,
 });
 
 const VideoType = PropTypes.shape({
@@ -39,7 +40,7 @@ const VideoType = PropTypes.shape({
 
 const PostType = PropTypes.shape({
     id: PropTypes.string.isRequired,
-    from: AttendeeType.isRequired,
+    by: AttendeeType.isRequired,
     when: PropTypes.any.isRequired,
     text: PropTypes.string.isRequired,
     likes: PropTypes.number,

@@ -1,10 +1,11 @@
 import React from 'react';
-import {Avatar, Box, Button, Image, Text} from 'gestalt';
+import {Box, Button, Image, Text} from 'gestalt';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import {PostType} from "types/Types";
 import PropTypes from "prop-types";
 import ReactPlayer from 'react-player';
+import AttendeeAvatar from 'components/Party/AttendeeAvatar';
 
 class PostCard extends React.Component {
 
@@ -71,7 +72,7 @@ class PostCard extends React.Component {
         const commentsLabel = post.comments.length + ' Comment' + (post.comments.length !== 1 ? 's' : '');
         const likesLabel = post.likes + ' Like' + (post.likes !== 1 ? 's' : '');
         const highLightColor = highlighted ? 'darkGray' : 'white';
-        const byDisplayName = post.from.name.first + ' ' + post.from.name.last;
+        const byDisplayName = post.by.name.first + ' ' + post.by.name.last;
 
         const mediaContent = PostCard.getMediaContent(post);
 
@@ -92,7 +93,7 @@ class PostCard extends React.Component {
                         padding={4}
                         marginBottom={-4}>
                         <Box paddingX={1}>
-                            <Avatar name={byDisplayName} size="md"/>
+                            <AttendeeAvatar me={post.by}/>
                         </Box>
                         <Box paddingX={1} flex="grow">
                             <Box direction="row"
@@ -101,7 +102,7 @@ class PostCard extends React.Component {
                                     <Text bold>{byDisplayName}</Text>
                                 </Box>
                                 <Box paddingX={1}>
-                                    <Text italic color="darkGray">@{post.from.handle}</Text>
+                                    <Text italic color="darkGray">@{post.by.handle}</Text>
                                 </Box>
                             </Box>
                             <Text italic color="gray">

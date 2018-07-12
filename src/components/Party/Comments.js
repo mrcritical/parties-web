@@ -1,7 +1,8 @@
 import React from 'react';
-import {Avatar, Box, Divider, IconButton, Text, TextArea} from 'gestalt';
+import {Box, Divider, IconButton, Text, TextArea} from 'gestalt';
 import PropTypes from "prop-types";
 import {AttendeeType, PostType} from 'types/Types';
+import AttendeeAvatar from 'components/Party/AttendeeAvatar';
 import Moment from 'react-moment';
 import * as moment from 'moment';
 import 'moment-timezone';
@@ -54,9 +55,8 @@ class Comments extends React.Component {
 
     render() {
         const {comments} = this.state;
-        const {post} = this.props;
-        const {me} = this.props;
-        const displayPostByName = post.from.name.first + ' ' + post.from.name.last;
+        const {post, me} = this.props;
+        const displayPostByName = post.by.name.first + ' ' + post.by.name.last;
         const now = moment();
 
         return <Box
@@ -69,7 +69,7 @@ class Comments extends React.Component {
                  color="lightGray"
                  flex="none">
                 <Box>
-                    <Avatar name={displayPostByName}
+                    <AttendeeAvatar me={post.by}
                             size="lg"/>
                 </Box>
                 <Box direction="column"
@@ -82,7 +82,7 @@ class Comments extends React.Component {
                                 <Text bold>{displayPostByName}</Text>
                             </Box>
                             <Box paddingX={1}>
-                                <Text italic color="darkGray">@{post.from.handle}</Text>
+                                <Text italic color="darkGray">@{post.by.handle}</Text>
                             </Box>
                         </Box>
                         <Text italic
@@ -127,8 +127,7 @@ class Comments extends React.Component {
                                  paddingY={2}
                                  justifyContent="start">
                                 <Box>
-                                    <Avatar name={comment.from.name.first + ' ' + comment.from.name.last}
-                                            size="md"/>
+                                    <AttendeeAvatar me={comment.by} />
                                 </Box>
                                 <Box direction="row"
                                      display="flex"
@@ -139,10 +138,10 @@ class Comments extends React.Component {
                                              display="flex">
                                             <Box>
                                                 <Text
-                                                    bold>{me.id === comment.from.id ? 'Me' : comment.from.name.first + ' ' + comment.from.name.last}</Text>
+                                                    bold>{me.id === comment.by.id ? 'Me' : comment.by.name.first + ' ' + comment.by.name.last}</Text>
                                             </Box>
                                             <Box paddingX={1}>
-                                                <Text italic color="darkGray">@{comment.from.handle}</Text>
+                                                <Text italic color="darkGray">@{comment.by.handle}</Text>
                                             </Box>
                                         </Box>
                                         <Box paddingY={2}>
@@ -173,7 +172,7 @@ class Comments extends React.Component {
             >
                 <Box
                     paddingX={4}>
-                    <Avatar name={this.me.name.first + ' ' + this.me.name.last} size="md"/>
+                    <AttendeeAvatar me={this.me} />
                 </Box>
                 <Box width="100%">
                     <TextArea

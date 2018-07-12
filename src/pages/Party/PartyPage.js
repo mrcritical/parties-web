@@ -314,11 +314,14 @@ class PartyPage extends React.Component {
 const stylist = {
     id: '1',
     name: {
-        first: 'Stylist',
-        last: 'Lastname',
+        first: 'Kendra',
+        last: 'Jarrell',
     },
     handle: 'stylist',
     status: 'present',
+    avatar: {
+        src: 'https://pinterest.github.io/gestalt/static/media/shanice.2bbdc6c0.jpg',
+    },
 };
 
 const host = {
@@ -328,7 +331,7 @@ const host = {
         last: 'Lastname',
     },
     handle: 'host',
-    status: 'present',
+    status: 'invited',
 };
 
 const attendee1 = {
@@ -387,48 +390,48 @@ const messages = [
 const comments = [
     {
         id: '1',
-        from: attendee1,
+        by: attendee1,
         when: '2018-07-06T18:01:00-0500',
         text: 'Praesent eu sodales turpis, at molestie nisi. Interdum et malesuada fames ac ante ipsum primis in faucibus.',
         likes: 2,
     },
     {
         id: '2',
-        from: stylist,
+        by: stylist,
         when: '2018-07-06T18:02:00-0500',
         text: 'Cras maximus, justo ut aliquam vestibulum, nunc lacus efficitur quam, vel malesuada leo dui in urna.'
     },
     {
         id: '3',
-        from: attendee1,
+        by: attendee1,
         when: '2018-07-06T18:02:30-0500',
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque viverra erat ac pretium volutpat. Vivamus a arcu vitae sapien semper vehicula.',
         likes: 20,
     },
     {
         id: '4',
-        from: attendee1,
+        by: attendee1,
         when: '2018-07-06T18:02:30-0500',
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque viverra erat ac pretium volutpat. Vivamus a arcu vitae sapien semper vehicula.',
         likes: 20,
     },
     {
         id: '5',
-        from: attendee1,
+        by: attendee1,
         when: '2018-07-06T18:02:30-0500',
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque viverra erat ac pretium volutpat. Vivamus a arcu vitae sapien semper vehicula.',
         likes: 20,
     },
     {
         id: '6',
-        from: host,
+        by: host,
         when: '2018-07-06T18:02:30-0500',
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque viverra erat ac pretium volutpat. Vivamus a arcu vitae sapien semper vehicula.',
         likes: 20,
     },
     {
         id: '7',
-        from: host,
+        by: host,
         when: '2018-07-06T18:02:30-0500',
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque viverra erat ac pretium volutpat. Vivamus a arcu vitae sapien semper vehicula.',
         likes: 20,
@@ -438,7 +441,7 @@ const comments = [
 const posts = [
     {
         id: '1',
-        from: stylist,
+        by: stylist,
         when: '2018-07-06T18:01:00-0500',
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dictum, lacus vel convallis dictum, orci lectus rutrum purus, vel tincidunt nisi nunc nec nisi. Vestibulum auctor urna sed elementum cursus. Suspendisse nec pellentesque urna. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
         likes: 2,
@@ -449,7 +452,7 @@ const posts = [
     },
     {
         id: '2',
-        from: stylist,
+        by: stylist,
         when: '2018-07-06T18:01:00-0500',
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dictum, lacus vel convallis dictum, orci lectus rutrum purus, vel tincidunt nisi nunc nec nisi. Vestibulum auctor urna sed elementum cursus. Suspendisse nec pellentesque urna. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
         likes: 5,
@@ -581,10 +584,8 @@ const catalog = {
 
 const party = {
     name: "Ava's Nail Party",
-    // image: 'http://www.nailposse.com/wp-content/uploads/2017/07/Mardi-Gras-Blue-Glitter_slider.jpg',
     image: 'https://vnailpro.com/wp-content/uploads/2017/08/5StarRSBanner1-min.png',
     colors: {
-        // color: 'darkGray'
         header: {
             text: 'white',
             background: '#5b2677',
