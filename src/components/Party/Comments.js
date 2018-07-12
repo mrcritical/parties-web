@@ -6,6 +6,18 @@ import AttendeeAvatar from 'components/Party/AttendeeAvatar';
 import Moment from 'react-moment';
 import * as moment from 'moment';
 import 'moment-timezone';
+import {intlShape, injectIntl, defineMessages} from 'react-intl';
+
+const translations = defineMessages({
+    placeholder: {
+        id: 'comments.message.place_holder',
+        defaultMessage: 'What would you like to say?',
+    },
+    sendLabel: {
+        id: 'comments.message.send_label',
+        defaultMessage: 'Send',
+    }
+});
 
 class Comments extends React.Component {
 
@@ -40,7 +52,7 @@ class Comments extends React.Component {
     _handleNewMessage() {
         const comment = {
             id: Math.floor(Math.random() * 1001),
-            from: this.me,
+            by: this.me,
             when: new Date(),
             text: this.state.value,
         };
@@ -58,6 +70,7 @@ class Comments extends React.Component {
         const {post, me} = this.props;
         const displayPostByName = post.by.name.first + ' ' + post.by.name.last;
         const now = moment();
+        const {formatMessage} = this.props.intl;
 
         return <Box
             direction="column"
@@ -177,7 +190,7 @@ class Comments extends React.Component {
                 <Box width="100%">
                     <TextArea
                         id="comment"
-                        placeholder="What would you like to say?"
+                        placeholder={formatMessage(translations.placeholder)}
                         rows={1}
                         onChange={this.handleChange}
                         value={this.state.value}
@@ -186,7 +199,7 @@ class Comments extends React.Component {
                 <Box
                     paddingX={2}>
                     <IconButton
-                        accessibilityLabel="Send"
+                        accessibilityLabel={formatMessage(translations.sendLabel)}
                         icon="send"
                         iconColor="gray"
                         size="lg"
@@ -202,6 +215,7 @@ Comments.propTypes = {
     me: AttendeeType.isRequired,
     post: PostType.isRequired,
     onComment: PropTypes.func.isRequired,
+    intl: intlShape.isRequired,
 };
 
-export default Comments;
+export default injectIntl(Comments);

@@ -3,6 +3,18 @@ import {ProductType} from "types/Types";
 import {Box, Button, Card, Flyout, Image, SelectList, Text} from 'gestalt';
 import PropTypes from "prop-types";
 import styled from 'styled-components';
+import {intlShape, injectIntl, defineMessages, FormattedMessage} from 'react-intl';
+
+const translations = defineMessages({
+    addToBag: {
+        id: 'product.add_to_bag_button',
+        defaultMessage: 'Add to Bag',
+    },
+    addButton: {
+        id: 'product.add_button',
+        defaultMessage: 'Add',
+    },
+});
 
 const Container = styled.div`
   position: relative;
@@ -28,6 +40,7 @@ class ProductCard extends React.Component {
 
     render() {
         const product = this.props.data;
+        const {formatMessage, formatNumber} = this.props.intl;
 
         let amountOptions = [];
         for (let i = 1; i <= 20; i++) {
@@ -59,7 +72,7 @@ class ProductCard extends React.Component {
                     <Box marginTop={2}>
                         <Text align="center"
                               size="lg">
-                            ${product.cost}{product.qualifier ? ' / ' + product.qualifier : ''}
+                            {formatNumber(product.cost, { style: 'currency', currency: this.props.currency })}{product.qualifier ? ' / ' + product.qualifier : ''}
                         </Text>
                     </Box>
                 </Box>
@@ -69,12 +82,13 @@ class ProductCard extends React.Component {
                             this.addButtonAnchor = i;
                         }}>
                             <Button accessibilityHaspopup
-                                    accessibilityLabel="Add to Shopping Bag"
+                                    accessibilityLabel={formatMessage(translations.addToBag)}
                                     color="red"
-                                    text="Add to Bag"
+                                    text={formatMessage(translations.addToBag)}
                                     onClick={() => this.setState({showingQuantity: true})}
                             />
                             {this.state.showingQuantity &&
+
                             <Flyout onDismiss={() => this.setState({showingQuantity: false})}
                                     anchor={this.addButtonAnchor}
                                     idealDirection="up"
@@ -94,7 +108,10 @@ class ProductCard extends React.Component {
                                               align="center"
                                               size="lg"
                                         >
-                                            How many?
+                                            <FormattedMessage
+                                                id="product.how_many_question"
+                                                defaultMessage="How many?"
+                                            />
                                         </Text>
                                     </Box>
                                     <Box direction="row"
@@ -110,9 +127,9 @@ class ProductCard extends React.Component {
                                         </Box>
                                         <Box marginLeft={4}
                                              flex="grow">
-                                            <Button accessibilityLabel="Add"
+                                            <Button accessibilityLabel={formatMessage(translations.addButton)}
                                                     color="red"
-                                                    text="Add"
+                                                    text={formatMessage(translations.addButton)}
                                                     onClick={() => this.props.onAddToBag(product, this.state.quantity)}/>
                                         </Box>
                                     </Box>
@@ -130,6 +147,12 @@ class ProductCard extends React.Component {
 ProductCard.propTypes = {
     data: ProductType.isRequired,
     onAddToBag: PropTypes.func.isRequired,
+    currency: PropTypes.string,
+    intl: intlShape.isRequired,
 };
 
-export default ProductCard;
+ProductCard.defaultProps = {
+    currency: 'USD'
+};
+
+export default injectIntl(ProductCard);

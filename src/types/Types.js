@@ -90,6 +90,7 @@ const CategoryType = PropTypes.shape({
 const CatalogType = PropTypes.shape({
     products: PropTypes.arrayOf(ProductType),
     categories: PropTypes.arrayOf(CategoryType),
+    currency: PropTypes.string,
 });
 
 const AttendeeColorsType = PropTypes.shape({

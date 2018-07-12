@@ -8,8 +8,32 @@ import PostCard from "components/Party/PostCard";
 import Bag from "components/Party/Bag";
 import Catalog from "components/Party/Catalog";
 import update from 'immutability-helper';
+import {intlShape, injectIntl, defineMessages} from 'react-intl';
 
 // All CSS measurements based on 4px * x
+
+const translations = defineMessages({
+    shoppingBag: {
+        id: 'page.party.shopping_bag',
+        defaultMessage: 'Shopping Bag',
+    },
+    showCatalog: {
+        id: 'page.party.show_catalog',
+        defaultMessage: 'Show Catalog',
+    },
+    attendeeTabLabel: {
+        id: 'page.party.tabs.attendees',
+        defaultMessage: 'Attendees',
+    },
+    chatTabLabel: {
+        id: 'page.party.tabs.chat',
+        defaultMessage: 'Chat',
+    },
+    commentsTabLabel: {
+        id: 'page.party.tabs.comments',
+        defaultMessage: 'Comments',
+    },
+});
 
 const PageHeader = styled.div`
   position: relative;
@@ -204,20 +228,21 @@ class PartyPage extends React.Component {
         const {activePost} = this.state;
         const sideBarContent = this._handleSideBar(activePost);
         const mainContent = this._handleMainContent(activePost);
+        const {formatMessage} = this.props.intl;
 
         let tabs = [
             {
-                text: "Attendees",
+                text: formatMessage(translations.attendeeTabLabel),
                 href: "#"
             },
             {
-                text: "Chat",
+                text: formatMessage(translations.chatTabLabel),
                 href: "#"
             }
         ];
         if (activePost !== null) {
             tabs.push({
-                text: "Comments",
+                text: formatMessage(translations.commentsTabLabel),
                 href: "#"
             });
         }
@@ -229,7 +254,8 @@ class PartyPage extends React.Component {
             height="100%"
             wrap
         >
-            <Column span={12} mdSpan={8}>
+            <Column span={12}
+                    mdSpan={8}>
                 <Box flex="grow"
                      display="flex"
                      direction="column"
@@ -244,7 +270,7 @@ class PartyPage extends React.Component {
                                  alignItems="start"
                                  direction="row"
                                  display="flex">
-                                <IconButton accessibilityLabel="Show Catalog"
+                                <IconButton accessibilityLabel={formatMessage(translations.showCatalog)}
                                             onClick={() => this._toggleCatalog()}
                                             icon="menu"
                                             iconColor={party.colors.header.bag}
@@ -254,7 +280,7 @@ class PartyPage extends React.Component {
                                         this.bagAnchor = i;
                                     }}>
                                     <IconButton
-                                        accessibilityLabel="Shopping Bag"
+                                        accessibilityLabel={formatMessage(translations.shoppingBag)}
                                         accessibilityHaspopup
                                         icon="shopping-bag"
                                         iconColor={party.colors.header.bag}
@@ -309,6 +335,10 @@ class PartyPage extends React.Component {
         </Box>;
     }
 }
+
+PartyPage.propTypes = {
+    intl: intlShape.isRequired,
+};
 
 // =====================
 // Test data
@@ -610,4 +640,4 @@ const party = {
     }
 };
 
-export default PartyPage;
+export default injectIntl(PartyPage);

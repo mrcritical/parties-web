@@ -3,6 +3,14 @@ import {CatalogType} from "types/Types";
 import {Box, Masonry, SearchField, Tabs} from 'gestalt';
 import ProductCard from 'components/Party/ProductCard';
 import PropTypes from "prop-types";
+import {intlShape, injectIntl, defineMessages} from 'react-intl';
+
+const translations = defineMessages({
+    searchPlaceHolder: {
+        id: 'catalog.search_place_holder',
+        defaultMessage: 'Find my perfect match',
+    },
+});
 
 class Catalog extends React.Component {
 
@@ -64,6 +72,7 @@ class Catalog extends React.Component {
 
     render() {
         const {products} = this.state;
+        const {formatMessage} = this.props.intl;
         const handler = this.props.onAddToBag;
         const tabContent = this.tabs ?
             <Box display="flex"
@@ -87,10 +96,10 @@ class Catalog extends React.Component {
                  padding={6}>
                 <Box flex="grow">
                     <SearchField
-                        accessibilityLabel="Demo Search Field"
+                        accessibilityLabel={formatMessage(translations.searchPlaceHolder)}
                         id="searchField"
                         onChange={({value}) => this._search(value)}
-                        placeholder="Find my perfect nails"
+                        placeholder={formatMessage(translations.searchPlaceHolder)}
                         value={this.state.value}
                     />
                 </Box>
@@ -106,6 +115,7 @@ class Catalog extends React.Component {
                         const key = props.itemIdx;
                         return <ProductCard data={product}
                                             key={key}
+                                            currency={this.props.currency}
                                             onAddToBag={handler}/>
                     }}
                          items={products}
@@ -120,6 +130,12 @@ class Catalog extends React.Component {
 Catalog.propTypes = {
     catalog: CatalogType.isRequired,
     onAddToBag: PropTypes.func.isRequired,
+    currency: PropTypes.string,
+    intl: intlShape.isRequired,
 };
 
-export default Catalog;
+Catalog.defaultProps = {
+    currency: 'USD'
+};
+
+export default injectIntl(Catalog);

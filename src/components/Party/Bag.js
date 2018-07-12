@@ -2,6 +2,7 @@ import React from 'react';
 import {Box, IconButton, Image, Text} from 'gestalt';
 import {BagType} from "types/Types";
 import PropTypes from "prop-types";
+import {FormattedMessage, FormattedNumber} from 'react-intl';
 
 class Bag extends React.Component {
 
@@ -16,7 +17,10 @@ class Bag extends React.Component {
                 <Text bold
                       size="md"
                       align="center">
-                    Shopping List
+                    <FormattedMessage
+                        id="bag.title"
+                        defaultMessage="Shopping List"
+                    />
                 </Text>
             </Box>
             <Box direction="column"
@@ -55,7 +59,11 @@ class Bag extends React.Component {
                             flex="none">
                             <Text bold
                                   italic
-                                  align="left">${item.total}</Text>
+                                  align="left">
+                                <FormattedNumber value={item.total}
+                                                 style="currency"
+                                                 currency={this.props.currency}/>
+                            </Text>
                         </Box>
                         <Box
                             marginLeft={2}
@@ -80,7 +88,11 @@ class Bag extends React.Component {
                     <Box flex="none"
                          marginLeft={2}
                          marginRight={3}>
-                        <Text bold>${bag.total}</Text>
+                        <Text bold>
+                            <FormattedNumber value={bag.total}
+                                             style="currency"
+                                             currency={this.props.currency}/>
+                        </Text>
                     </Box>
                 </Box>
             </Box>
@@ -91,6 +103,11 @@ class Bag extends React.Component {
 Bag.propTypes = {
     bag: BagType.isRequired,
     onRemove: PropTypes.func.isRequired,
+    currency: PropTypes.string,
+};
+
+Bag.defaultProps = {
+    currency: 'USD'
 };
 
 export default Bag;

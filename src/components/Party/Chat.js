@@ -4,6 +4,18 @@ import AttendeeAvatar from 'components/Party/AttendeeAvatar';
 import PropTypes from "prop-types";
 import {AttendeeType, MessageType} from 'types/Types';
 import styled from 'styled-components';
+import {intlShape, injectIntl, defineMessages} from 'react-intl';
+
+const translations = defineMessages({
+    placeholder: {
+        id: 'chat.message.place_holder',
+        defaultMessage: 'What would you like to say?',
+    },
+    sendLabel: {
+        id: 'chat.message.send_label',
+        defaultMessage: 'Send',
+    }
+});
 
 class Chat extends React.Component {
 
@@ -40,6 +52,7 @@ class Chat extends React.Component {
 
     render() {
         const {messages} = this.state;
+        const {formatMessage} = this.props.intl;
 
         const Container = styled.div`
            display: flex;
@@ -126,7 +139,7 @@ class Chat extends React.Component {
                 <Box width="100%">
                     <TextArea
                         id="comment"
-                        placeholder="What would you like to say?"
+                        placeholder={formatMessage(translations.placeholder)}
                         rows={1}
                         onChange={this.handleChange}
                         value={this.state.value}
@@ -135,7 +148,7 @@ class Chat extends React.Component {
                 <Box
                     paddingX={2}>
                     <IconButton
-                        accessibilityLabel="Send"
+                        accessibilityLabel={formatMessage(translations.sendLabel)}
                         icon="send"
                         iconColor="gray"
                         size="lg"
@@ -150,6 +163,7 @@ class Chat extends React.Component {
 Chat.propTypes = {
     me: AttendeeType.isRequired,
     messages: PropTypes.arrayOf(MessageType).isRequired,
+    intl: intlShape.isRequired,
 };
 
-export default Chat;
+export default injectIntl(Chat);

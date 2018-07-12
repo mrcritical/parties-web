@@ -6,6 +6,22 @@ import {PostType} from "types/Types";
 import PropTypes from "prop-types";
 import ReactPlayer from 'react-player';
 import AttendeeAvatar from 'components/Party/AttendeeAvatar';
+import {defineMessages, injectIntl, intlShape} from 'react-intl';
+
+const translations = defineMessages({
+    commentsLabel: {
+        id: 'post.comments_label',
+        defaultMessage: '{itemCount, plural, one {Comment} other {Comments}}',
+    },
+    likesLabel: {
+        id: 'post.likes_label',
+        defaultMessage: '{itemCount, plural, one {Like} other {Likes}}',
+    },
+    defaultImageCaption: {
+        id: 'post.default_image_caption',
+        defaultMessage: 'Posted Image',
+    },
+});
 
 class PostCard extends React.Component {
 
@@ -29,7 +45,8 @@ class PostCard extends React.Component {
         this.forceUpdate();
     }
 
-    static getMediaContent(post) {
+    getMediaContent(post) {
+        const {formatMessage} = this.props.intl;
         if (post.image) {
             return <Box
                 color="white"
@@ -39,7 +56,7 @@ class PostCard extends React.Component {
             >
                 <Image src={post.image.src}
                        fit="cover"
-                       alt={post.image.caption ? post.image.caption : 'Posted image'}
+                       alt={post.image.caption ? post.image.caption : formatMessage(translations.defaultImageCaption)}
                        naturalWidth={post.image.width ? post.image.width : 0}
                        naturalHeight={post.image.height ? post.image.height : 0}
                 />
@@ -68,13 +85,14 @@ class PostCard extends React.Component {
     render() {
         const {post} = this.state;
         const {highlighted} = this.props;
+        const {formatMessage} = this.props.intl;
 
-        const commentsLabel = post.comments.length + ' Comment' + (post.comments.length !== 1 ? 's' : '');
-        const likesLabel = post.likes + ' Like' + (post.likes !== 1 ? 's' : '');
+        const commentsLabel = post.comments.length + ' ' + formatMessage(translations.commentsLabel, {itemCount: post.comments.length});
+        const likesLabel = post.likes + ' ' + formatMessage(translations.likesLabel, {itemCount: post.likes});
         const highLightColor = highlighted ? 'darkGray' : 'white';
         const byDisplayName = post.by.name.first + ' ' + post.by.name.last;
 
-        const mediaContent = PostCard.getMediaContent(post);
+        const mediaContent = this.getMediaContent(post);
 
         return <div ref={this.myRef}>
             <Box color="white"
@@ -144,10 +162,11 @@ PostCard.propTypes = {
     post: PropTypes.arrayOf(PostType).isRequired,
     onSelect: PropTypes.func.isRequired,
     highlighted: PropTypes.bool,
+    intl: intlShape.isRequired,
 };
 
 PostCard.defaultProps = {
     highlighted: false,
 };
 
-export default PostCard;
+export default injectIntl(PostCard);
