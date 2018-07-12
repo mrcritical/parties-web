@@ -63,8 +63,7 @@ class ProductCard extends React.Component {
                         </Text>
                     </Box>
                 </Box>
-                <Box padding={2}
-                     marginBottom={8}>
+                <Box padding={2}>
                     <Container>
                         <div ref={i => {
                             this.addButtonAnchor = i;

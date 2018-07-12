@@ -107,19 +107,23 @@ class PartyPage extends React.Component {
         switch (this.state.activeIndex) {
             case 1:
                 content = <Chat me={attendee1}
-                                messages={messages}/>;
+                                messages={messages}
+                />;
                 break;
             case 2:
                 // Comments
                 content = <Comments me={attendee1}
                                     post={activePost}
-                                    onComment={this._handleNewComment}/>;
+                                    onComment={this._handleNewComment}
+                />;
                 break;
             default:
                 content = <AttendeeList me={attendee1}
                                         presenter={stylist}
                                         host={host}
-                                        attendees={[attendee1, attendee2]}/>;
+                                        attendees={[attendee1, attendee2]}
+                                        colors={party.colors.attendees.highlight}
+                />;
         }
         return content;
     }
@@ -595,6 +599,13 @@ const party = {
             background: '#5b2677',
             contrast: true,
             bag: 'white',
+        },
+        attendees: {
+            highlight: {
+                background: 'green',
+                online: 'white',
+                offline: 'pine',
+            }
         }
     }
 };

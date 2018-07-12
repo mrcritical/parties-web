@@ -92,6 +92,12 @@ const CatalogType = PropTypes.shape({
     categories: PropTypes.arrayOf(CategoryType),
 });
 
+const AttendeeColorsType = PropTypes.shape({
+    background: PropTypes.oneOf(['green']),
+    online: PropTypes.oneOf(['white']),
+    offline: PropTypes.oneOf(['pine']),
+});
+
 export {
     NameType,
     AttendeeType,
@@ -102,5 +108,6 @@ export {
     BagItemType,
     CatalogType,
     ProductType,
+    AttendeeColorsType,
 };
 
