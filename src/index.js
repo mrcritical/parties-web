@@ -21,7 +21,6 @@ moment.locale(language);
 
 // Try full locale, fallback to 'en'
 const messages = localeData[language] || localeData.en;
-console.log('Messages: ' + JSON.stringify(messages));
 
 // If browser doesn't support Intl (i.e. Safari), then we manually import
 // the intl polyfill and locale data.

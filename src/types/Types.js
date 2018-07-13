@@ -113,6 +113,8 @@ export {
     NameType,
     AttendeeType,
     CommentType,
+    ImageType,
+    VideoType,
     PostType,
     PostActionTriggerType,
     AvailableActionType,
