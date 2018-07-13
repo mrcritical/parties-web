@@ -2,12 +2,28 @@ import React from 'react';
 import {Box, IconButton, Image, Text} from 'gestalt';
 import {BagType} from "types/Types";
 import PropTypes from "prop-types";
-import {FormattedMessage, FormattedNumber} from 'react-intl';
+import {defineMessages, FormattedMessage, FormattedNumber, injectIntl, intlShape} from 'react-intl';
+
+const translations = defineMessages({
+    title: {
+        id: 'bag.title',
+        defaultMessage: 'Shopping List',
+    },
+    totalLabel: {
+        id: 'bag.total_label',
+        defaultMessage: 'Total',
+    },
+    removeItemLabel: {
+        id: 'remove_item_label',
+        defaultMessage: 'Remove Item',
+    }
+});
 
 class Bag extends React.Component {
 
     render() {
         const {bag} = this.props;
+        const {formatMessage} = this.props.intl;
 
         return <Box padding={3}
                     direction="column"
@@ -18,8 +34,8 @@ class Bag extends React.Component {
                       size="md"
                       align="center">
                     <FormattedMessage
-                        id="bag.title"
-                        defaultMessage="Shopping List"
+                        id={translations.title.id}
+                        defaultMessage={translations.title.defaultMessage}
                     />
                 </Text>
             </Box>
@@ -70,7 +86,7 @@ class Bag extends React.Component {
                             marginLeft={2}
                             flex="none">
                             <IconButton
-                                accessibilityLabel="Remove Item"
+                                accessibilityLabel={formatMessage(translations.removeItemLabel)}
                                 size="sm"
                                 icon="cancel"
                                 onClick={() => this.props.onRemove(item)}
@@ -84,7 +100,11 @@ class Bag extends React.Component {
                      display="flex"
                      marginTop={4}>
                     <Box flex="grow">
-                        <Text align="right">Total</Text>
+                        <Text align="right">
+                            <FormattedMessage id={translations.totalLabel.id}
+                                              defaultMessage={translations.totalLabel.defaultMessage}
+                            />
+                        </Text>
                     </Box>
                     <Box flex="none"
                          marginLeft={2}
@@ -106,10 +126,11 @@ Bag.propTypes = {
     bag: BagType.isRequired,
     onRemove: PropTypes.func.isRequired,
     currency: PropTypes.string,
+    intl: intlShape.isRequired,
 };
 
 Bag.defaultProps = {
     currency: 'USD'
 };
 
-export default Bag;
+export default injectIntl(Bag);

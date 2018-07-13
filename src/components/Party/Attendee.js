@@ -1,15 +1,13 @@
 import React from 'react';
 import {Box, Text} from 'gestalt';
-import {AttendeeType, AttendeeColorsType} from 'types/Types';
+import {AttendeeColorsType, AttendeeType} from 'types/Types';
 import PropTypes from 'prop-types';
 import AttendeeAvatar from 'components/Party/AttendeeAvatar';
 
-class Attendee extends React.Component {
-
-    render() {
-        const {me, attendee, highlight, presence, colors} = this.props;
-        const displayName = me.id === attendee.id ? 'Me' : attendee.name.first + ' ' + attendee.name.last;
-        return <Box
+function Attendee(props) {
+    const {me, attendee, highlight, presence, colors} = props;
+    const displayName = me.id === attendee.id ? 'Me' : attendee.name.first + ' ' + attendee.name.last;
+    return <Box
             alignItems="center"
             direction="row"
             display="flex"
@@ -32,7 +30,6 @@ class Attendee extends React.Component {
                 </Text>
             </Box>
         </Box>;
-    }
 }
 
 Attendee.propTypes = {

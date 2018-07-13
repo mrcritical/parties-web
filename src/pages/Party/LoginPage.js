@@ -10,7 +10,7 @@ import md5 from 'md5';
 const translations = defineMessages({
     title: {
         id: 'login.title',
-        defaultMessage: 'Before You Join',
+        defaultMessage: 'Customize Your Profile',
     },
     chooseHandleLabel: {
         id: 'login.choose_handle_label',
@@ -25,7 +25,7 @@ const translations = defineMessages({
         defaultMessage: 'Choose your avatar',
     },
     chooseAvatarDescription: {
-        id: 'login.choose_avatar_label',
+        id: 'login.choose_avatar_description',
         defaultMessage: 'It helps others quickly spot your comments among others',
     },
     joinButton: {
@@ -111,8 +111,8 @@ class LoginPage extends React.Component {
                  height="100%"
             >
                 <Box
-                    width={400}
-                    height={500}
+                    maxWidth={400}
+                    minHeight={500}
                     color="white"
                     shape="rounded"
                     padding={6}

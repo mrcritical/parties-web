@@ -13,9 +13,17 @@
     "post.default_image_caption": "Posted Image",
     "post.actions.catalog": "View Catalog",
     "bag.title": "Shopping List",
+    "bag.remove_item_label": "Remove Item",
+    "bag.total_label": "Total",
     "product.add_to_bag_button": "Add to Bag",
     "product.add_button": "Add",
     "catalog.search_place_holder": "Find my perfect match",
-    "catalog.close_button": "Back"
+    "catalog.close_button": "Back",
+    "login.title": "Customize Your Profile",
+    "login.choose_handle_label": "Choose your handle",
+    "login.choose_handle_description": "It allows others to refer to you in their comments",
+    "login.choose_avatar_label": "Choose your avatar",
+    "login.choose_avatar_description": "It helps others quickly spot your comments among others",
+    "login.join_button": "Join the Party"
   }
 }

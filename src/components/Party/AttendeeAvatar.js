@@ -3,15 +3,12 @@ import {Avatar} from 'gestalt';
 import {AttendeeType} from 'types/Types';
 import PropTypes from 'prop-types';
 
-class AttendeeAvatar extends React.Component {
-
-    render() {
-        const {me} = this.props;
-        const avatarName = me.name.first + ' ' + me.name.last;
-        return <Avatar name={avatarName}
-                       size={this.props.size}
+function AttendeeAvatar(props) {
+    const {me} = props;
+    const avatarName = me.name.first + ' ' + me.name.last;
+    return <Avatar name={avatarName}
+                       size={props.size}
                        src={me.avatar ? me.avatar.src : ''}/>;
-    }
 }
 
 AttendeeAvatar.propTypes = {

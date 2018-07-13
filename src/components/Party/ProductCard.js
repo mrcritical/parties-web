@@ -3,12 +3,16 @@ import {ProductType} from "types/Types";
 import {Box, Button, Card, Flyout, Image, SelectList, Text} from 'gestalt';
 import PropTypes from "prop-types";
 import styled from 'styled-components';
-import {intlShape, injectIntl, defineMessages, FormattedMessage} from 'react-intl';
+import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 const translations = defineMessages({
     addToBag: {
         id: 'product.add_to_bag_button',
         defaultMessage: 'Add to Bag',
+    },
+    quantityLabel: {
+        id: 'product.how_many_question',
+        defaultMessage: 'How many?',
     },
     addButton: {
         id: 'product.add_button',
@@ -109,8 +113,8 @@ class ProductCard extends React.Component {
                                               size="lg"
                                         >
                                             <FormattedMessage
-                                                id="product.how_many_question"
-                                                defaultMessage="How many?"
+                                                id={translations.quantityLabel.id}
+                                                defaultMessage={translations.quantityLabel.defaultMessage}
                                             />
                                         </Text>
                                     </Box>

@@ -3,6 +3,7 @@ import {Mask} from 'gestalt';
 import {ImageType} from 'types/Types';
 import PropTypes from 'prop-types';
 import styled, {css} from 'styled-components';
+import {defineMessages, injectIntl, intlShape} from 'react-intl';
 
 const AvatarType = PropTypes.shape({
     image: ImageType.isRequired,
@@ -15,8 +16,16 @@ const AvatarContainer = styled.div`
   `}
 `;
 
+const translations = defineMessages({
+    alt: {
+        id: 'avatar.alt_label',
+        defaultMessage: 'Avatar',
+    }
+});
+
 function AvatarChoice(props) {
     const {avatar} = props;
+    const {formatMessage} = props.intl;
     return <AvatarContainer
         selected={props.selected}
         onClick={() => {props.onClick(avatar.id)}}
@@ -27,7 +36,7 @@ function AvatarChoice(props) {
             shape="circle"
         >
             <img
-                alt="Avatar"
+                alt={formatMessage(translations.alt)}
                 src={avatar.image.src}
                 style={{maxWidth: '100%', display: 'block'}}
             />
@@ -39,6 +48,7 @@ AvatarChoice.propTypes = {
     avatar: AvatarType.isRequired,
     selected: PropTypes.bool,
     onClick: PropTypes.func.isRequired,
+    intl: intlShape.isRequired,
 };
 
 AvatarChoice.defaultProps = {
@@ -54,4 +64,4 @@ AvatarChoice.defaultProps = {
     selected: false,
 };
 
-export default AvatarChoice;
+export default injectIntl(AvatarChoice);
