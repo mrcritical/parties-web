@@ -3,7 +3,7 @@ import * as React from 'react';
 import {Box, Button, Image, Text} from 'gestalt';
 import Moment from 'react-moment';
 import 'moment-timezone';
-import type {Post, InitL} from "types/Types";
+import type {InitL, Post} from "types/Types";
 import ReactPlayer from 'react-player';
 import AttendeeAvatar from 'components/Party/AttendeeAvatar';
 import {defineMessages, injectIntl} from 'react-intl';
@@ -79,14 +79,19 @@ class PostCard extends React.Component<Props> {
                 direction="row"
                 display="flex"
                 justifyContent="center"
-                marginTop={-4}
                 padding={4}
-                marginBottom={8}
+                marginBottom={4}
             >
-                <ReactPlayer url={post.video.url}
-                             width={post.video && post.video.width ? post.video.width : 640}
-                             height={post.video && post.video.height ? post.video.height : 360}
-                             controls/>
+                <Box flex="grow"
+                     direction="column"
+                     display="flex"
+                     justifyContent="center"
+                >
+                    <ReactPlayer url={post.video.url}
+                                 width={post.video && post.video.width ? post.video.width : 640}
+                                 height={post.video && post.video.height ? post.video.height : 360}
+                                 controls/>
+                </Box>
             </Box>;
         } else {
             return null;
