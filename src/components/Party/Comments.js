@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {Box, Divider, IconButton, Text, TextArea} from 'gestalt';
 import PropTypes from "prop-types";
 import {AttendeeType, PostType} from 'types/Types';
@@ -19,7 +19,15 @@ const translations = defineMessages({
     }
 });
 
-class Comments extends React.Component {
+type Props = {
+
+};
+
+type State = {
+
+};
+
+class Comments extends React.Component<Props, State> {
 
     constructor(props) {
         super(props);

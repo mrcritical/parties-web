@@ -1,12 +1,12 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
 import {Box, Button, Image, Text} from 'gestalt';
 import Moment from 'react-moment';
 import 'moment-timezone';
-import {AvailableActionType, PostType} from "types/Types";
-import PropTypes from "prop-types";
+import type {Post, InitL} from "types/Types";
 import ReactPlayer from 'react-player';
 import AttendeeAvatar from 'components/Party/AttendeeAvatar';
-import {defineMessages, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, injectIntl} from 'react-intl';
 
 const translations = defineMessages({
     commentsLabel: {
@@ -27,24 +27,38 @@ const translations = defineMessages({
     },
 });
 
-class PostCard extends React.Component {
+type AvailableAction = {
+    name: string,
+    action: Function,
+}
 
-    constructor(props) {
-        super(props);
-        this._handleLike = this._handleLike.bind(this);
-        this.myRef = React.createRef();
-    }
+type Props = {
+    post: Post,
+    onSelect: Function,
+    onLike: Function,
+    highlighted?: boolean,
+    availableActions?: Array<AvailableAction>,
+    intl: InitL,
+};
 
-    _handleLike(post) {
+class PostCard extends React.Component<Props> {
+
+    static defaultProps = {
+        highlighted: false,
+    };
+
+    myRef = React.createRef();
+
+    _handleLike: (post : Post) => void = (post) => {
         this.props.onLike(post);
-    }
+    };
 
     getMediaContent(post) {
         const {formatMessage} = this.props.intl;
         if (post.image) {
             return <Box
                 color="white"
-                height={post.image.height ? post.image.height : 200}
+                height={post.image && post.image.height ? post.image.height : 200}
                 width="100%"
                 marginTop={-4}
                 padding={4}
@@ -52,8 +66,8 @@ class PostCard extends React.Component {
                 <Image src={post.image.url}
                        fit="cover"
                        alt={post.image.caption ? post.image.caption : formatMessage(translations.defaultImageCaption)}
-                       naturalWidth={post.image.width ? post.image.width : 0}
-                       naturalHeight={post.image.height ? post.image.height : 0}
+                       naturalWidth={post.image && post.image.width ? post.image.width : 0}
+                       naturalHeight={post.image && post.image.height ? post.image.height : 0}
                 />
             </Box>;
 
@@ -70,8 +84,8 @@ class PostCard extends React.Component {
                 marginBottom={8}
             >
                 <ReactPlayer url={post.video.url}
-                             width={post.video.width ? post.video.width : 640}
-                             height={post.video.height ? post.video.height : 360}
+                             width={post.video && post.video.width ? post.video.width : 640}
+                             height={post.video && post.video.height ? post.video.height : 360}
                              controls/>
             </Box>;
         } else {
@@ -81,6 +95,7 @@ class PostCard extends React.Component {
 
     getActions(post) {
         const {formatMessage} = this.props.intl;
+        const {availableActions} = this.props;
         if (post.actions) {
             return <Box padding={2}
                         marginTop={-4}
@@ -91,13 +106,13 @@ class PostCard extends React.Component {
                 {post.actions.map((action) => {
                     switch (action.trigger) {
                         case 'catalog':
-                            const match = this.props.availableActions.find((availableAction) => availableAction.name === action.trigger);
+                            const match = availableActions ? availableActions.find((availableAction) => availableAction.name === action.trigger) : null;
                             if (match) {
                                 const openCatalog = match.action;
                                 return <Box padding={2} flex="grow">
                                     <Button
                                         text={formatMessage(translations.catalogActionButton)}
-                                        accessibilityLabel={action.name}
+                                        accessibilityLabel={formatMessage(translations.catalogActionButton)}
                                         color="blue"
                                         size="lg"
                                         onClick={() => {
@@ -125,8 +140,8 @@ class PostCard extends React.Component {
         const {highlighted} = this.props;
         const {formatMessage} = this.props.intl;
 
-        const commentsLabel = post.comments.length + ' ' + formatMessage(translations.commentsLabel, {itemCount: post.comments.length});
-        const likesLabel = post.likes + ' ' + formatMessage(translations.likesLabel, {itemCount: post.likes});
+        const commentsLabel = (post.comments ? post.comments.length : 0) + ' ' + formatMessage(translations.commentsLabel, {itemCount: post.comments ? post.comments.length : 0});
+        const likesLabel = (post.likes ? post.likes : 0) + ' ' + formatMessage(translations.likesLabel, {itemCount: post.likes ? post.likes : 0});
         const highLightColor = highlighted ? 'darkGray' : 'white';
         const byDisplayName = post.by.name.first + ' ' + post.by.name.last;
 
@@ -197,18 +212,5 @@ class PostCard extends React.Component {
         </div>;
     }
 }
-
-PostCard.propTypes = {
-    post: PropTypes.arrayOf(PostType).isRequired,
-    onSelect: PropTypes.func.isRequired,
-    onLike: PropTypes.func.isRequired,
-    highlighted: PropTypes.bool,
-    availableActions: PropTypes.arrayOf(AvailableActionType),
-    intl: intlShape.isRequired,
-};
-
-PostCard.defaultProps = {
-    highlighted: false,
-};
 
 export default injectIntl(PostCard);

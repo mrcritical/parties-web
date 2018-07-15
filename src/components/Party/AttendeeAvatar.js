@@ -1,21 +1,23 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
 import {Avatar} from 'gestalt';
-import {AttendeeType} from 'types/Types';
-import PropTypes from 'prop-types';
+import type {Attendee} from 'types/Types';
 
-function AttendeeAvatar(props) {
+type Size = | 'sm' | 'md' | 'lg';
+
+type Props = {
+    me: Attendee,
+    size: Size,
+    presence?: boolean,
+};
+
+function AttendeeAvatar(props: Props) {
     const {me} = props;
     const avatarName = me.name.first + ' ' + me.name.last;
     return <Avatar name={avatarName}
                        size={props.size}
                        src={me.avatar ? me.avatar.url : ''}/>;
 }
-
-AttendeeAvatar.propTypes = {
-    me: AttendeeType.isRequired,
-    size: PropTypes.string,
-    presence: PropTypes.bool,
-};
 
 AttendeeAvatar.defaultProps = {
     size: 'md',

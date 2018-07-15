@@ -1,9 +1,8 @@
-import React from 'react';
-import {ProductType} from "types/Types";
+// @flow
+import * as React from 'react';
 import {Box, Button, Card, Flyout, Image, SelectList, Text} from 'gestalt';
-import PropTypes from "prop-types";
 import styled from 'styled-components';
-import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 
 const translations = defineMessages({
     addToBag: {
@@ -25,31 +24,73 @@ const Container = styled.div`
   z-index: 1001;
 `;
 
-class ProductCard extends React.Component {
+type InitL = {
+    formatMessage: Function,
+    formatNumber: Function,
+};
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            showingQuantity: false,
-            quantity: 1,
-        };
-        this._handleChange = this._handleChange.bind(this);
-    }
+type Currency = 'USD';
 
-    _handleChange({value}) {
+type ProductImage = {
+    url: string,
+    width?: number,
+    height?: number,
+    caption?: string,
+};
+
+type Product = {
+    id: string,
+    name: string,
+    image: ProductImage,
+    cost: number,
+    qualifier?: string,
+    tags?: Array<string>,
+};
+
+type Props = {
+    data: Product,
+    onAddToBag: Function,
+    currency?: Currency,
+    intl: InitL,
+};
+
+type State = {
+    showingQuantity: boolean,
+    quantity: string;
+};
+
+type Option = {
+    value: string,
+    label: string,
+};
+
+class ProductCard extends React.Component<Props, State> {
+
+    state = {
+        showingQuantity: false,
+        quantity: "1",
+    };
+
+    static defaultProps = {
+        currency: 'USD'
+    };
+
+    addButtonAnchor: any;
+
+    _handleChange: ({ event: SyntheticInputEvent<>, value: string }) => void = ({value}): void => {
         this.setState({
             quantity: value
         })
-    }
+    };
 
     render() {
-        const product = this.props.data;
+        const product: Product = this.props.data;
         const {formatMessage, formatNumber} = this.props.intl;
 
-        let amountOptions = [];
+        let amountOptions: Array<Option> = [];
         for (let i = 1; i <= 20; i++) {
             amountOptions.push({
-                value: i,
+                value: i + "",
                 label: i + ""
             });
         }
@@ -100,7 +141,6 @@ class ProductCard extends React.Component {
                             >
                                 <Box direction="column"
                                      display="flex"
-                                     flex="stretch"
                                      alignItems="center"
                                      justifyContent="center"
                                      padding={2}
@@ -145,18 +185,7 @@ class ProductCard extends React.Component {
                 </Box>
             </Card>
         </Box>;
-    }
+    };
 }
-
-ProductCard.propTypes = {
-    data: ProductType.isRequired,
-    onAddToBag: PropTypes.func.isRequired,
-    currency: PropTypes.string,
-    intl: intlShape.isRequired,
-};
-
-ProductCard.defaultProps = {
-    currency: 'USD'
-};
 
 export default injectIntl(ProductCard);

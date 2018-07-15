@@ -1,3 +1,4 @@
+// @flow
 import PropTypes from "prop-types";
 
 const NameType = PropTypes.shape({
@@ -108,6 +109,76 @@ const AttendeeColorsType = PropTypes.shape({
     offline: PropTypes.oneOf(['pine']),
 });
 
+type InitL = {
+    formatMessage: Function,
+    formatNumber: Function,
+};
+
+type MediaImage = {
+    url: string,
+    width?: number,
+    height?: number,
+    caption?: string,
+};
+
+type VideoSource = 'youtube' | 'facebook';
+
+type MediaVideo = {
+    url: string,
+    source?: Array<VideoSource>,
+    width?: number,
+    height?: number,
+};
+
+type Name = {
+    first: string,
+    last: string,
+};
+
+type AttendeeStatus = 'present' | 'no-show' | 'declined' | 'invited' | 'attended';
+
+type Attendee = {
+    id: string,
+    name: Name,
+    handle: string,
+    status?: AttendeeStatus,
+    avatar: MediaImage,
+};
+
+type Comment = {
+    id: string,
+    by: Attendee,
+    when: Date,
+    text: string,
+};
+
+type ActionTrigger = 'catalog';
+
+type PostActionTrigger = {
+    trigger: ActionTrigger,
+};
+
+type Post = {
+    id: string,
+    by: Attendee,
+    when: Date,
+    text: string,
+    likes?: number,
+    comments?: Array<Comment>,
+    image?: MediaImage,
+    video?: MediaVideo,
+    actions?: Array<PostActionTrigger>,
+};
+
+export type {
+    InitL,
+    MediaImage,
+    MediaVideo,
+    Comment,
+    Attendee,
+    Post,
+};
+
 export {
     NameType,
     AttendeeType,
@@ -116,7 +187,6 @@ export {
     VideoType,
     PostType,
     PostActionTriggerType,
-    AvailableActionType,
     MessageType,
     BagType,
     BagItemType,
