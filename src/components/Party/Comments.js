@@ -1,12 +1,12 @@
+// @flow
 import * as React from 'react';
 import {Box, Divider, IconButton, Text, TextArea} from 'gestalt';
-import PropTypes from "prop-types";
-import {AttendeeType, PostType} from 'types/Types';
+import type {AttendeeType, InitL, Post} from 'types/Types';
 import AttendeeAvatar from 'components/Party/AttendeeAvatar';
 import Moment from 'react-moment';
 import * as moment from 'moment';
 import 'moment-timezone';
-import {intlShape, injectIntl, defineMessages} from 'react-intl';
+import {defineMessages, injectIntl} from 'react-intl';
 
 const translations = defineMessages({
     placeholder: {
@@ -20,25 +20,23 @@ const translations = defineMessages({
 });
 
 type Props = {
-
+    me: AttendeeType,
+    post: Post,
+    onComment: Function,
+    intl: InitL,
 };
 
 type State = {
-
+    value: string,
 };
 
 class Comments extends React.Component<Props, State> {
 
-    constructor(props) {
-        super(props);
-        this.handleChange = this._handleChange.bind(this);
-        this._handleNewMessage = this._handleNewMessage.bind(this);
-        this.me = props.me;
-        this.state = {
-            value: '',
-        };
-        this.messagesEnd = null;
-    }
+    messagesEnd = null;
+
+    state = {
+      value: '',
+    };
 
     scrollToBottom() {
         if (this.messagesEnd) {
@@ -50,24 +48,25 @@ class Comments extends React.Component<Props, State> {
         this.scrollToBottom();
     }
 
-    _handleChange({value}) {
+    handleChange: ({ event: SyntheticInputEvent<>, value: string }) => void = ({value}) => {
         this.setState({
             value
         });
-    }
+    };
 
-    _handleNewMessage() {
+    _handleNewMessage: () => void = () => {
+        const {me} = this.props;
         this.setState({
             value: '',
         });
         // Inform the parent that this post has a new comment
         this.props.onComment(this.props.post.id, {
             id: Math.floor(Math.random() * 1001),
-            by: this.me,
+            by: me,
             when: new Date(),
             text: this.state.value,
         });
-    }
+    };
 
     render() {
         const {post, me} = this.props;
@@ -87,7 +86,7 @@ class Comments extends React.Component<Props, State> {
                  flex="none">
                 <Box>
                     <AttendeeAvatar me={post.by}
-                            size="lg"/>
+                                    size="lg"/>
                 </Box>
                 <Box direction="column"
                      display="flex"
@@ -119,7 +118,7 @@ class Comments extends React.Component<Props, State> {
                  direction="column"
                  flex="grow"
                  overflow="auto">
-                {comments.map(comment => {
+                {comments && comments.map(comment => {
                     const minutes = moment
                         .duration(now
                             .diff(moment(comment.when))
@@ -189,7 +188,7 @@ class Comments extends React.Component<Props, State> {
             >
                 <Box
                     paddingX={4}>
-                    <AttendeeAvatar me={this.me} />
+                    <AttendeeAvatar me={me} />
                 </Box>
                 <Box width="100%">
                     <TextArea
@@ -214,12 +213,5 @@ class Comments extends React.Component<Props, State> {
         </Box>;
     }
 }
-
-Comments.propTypes = {
-    me: AttendeeType.isRequired,
-    post: PostType.isRequired,
-    onComment: PropTypes.func.isRequired,
-    intl: intlShape.isRequired,
-};
 
 export default injectIntl(Comments);

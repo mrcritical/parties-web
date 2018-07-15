@@ -1,10 +1,19 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
 import {Box, Text} from 'gestalt';
-import {AttendeeColorsType, AttendeeType} from 'types/Types';
-import PropTypes from 'prop-types';
+import type {AttendeeColorsType, AttendeeType} from 'types/Types';
 import AttendeeAvatar from 'components/Party/AttendeeAvatar';
 
-function Attendee(props) {
+type Props = {
+    me: AttendeeType,
+    attendee: AttendeeType,
+    size: string,
+    presence: boolean,
+    highlight: boolean,
+    colors: AttendeeColorsType,
+};
+
+function Attendee(props: Props) {
     const {me, attendee, highlight, presence, colors} = props;
     const displayName = me.id === attendee.id ? 'Me' : attendee.name.first + ' ' + attendee.name.last;
     return <Box
@@ -31,15 +40,6 @@ function Attendee(props) {
             </Box>
         </Box>;
 }
-
-Attendee.propTypes = {
-    me: AttendeeType.isRequired,
-    attendee: AttendeeType.isRequired,
-    size: PropTypes.string,
-    presence: PropTypes.bool,
-    highlight: PropTypes.bool,
-    colors: AttendeeColorsType,
-};
 
 Attendee.defaultProps = {
     size: 'md',

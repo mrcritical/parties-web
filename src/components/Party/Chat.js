@@ -1,10 +1,10 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
 import {Box, IconButton, Text, TextArea} from 'gestalt';
 import AttendeeAvatar from 'components/Party/AttendeeAvatar';
-import PropTypes from "prop-types";
-import {AttendeeType, MessageType} from 'types/Types';
+import type {AttendeeType, InitL, Message} from 'types/Types';
 import styled from 'styled-components';
-import {defineMessages, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, injectIntl} from 'react-intl';
 
 const translations = defineMessages({
     placeholder: {
@@ -17,30 +17,41 @@ const translations = defineMessages({
     }
 });
 
-class Chat extends React.Component {
+type Props = {
+    me: AttendeeType,
+    messages: Array<Message>,
+    onNewMessage: Function,
+    intl: InitL,
+};
+
+type State = {
+    value: string,
+};
+
+class Chat extends React.Component<Props, State> {
+
+    state = {
+        value: '',
+    };
 
     constructor(props) {
         super(props);
-        this.handleChange = this._handleChange.bind(this);
-        this._handleNewMessage = this._handleNewMessage.bind(this);
-        this.state = {
-            value: '',
-        };
-        this.me = props.me;
     }
 
-    _handleChange({value}) {
+    handleChange: ({ event: SyntheticInputEvent<>, value: string }) => void = ({value}) => {
         this.setState({
             value
         });
-    }
+    };
 
-    _handleNewMessage() {
+    handleNewMessage: () => void = () => {
+        const {me} = this.props;
+
         // Only add a message if there is something there
         if(this.state.value && this.state.value.length > 0) {
             this.props.onNewMessage({
                 id: Math.floor(Math.random() * 1001),
-                by: this.me,
+                by: me,
                 when: new Date(),
                 text: this.state.value,
             });
@@ -48,10 +59,11 @@ class Chat extends React.Component {
                 value: '',
             });
         }
-    }
+    };
 
     render() {
         const {messages} = this.props;
+        const {me} = this.props;
         const {formatMessage} = this.props.intl;
 
         const Container = styled.div`
@@ -76,7 +88,7 @@ class Chat extends React.Component {
             height="100%">
             <Container>
                 {messages.map(message => {
-                    const myMessage = message.by === this.me;
+                    const myMessage = message.by === me;
                     if (myMessage) {
                         return (
                             <Box direction="row"
@@ -141,7 +153,7 @@ class Chat extends React.Component {
             >
                 <Box
                     paddingX={4}>
-                    <AttendeeAvatar me={this.me}/>
+                    <AttendeeAvatar me={me}/>
                 </Box>
                 <Box width="100%">
                     <TextArea
@@ -159,19 +171,12 @@ class Chat extends React.Component {
                         icon="send"
                         iconColor="gray"
                         size="lg"
-                        onClick={this._handleNewMessage}
+                        onClick={this.handleNewMessage}
                     />
                 </Box>
             </Box>
         </Box>;
     }
 }
-
-Chat.propTypes = {
-    me: AttendeeType.isRequired,
-    messages: PropTypes.arrayOf(MessageType).isRequired,
-    onNewMessage: PropTypes.func.isRequired,
-    intl: intlShape.isRequired,
-};
 
 export default injectIntl(Chat);

@@ -1,8 +1,8 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
 import {Box, IconButton, Image, Text} from 'gestalt';
-import {BagType} from "types/Types";
-import PropTypes from "prop-types";
-import {defineMessages, FormattedMessage, FormattedNumber, injectIntl, intlShape} from 'react-intl';
+import type {BagType, InitL} from "types/Types";
+import {defineMessages, FormattedMessage, FormattedNumber, injectIntl} from 'react-intl';
 
 const translations = defineMessages({
     title: {
@@ -19,7 +19,18 @@ const translations = defineMessages({
     }
 });
 
-class Bag extends React.Component {
+type Props = {
+    bag: BagType,
+    onRemove: Function,
+    currency: string,
+    intl: InitL,
+};
+
+class Bag extends React.Component<Props> {
+
+    static defaultProps = {
+        currency: 'USD'
+    };
 
     render() {
         const {bag} = this.props;
@@ -94,8 +105,7 @@ class Bag extends React.Component {
                         </Box>
                     </Box>;
                 })}
-                <Box justifyContent="right"
-                     alignItems="end"
+                <Box alignItems="end"
                      direction="row"
                      display="flex"
                      marginTop={4}>
@@ -121,16 +131,5 @@ class Bag extends React.Component {
         </Box>;
     }
 }
-
-Bag.propTypes = {
-    bag: BagType.isRequired,
-    onRemove: PropTypes.func.isRequired,
-    currency: PropTypes.string,
-    intl: intlShape.isRequired,
-};
-
-Bag.defaultProps = {
-    currency: 'USD'
-};
 
 export default injectIntl(Bag);

@@ -1,9 +1,9 @@
-import React from 'react';
-import {CatalogType} from "types/Types";
+// @flow
+import * as React from 'react';
+import type {CatalogType, InitL, Product} from "types/Types";
 import {Box, Button, Masonry, SearchField, Tabs} from 'gestalt';
 import ProductCard from 'components/Party/ProductCard';
-import PropTypes from "prop-types";
-import {defineMessages, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, injectIntl} from 'react-intl';
 
 const translations = defineMessages({
     searchPlaceHolder: {
@@ -16,43 +16,69 @@ const translations = defineMessages({
     }
 });
 
-class Catalog extends React.Component {
+type Props = {
+    catalog: CatalogType,
+    onAddToBag: Function,
+    hide: Function,
+    currency: string,
+    intl: InitL,
+};
+
+type State = {
+    value: string,
+    activeIndex: number,
+    products: Array<Product>,
+};
+
+type Tab = {
+  text: string,
+  href: string,
+};
+
+class Catalog extends React.Component<Props, State> {
+
+    state = {
+        value: '',
+        activeIndex: 0,
+        products: this.props.catalog.products,
+    };
+
+    tabs: Array<Tab> = [];
+
+    queries: Map<string, string> = {};
+
+    static defaultProps = {
+        currency: 'USD',
+    };
 
     constructor(props) {
         super(props);
-        this.state = {
-            value: '',
-            activeIndex: 0,
-            products: props.catalog.products,
-        };
-        this._find = this._find.bind(this);
-        this._handleTabChange = this._handleTabChange.bind(this);
         if (props.catalog.categories && props.catalog.categories.length > 0) {
             this.tabs = [{
                 text: 'All',
-                query: '',
                 href: "#",
             }];
+            this.queries['All'] = '';
             const that = this;
             props.catalog.categories.forEach(category => {
                 that.tabs.push({
                     text: category.name,
-                    query: category.id,
                     href: "#",
                 });
+                that.queries[category.name] = category.id;
             });
         }
     }
 
-    _search(query) {
-        this._find(query, false);
+    search(query) {
+        this.find(query, false);
         this.setState({
             value: query, // Add text to search box
             activeIndex: query.length === 0 ? 0 : null, // No tab highlighted if there is a value
         });
     }
 
-    _find(query, exact) {
+    find: (query: string, exact: string) => void = (query, exact) => {
         const {products} = this.props.catalog;
         const normalized = query.toLowerCase();
         const matches = products.filter(product => {
@@ -63,16 +89,16 @@ class Catalog extends React.Component {
             value: '', // No text in search box
             products: matches,
         });
-    }
+    };
 
-    _handleTabChange({activeTabIndex, event}) {
+    handleTabChange: ({ activeTabIndex: number, event: SyntheticMouseEvent<> }) => void = ({activeTabIndex, event}) => {
         event.preventDefault();
         // Change the active tab
         this.setState({
             activeIndex: activeTabIndex
         });
-        this._find(this.tabs[activeTabIndex].query, true);
-    }
+        this.find(this.queries[this.tabs[activeTabIndex].text], true);
+    };
 
     render() {
         const {products} = this.state;
@@ -86,7 +112,7 @@ class Catalog extends React.Component {
                 <Tabs
                     tabs={this.tabs}
                     activeTabIndex={this.state.activeIndex}
-                    onChange={this._handleTabChange}
+                    onChange={this.handleTabChange}
                 />
             </Box>
             : null;
@@ -118,7 +144,7 @@ class Catalog extends React.Component {
                     <SearchField
                         accessibilityLabel={formatMessage(translations.searchPlaceHolder)}
                         id="searchField"
-                        onChange={({value}) => this._search(value)}
+                        onChange={({value}) => this.search(value)}
                         placeholder={formatMessage(translations.searchPlaceHolder)}
                         value={this.state.value}
                     />
@@ -146,17 +172,5 @@ class Catalog extends React.Component {
         </Box>;
     }
 }
-
-Catalog.propTypes = {
-    catalog: CatalogType.isRequired,
-    onAddToBag: PropTypes.func.isRequired,
-    hide: PropTypes.func.isRequired,
-    currency: PropTypes.string,
-    intl: intlShape.isRequired,
-};
-
-Catalog.defaultProps = {
-    currency: 'USD'
-};
 
 export default injectIntl(Catalog);

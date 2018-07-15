@@ -1,10 +1,10 @@
 // @flow
 import PropTypes from "prop-types";
 
-const NameType = PropTypes.shape({
-    first: PropTypes.string.isRequired,
-    last: PropTypes.string.isRequired,
-});
+// const NameType = PropTypes.shape({
+//     first: PropTypes.string.isRequired,
+//     last: PropTypes.string.isRequired,
+// });
 
 const ImageType = PropTypes.shape({
     url: PropTypes.string.isRequired,
@@ -13,20 +13,20 @@ const ImageType = PropTypes.shape({
     caption: PropTypes.string,
 });
 
-const AttendeeType = PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: NameType.isRequired,
-    handle: PropTypes.string.isRequired,
-    status: PropTypes.oneOf(['present','no-show','declined','invited','attended']),
-    avatar: ImageType,
-});
+// const AttendeeType = PropTypes.shape({
+//     id: PropTypes.string.isRequired,
+//     name: NameType.isRequired,
+//     handle: PropTypes.string.isRequired,
+//     status: PropTypes.oneOf(['present','no-show','declined','invited','attended']),
+//     avatar: ImageType,
+// });
 
-const CommentType = PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    by: AttendeeType.isRequired,
-    when: PropTypes.any.isRequired,
-    text: PropTypes.string.isRequired,
-});
+// const CommentType = PropTypes.shape({
+//     id: PropTypes.string.isRequired,
+//     by: AttendeeType.isRequired,
+//     when: PropTypes.any.isRequired,
+//     text: PropTypes.string.isRequired,
+// });
 
 const VideoType = PropTypes.shape({
     url: PropTypes.string.isRequired,
@@ -41,73 +41,77 @@ const VideoType = PropTypes.shape({
     height: PropTypes.number,
 });
 
-const AvailableActionType = PropTypes.shape({
-    name: PropTypes.oneOf(['catalog']),
-    action: PropTypes.func.isRequired,
-});
+// const AvailableActionType = PropTypes.shape({
+//     name: PropTypes.oneOf(['catalog']),
+//     action: PropTypes.func.isRequired,
+// });
 
-const PostActionTriggerType = PropTypes.shape({
-    trigger: PropTypes.oneOf(['catalog']),
-});
+// const PostActionTriggerType = PropTypes.shape({
+//     trigger: PropTypes.oneOf(['catalog']),
+// });
 
-const PostType = PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    by: AttendeeType.isRequired,
-    when: PropTypes.any.isRequired,
-    text: PropTypes.string.isRequired,
-    likes: PropTypes.number,
-    comments: PropTypes.arrayOf(CommentType),
-    image: ImageType,
-    video: VideoType,
-    actions: PropTypes.arrayOf(PostActionTriggerType),
-});
+// const PostType = PropTypes.shape({
+//     id: PropTypes.string.isRequired,
+//     by: AttendeeType.isRequired,
+//     when: PropTypes.any.isRequired,
+//     text: PropTypes.string.isRequired,
+//     likes: PropTypes.number,
+//     comments: PropTypes.arrayOf(CommentType),
+//     image: ImageType,
+//     video: VideoType,
+//     actions: PropTypes.arrayOf(PostActionTriggerType),
+// });
 
-const MessageType = PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    by: AttendeeType.isRequired,
-    when: PropTypes.any.isRequired,
-    text: PropTypes.string.isRequired,
-});
+// const MessageType = PropTypes.shape({
+//     id: PropTypes.string.isRequired,
+//     by: AttendeeType.isRequired,
+//     when: PropTypes.any.isRequired,
+//     text: PropTypes.string.isRequired,
+// });
 
-const BagItemType = PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    image: ImageType.isRequired,
-    quantity: PropTypes.number.isRequired,
-    cost: PropTypes.number.isRequired,
-    total: PropTypes.number.isRequired,
-});
+// const BagItemType = PropTypes.shape({
+//     id: PropTypes.string.isRequired,
+//     name: PropTypes.string.isRequired,
+//     image: ImageType.isRequired,
+//     quantity: PropTypes.number.isRequired,
+//     cost: PropTypes.number.isRequired,
+//     total: PropTypes.number.isRequired,
+// });
 
-const BagType = PropTypes.shape({
-    items: PropTypes.arrayOf(BagItemType),
-    total: PropTypes.number.isRequired,
-});
+// const BagType = PropTypes.shape({
+//     items: PropTypes.arrayOf(BagItemType),
+//     total: PropTypes.number.isRequired,
+// });
 
-const ProductType = PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    image: ImageType.isRequired,
-    cost: PropTypes.number.isRequired,
-    qualifier: PropTypes.string,
-    tags: PropTypes.arrayOf(PropTypes.string),
-});
+// const ProductType = PropTypes.shape({
+//     id: PropTypes.string.isRequired,
+//     name: PropTypes.string.isRequired,
+//     image: ImageType.isRequired,
+//     cost: PropTypes.number.isRequired,
+//     qualifier: PropTypes.string,
+//     tags: PropTypes.arrayOf(PropTypes.string),
+// });
 
-const CategoryType = PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-});
+// const CategoryType = PropTypes.shape({
+//     id: PropTypes.string.isRequired,
+//     name: PropTypes.string.isRequired,
+// });
 
-const CatalogType = PropTypes.shape({
-    products: PropTypes.arrayOf(ProductType),
-    categories: PropTypes.arrayOf(CategoryType),
-    currency: PropTypes.string,
-});
+// const CatalogType = PropTypes.shape({
+//     products: PropTypes.arrayOf(ProductType),
+//     categories: PropTypes.arrayOf(CategoryType),
+//     currency: PropTypes.string,
+// });
 
-const AttendeeColorsType = PropTypes.shape({
-    background: PropTypes.oneOf(['green']),
-    online: PropTypes.oneOf(['white']),
-    offline: PropTypes.oneOf(['pine']),
-});
+type BackgroundColor = 'green';
+type OnlineColor = 'white';
+type OfflineColor = 'pine';
+
+type AttendeeColorsType = {
+    background?: BackgroundColor,
+    online?: OnlineColor,
+    offline?: OfflineColor,
+};
 
 type InitL = {
     formatMessage: Function,
@@ -137,7 +141,7 @@ type Name = {
 
 type AttendeeStatus = 'present' | 'no-show' | 'declined' | 'invited' | 'attended';
 
-type Attendee = {
+type AttendeeType = {
     id: string,
     name: Name,
     handle: string,
@@ -147,7 +151,7 @@ type Attendee = {
 
 type Comment = {
     id: string,
-    by: Attendee,
+    by: AttendeeType,
     when: Date,
     text: string,
 };
@@ -160,7 +164,7 @@ type PostActionTrigger = {
 
 type Post = {
     id: string,
-    by: Attendee,
+    by: AttendeeType,
     when: Date,
     text: string,
     likes?: number,
@@ -170,29 +174,77 @@ type Post = {
     actions?: Array<PostActionTrigger>,
 };
 
+type Message = {
+    id: string,
+    by: AttendeeType,
+    when: Date,
+    text: string,
+};
+
+type Product = {
+    id: string,
+    name: string,
+    image: Image,
+    cost: number,
+    qualifier?: string,
+    tags?: Array<string>,
+};
+
+type Category = {
+    id: string,
+    name: string,
+};
+
+type CatalogType = {
+    products: Array<Product>,
+    categories?: Array<Category>,
+    currency?: string,
+};
+
+type BagItem = {
+    id: string,
+    name: string,
+    image: MediaImage,
+    quantity: number,
+    cost: number,
+    total: number,
+};
+
+type BagType = {
+    items: Array<BagItem>,
+    total: number,
+};
+
 export type {
     InitL,
     MediaImage,
     MediaVideo,
     Comment,
-    Attendee,
+    AttendeeType,
     Post,
+    Message,
+    CatalogType,
+    Product,
+    Category,
+    BagType,
+    BagItem,
+    AttendeeColorsType,
 };
 
 export {
-    NameType,
-    AttendeeType,
-    CommentType,
+    //NameType,
+    //AttendeeType,
+    //CommentType,
     ImageType,
     VideoType,
-    PostType,
-    PostActionTriggerType,
-    MessageType,
-    BagType,
-    BagItemType,
-    CatalogType,
-    CategoryType,
-    ProductType,
-    AttendeeColorsType,
+    //PostType,
+    //PostActionTriggerType,
+    //MessageType,
+    //BagType,
+    //BagItemType,
+    //CatalogType,
+    //CategoryType,
+    //ProductType,
+    //AttendeeColorsType,
 };
 

@@ -1,12 +1,12 @@
 // @flow
 import * as React from 'react';
 import {Avatar} from 'gestalt';
-import type {Attendee} from 'types/Types';
+import type {AttendeeType} from 'types/Types';
 
 type Size = | 'sm' | 'md' | 'lg';
 
 type Props = {
-    me: Attendee,
+    me: AttendeeType,
     size: Size,
     presence?: boolean,
 };

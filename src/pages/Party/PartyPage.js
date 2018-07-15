@@ -1,4 +1,5 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
 import {Box, Column, Flyout, Heading, IconButton, Tabs} from 'gestalt';
 import styled, {css} from 'styled-components';
 import AttendeeList from 'components/Party/AttendeeList';
@@ -8,7 +9,8 @@ import PostCard from "components/Party/PostCard";
 import Bag from "components/Party/Bag";
 import Catalog from "components/Party/Catalog";
 import update from 'immutability-helper';
-import {defineMessages, injectIntl, intlShape} from 'react-intl';
+import type {InitL, Post, Comment, BagItem, Product, Message} from 'types/Types';
+import {defineMessages, injectIntl} from 'react-intl';
 
 // All CSS measurements based on 4px * x
 
@@ -55,27 +57,26 @@ const ContrastingContainer = styled.div`
   `}
 `;
 
-class PartyPage extends React.Component {
+type Props = {
+    intl: InitL,
+};
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            activeIndex: 0,
-            activePost: null,
-            showingBag: false,
-            showingCatalog: false,
-        };
-        this.handleChange = this._handleChange.bind(this);
-        this._handleComments = this._handleComments.bind(this);
-        this._handleNewComment = this._handleNewComment.bind(this);
-        this._handleBagButton = this._handleBagButton.bind(this);
-        this._handleHideBag = this._handleHideBag.bind(this);
-        this._toggleCatalog = this._toggleCatalog.bind(this);
-        this._addToBag = this._addToBag.bind(this);
-        this._removeFromBag = this._removeFromBag.bind(this);
-        this._onChatMessage = this._onChatMessage.bind(this);
-        this._onPostLike = this._onPostLike.bind(this);
-    }
+type State = {
+    activeIndex: number,
+    activePost: Post,
+    showingBag: boolean,
+    showingCatalog: boolean,
+    postCardRef?: any,
+};
+
+class PartyPage extends React.Component<Props, State> {
+
+    state = {
+        activeIndex: 0,
+        activePost: null,
+        showingBag: false,
+        showingCatalog: false,
+    };
 
     componentDidMount() {
         document.title = "Welcome to the Party";
@@ -90,7 +91,7 @@ class PartyPage extends React.Component {
         }
     }
 
-    _handleChange({activeTabIndex, event}) {
+    handleChange: (activeTabIndex: number, event: SyntheticMouseEvent) => void = ({activeTabIndex, event}) => {
         event.preventDefault();
         // Change the active tab
         this.setState({
@@ -102,25 +103,25 @@ class PartyPage extends React.Component {
                 this.state.postCardRef.current.scrollIntoView({behavior: "smooth"});
             }
         }
-    }
+    };
 
-    _handleComments(post, ref) {
+    _handleComments: (post: Post, ref: any) => void = (post, ref) => {
         this.setState({
             activePost: post,
             activeIndex: 0,
             postCardRef: ref,
         });
-    }
+    };
 
-    _handleNewComment(id, comment) {
+    _handleNewComment: (id: string, comment: Comment) => void = (id, comment) => {
         const post = posts.find((post) => post.id === id);
         if (post) {
             post.comments.push(comment);
         }
         this.forceUpdate();
-    }
+    };
 
-    _handleSideBar(activePost) {
+    _handleSideBar: (activePost: Post) => void = (activePost) => {
         let content;
         switch (this.state.activeIndex) {
             case 1:
@@ -145,9 +146,9 @@ class PartyPage extends React.Component {
                 />;
         }
         return content;
-    }
+    };
 
-    _handleMainContent(activePost) {
+    _handleMainContent: (activePost: Post) => void = (activePost) => {
         if(this.state.showingCatalog) {
             return <Box
                 display="flex"
@@ -185,27 +186,27 @@ class PartyPage extends React.Component {
                 })}
             </Box>;
         }
-    }
+    };
 
-    _handleBagButton() {
+    _handleBagButton: () => void = () => {
         this.setState({
             showingBag: !this.state.showingBag
         });
-    }
+    };
 
-    _handleHideBag() {
+    _handleHideBag: () => void = () => {
         this.setState({
             showingBag: false
         });
-    }
+    };
 
-    _toggleCatalog() {
+    _toggleCatalog: () => void = () => {
         this.setState({
             showingCatalog: !this.state.showingCatalog
         })
-    }
+    };
 
-    _removeFromBag(itemToRemove) {
+    _removeFromBag: (itemToRemove: BagItem) => void = (itemToRemove) => {
         const index = bag.items.findIndex(item => item.id === itemToRemove.id);
         if (index > -1) {
             bag = update(bag, {
@@ -214,9 +215,9 @@ class PartyPage extends React.Component {
             });
             this.forceUpdate();
         }
-    }
+    };
 
-    _addToBag(product, quantity) {
+    _addToBag: (product: Product, quantity: number) => void = (product, quantity) => {
         const itemTotal = product.cost * quantity;
 
         let existingItem = bag.items.find((item) => item.name === product.name);
@@ -241,14 +242,14 @@ class PartyPage extends React.Component {
             // Sow the bag after adding to it
             showingBag: true
         });
-    }
+    };
 
-    _onChatMessage(message) {
+    _onChatMessage: (message: Message) => void = (message) => {
         messages.push(message);
         this.forceUpdate();
-    }
+    };
 
-    _onPostLike(post) {
+    _onPostLike: (post: Post) => void = (post) => {
         if (post.liked) {
             post.likes--;
             post.liked = false;
@@ -257,7 +258,7 @@ class PartyPage extends React.Component {
             post.liked = true;
         }
         this.forceUpdate();
-    }
+    };
 
     render() {
         const {activePost} = this.state;
@@ -365,10 +366,6 @@ class PartyPage extends React.Component {
         </Box>;
     }
 }
-
-PartyPage.propTypes = {
-    intl: intlShape.isRequired,
-};
 
 // =====================
 // Test data
