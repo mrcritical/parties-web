@@ -101,8 +101,8 @@ class LoginPage extends React.Component {
         const {formatMessage} = this.props.intl;
         const {selectedAvatar} = this.state;
 
-        return <FullPageContainer image={party.welcome.background.image ? party.welcome.background.image.src : null}
-                                  color={party.welcome.background.color}
+        return <FullPageContainer image={party.settings.welcome.background.image ? party.settings.welcome.background.image.url : null}
+                                  color={party.settings.welcome.background.color}
         >
             <Box direction="row"
                  display="flex"
@@ -216,7 +216,7 @@ class LoginPage extends React.Component {
                             <AvatarChoice avatar={{
                                 id: this.defaultAvatarId,
                                 image: {
-                                    src: 'https://www.gravatar.com/avatar/' + md5(me.email) + '?s=50&d=identicon',
+                                    url: 'https://www.gravatar.com/avatar/' + md5(me.email) + '?s=50&d=identicon',
                                     width: 50,
                                     height: 50
                                 }
@@ -259,13 +259,15 @@ LoginPage.propTypes = {
 };
 
 const party = {
-    welcome: {
-        background: {
-            // image: {
-            //     src: 'https://colorstreet.com/wp-content/uploads/2017/11/2-24-17-Incoco-ColorStreet.jpg',
-            // },
-            color: 'purple',
-        }
+    settings: {
+        welcome: {
+            background: {
+                // image: {
+                //     url: 'https://colorstreet.com/wp-content/uploads/2017/11/2-24-17-Incoco-ColorStreet.jpg',
+                // },
+                color: 'purple',
+            }
+        },
     }
 };
 
@@ -296,7 +298,7 @@ const avatars = [
     {
         id: '1',
         image: {
-            src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTs1Mtx-INbdQ5D3Xmsyq-D3HjpKmXnhKiqJsyzfNxzJ8gx-ewB',
+            url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTs1Mtx-INbdQ5D3Xmsyq-D3HjpKmXnhKiqJsyzfNxzJ8gx-ewB',
             width: 50,
             height: 50
         }
@@ -304,7 +306,7 @@ const avatars = [
     {
         id: '2',
         image: {
-            src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThBNKVpuJZE0JcC6XD4rhGVgrIGQcBqDZ805aWiRk_EWZXB6cg',
+            url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThBNKVpuJZE0JcC6XD4rhGVgrIGQcBqDZ805aWiRk_EWZXB6cg',
             width: 50,
             height: 50
         }
@@ -312,7 +314,7 @@ const avatars = [
     {
         id: '3',
         image: {
-            src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRShKcascp7Qeo5DeMmvA1HVnJ5dp0HMsRFMgCogQnpCf-A1z9E',
+            url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRShKcascp7Qeo5DeMmvA1HVnJ5dp0HMsRFMgCogQnpCf-A1z9E',
             width: 50,
             height: 50
         }
@@ -320,7 +322,7 @@ const avatars = [
     {
         id: '4',
         image: {
-            src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr3QZAb7zfFhrw7JKUu8hGu6n9e3IFW_R1A74xF_Eav7KNT0iX',
+            url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr3QZAb7zfFhrw7JKUu8hGu6n9e3IFW_R1A74xF_Eav7KNT0iX',
             width: 50,
             height: 50
         }

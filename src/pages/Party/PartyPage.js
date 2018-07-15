@@ -145,7 +145,7 @@ class PartyPage extends React.Component {
                                         presenter={stylist}
                                         host={host}
                                         attendees={[attendee1, attendee2]}
-                                        colors={party.colors.attendees.highlight}
+                                        colors={party.settings.attendees.colors.highlight}
                 />;
         }
         return content;
@@ -299,9 +299,9 @@ class PartyPage extends React.Component {
                      display="flex"
                      direction="column"
                      height="100%">
-                    <PageHeader image={party.image}
-                                backgroundColor={party.colors.header.background}
-                                headerContrast={party.colors.header.contrast}>
+                    <PageHeader image={party.settings.header.image.url}
+                                backgroundColor={party.settings.header.colors.background}
+                                headerContrast={party.settings.header.colors.contrast}>
                         <Box direction="column"
                              display="flex"
                              height="100%">
@@ -317,7 +317,7 @@ class PartyPage extends React.Component {
                                         accessibilityLabel={formatMessage(translations.shoppingBag)}
                                         accessibilityHaspopup
                                         icon="shopping-bag"
-                                        iconColor={party.colors.header.bag}
+                                        iconColor={party.settings.header.colors.bag}
                                         onClick={this._handleBagButton}
                                     />
                                     {this.state.showingBag &&
@@ -338,8 +338,8 @@ class PartyPage extends React.Component {
                                  display="flex"
                                  width="100%"
                                  height="100%">
-                                <ContrastingContainer contrast={party.colors.header.contrast}>
-                                    <Heading color={party.colors.header.text}
+                                <ContrastingContainer contrast={party.settings.header.colors.contrast}>
+                                    <Heading color={party.settings.header.colors.text}
                                              size="lg">
                                         {party.name}
                                     </Heading>
@@ -386,7 +386,7 @@ const stylist = {
     handle: 'stylist',
     status: 'present',
     avatar: {
-        src: 'https://pinterest.github.io/gestalt/static/media/shanice.2bbdc6c0.jpg',
+        url: 'https://pinterest.github.io/gestalt/static/media/shanice.2bbdc6c0.jpg',
     },
 };
 
@@ -512,7 +512,7 @@ const posts = [
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dictum, lacus vel convallis dictum, orci lectus rutrum purus, vel tincidunt nisi nunc nec nisi. Vestibulum auctor urna sed elementum cursus. Suspendisse nec pellentesque urna. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
         likes: 2,
         image: {
-            src: 'http://www.nailposse.com/wp-content/uploads/2017/07/Mardi-Gras-Blue-Glitter_slider.jpg',
+            url: 'http://www.nailposse.com/wp-content/uploads/2017/07/Mardi-Gras-Blue-Glitter_slider.jpg',
             width: 561,
             height: 425
         },
@@ -528,7 +528,7 @@ const posts = [
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dictum, lacus vel convallis dictum, orci lectus rutrum purus, vel tincidunt nisi nunc nec nisi. Vestibulum auctor urna sed elementum cursus. Suspendisse nec pellentesque urna. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
         likes: 5,
         video: {
-            src: 'https://www.youtube.com/embed/sTYETQ2Dn7Y',
+            url: 'https://www.youtube.com/embed/sTYETQ2Dn7Y',
             type: 'youtube',
         },
         comments: [],
@@ -536,13 +536,17 @@ const posts = [
 ];
 
 let bag = {
-    items: [{
-        image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+    items: [
+        {
+            image: {
+                url: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+            },
         name: 'Atlantis',
         quantity: 2,
         costPer: 10,
         total: 20
-    }],
+        }
+    ],
     total: 20
 };
 
@@ -576,7 +580,9 @@ const catalog = {
     products: [
       {
           id: '1',
-          image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          image: {
+              url: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          },
           name: 'Atlantis 1',
           cost: 10,
           qualifier: 'set',
@@ -586,7 +592,9 @@ const catalog = {
       },
       {
           id: '2',
-          image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          image: {
+              url: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          },
           name: 'Atlantis 2',
           cost: 10,
           tags: [
@@ -595,7 +603,9 @@ const catalog = {
       },
       {
           id: '3',
-          image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          image: {
+              url: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          },
           name: 'Atlantis 3',
           cost: 10,
           tags: [
@@ -604,7 +614,9 @@ const catalog = {
       },
       {
           id: '4',
-          image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          image: {
+              url: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          },
           name: 'Atlantis 4',
           cost: 10,
           qualifier: 'set',
@@ -614,7 +626,9 @@ const catalog = {
       },
       {
           id: '5',
-          image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          image: {
+              url: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          },
           name: 'Atlantis 5',
           cost: 10,
           qualifier: 'set',
@@ -624,7 +638,9 @@ const catalog = {
       },
       {
           id: '6',
-          image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          image: {
+              url: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          },
           name: 'Atlantis 6',
           cost: 10,
           qualifier: 'set',
@@ -636,7 +652,9 @@ const catalog = {
       },
       {
           id: '7',
-          image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          image: {
+              url: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          },
           name: 'Atlantis 7',
           cost: 10,
           qualifier: 'set',
@@ -647,7 +665,9 @@ const catalog = {
       },
       {
           id: '8',
-          image: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          image: {
+              url: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
+          },
           name: 'Atlantis 8',
           cost: 10,
           qualifier: 'set',
@@ -661,21 +681,35 @@ const catalog = {
 
 const party = {
     name: "Ava's Nail Party",
-    image: 'https://vnailpro.com/wp-content/uploads/2017/08/5StarRSBanner1-min.png',
-    colors: {
+    settings: {
+        welcome: {
+            background: {
+                image: {
+                    url: 'https://colorstreet.com/wp-content/uploads/2017/11/2-24-17-Incoco-ColorStreet.jpg',
+                },
+                color: 'purple',
+            },
+        },
         header: {
-            text: 'white',
-            background: '#5b2677',
-            contrast: true,
-            bag: 'white',
+            image: {
+                url: 'https://vnailpro.com/wp-content/uploads/2017/08/5StarRSBanner1-min.png',
+            },
+            colors: {
+                text: 'white',
+                background: '#5b2677',
+                contrast: true,
+                bag: 'white',
+            },
         },
         attendees: {
-            highlight: {
-                background: 'green',
-                online: 'white',
-                offline: 'pine',
-            }
-        }
+            colors: {
+                highlight: {
+                    background: 'green',
+                    online: 'white',
+                    offline: 'pine',
+                }
+            },
+        },
     }
 };
 

@@ -52,7 +52,7 @@ class Bag extends React.Component {
                         <Box width={50}
                              height={50}
                              flex="none">
-                            <Image src={item.image}
+                            <Image src={item.image.url}
                                    alt={item.name}
                                    color="rgb(111, 91, 77)"
                                    naturalWidth={350}

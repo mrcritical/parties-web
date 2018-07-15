@@ -6,7 +6,7 @@ const NameType = PropTypes.shape({
 });
 
 const ImageType = PropTypes.shape({
-    src: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
     width: PropTypes.number,
     height: PropTypes.number,
     caption: PropTypes.string,
@@ -16,7 +16,7 @@ const AttendeeType = PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: NameType.isRequired,
     handle: PropTypes.string.isRequired,
-    status: PropTypes.oneOf(['present','joined','no-show','invited']),
+    status: PropTypes.oneOf(['present','no-show','declined','invited','attended']),
     avatar: ImageType,
 });
 
@@ -25,11 +25,10 @@ const CommentType = PropTypes.shape({
     by: AttendeeType.isRequired,
     when: PropTypes.any.isRequired,
     text: PropTypes.string.isRequired,
-    likes: PropTypes.number,
 });
 
 const VideoType = PropTypes.shape({
-    src: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
     type: PropTypes.oneOf([
         'youtube',
         'facebook',
@@ -72,7 +71,7 @@ const MessageType = PropTypes.shape({
 const BagItemType = PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
+    image: ImageType.isRequired,
     quantity: PropTypes.number.isRequired,
     cost: PropTypes.number.isRequired,
     total: PropTypes.number.isRequired,
@@ -86,7 +85,7 @@ const BagType = PropTypes.shape({
 const ProductType = PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
+    image: ImageType.isRequired,
     cost: PropTypes.number.isRequired,
     qualifier: PropTypes.string,
     tags: PropTypes.arrayOf(PropTypes.string),

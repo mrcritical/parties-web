@@ -4,6 +4,9 @@ import withRoot from '../withRoot';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import PartyPage from "./Party/PartyPage";
 import LoginPage from "./Party/LoginPage";
+import AdminDashboardPage from "./Admin/DashboardPage";
+import AdminPartiesPage from "./Admin/PartiesPage";
+import AdminPartyPage from "./Admin/PartyPage";
 import Moment from 'react-moment';
 import 'moment-timezone';
 import 'gestalt/dist/gestalt.css';
@@ -33,6 +36,15 @@ class Index extends React.Component {
                         )}/>
                         <Route path="/parties/:partyId" render={props => (
                             <PartyPage {...props.match.params}/>
+                        )}/>
+                        <Route path="/admin" render={props => (
+                            <AdminDashboardPage {...props.match.params}/>
+                        )}/>
+                        <Route path="/admin/parties" render={props => (
+                            <AdminPartiesPage {...props.match.params}/>
+                        )}/>
+                        <Route path="/admin/parties/:partyId" render={props => (
+                            <AdminPartyPage {...props.match.params}/>
                         )}/>
                     </Switch>
                 </PageContainer>

@@ -59,7 +59,7 @@ class ProductCard extends React.Component {
             shape="rounded">
             <Card
                 image={
-                    <Image src={product.image}
+                    <Image src={product.image.url}
                            alt={product.name}
                            naturalHeight={50}
                            naturalWidth={50}

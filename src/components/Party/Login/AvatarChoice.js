@@ -37,7 +37,7 @@ function AvatarChoice(props) {
         >
             <img
                 alt={formatMessage(translations.alt)}
-                src={avatar.image.src}
+                src={avatar.image.url}
                 style={{maxWidth: '100%', display: 'block'}}
             />
         </Mask>
@@ -54,7 +54,7 @@ AvatarChoice.propTypes = {
 AvatarChoice.defaultProps = {
     avatar: {
         image: {
-            src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTs1Mtx-INbdQ5D3Xmsyq-D3HjpKmXnhKiqJsyzfNxzJ8gx-ewB',
+            url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTs1Mtx-INbdQ5D3Xmsyq-D3HjpKmXnhKiqJsyzfNxzJ8gx-ewB',
             width: 70,
             height: 70,
         }

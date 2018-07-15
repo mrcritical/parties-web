@@ -8,7 +8,7 @@ function AttendeeAvatar(props) {
     const avatarName = me.name.first + ' ' + me.name.last;
     return <Avatar name={avatarName}
                        size={props.size}
-                       src={me.avatar ? me.avatar.src : ''}/>;
+                       src={me.avatar ? me.avatar.url : ''}/>;
 }
 
 AttendeeAvatar.propTypes = {

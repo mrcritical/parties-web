@@ -49,7 +49,7 @@ class PostCard extends React.Component {
                 marginTop={-4}
                 padding={4}
             >
-                <Image src={post.image.src}
+                <Image src={post.image.url}
                        fit="cover"
                        alt={post.image.caption ? post.image.caption : formatMessage(translations.defaultImageCaption)}
                        naturalWidth={post.image.width ? post.image.width : 0}
@@ -69,7 +69,7 @@ class PostCard extends React.Component {
                 padding={4}
                 marginBottom={8}
             >
-                <ReactPlayer url={post.video.src}
+                <ReactPlayer url={post.video.url}
                              width={post.video.width ? post.video.width : 640}
                              height={post.video.height ? post.video.height : 360}
                              controls/>
