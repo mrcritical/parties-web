@@ -36,7 +36,8 @@
     "start": "NODE_PATH=src/ react-scripts start",
     "build": "NODE_PATH=src/ react-scripts build",
     "test": "NODE_PATH=src/ react-scripts test --env=jsdom",
-    "eject": "NODE_PATH=src/ react-scripts eject"
+    "eject": "NODE_PATH=src/ react-scripts eject",
+    "flow": "flow"
   },
   "devDependencies": {
     "flow-bin": "^0.76.0"
