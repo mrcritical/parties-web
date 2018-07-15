@@ -41,10 +41,6 @@ const FullPageContainer = styled.div`
     ${props => props.image && css`
       background-image: url(${props => props.image});
       background-size: cover;
-      -ms-background-size: cover; 
-      -o-background-size: cover; 
-      -moz-background-size: cover;
-      -webkit-background-size: cover;
     `}
 `;
 

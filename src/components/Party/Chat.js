@@ -66,7 +66,6 @@ class Chat extends React.Component {
            min-width: 0;
            padding: 16px;
            height: 100%;
-           -webkit-box-sizing: border-box;
            box-sizing: border-box;
         `;
 
