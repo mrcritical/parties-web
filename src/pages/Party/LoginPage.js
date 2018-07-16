@@ -53,7 +53,7 @@ type Props = {
 type State = {
     selectedAvatar: string,
     handleValue: string,
-    handleErrorMessage: ?string,
+    handleErrorMessage?: string,
 };
 
 class LoginPage extends React.Component<Props, State> {
@@ -63,7 +63,6 @@ class LoginPage extends React.Component<Props, State> {
     state = {
         selectedAvatar: this.defaultAvatarId,
         handleValue: me.name.first + '.' + me.name.last,
-        handleErrorMessage: null,
     };
 
     onAvatarChange: (id: string) => void = (id) => {
@@ -72,10 +71,10 @@ class LoginPage extends React.Component<Props, State> {
         });
     };
 
-    onHandleChange: (event: SyntheticInputEvent<>, value: string) => void = ({value}) => {
+    onHandleChange: ({event: SyntheticInputEvent<>, value: string }) => void = ({value}) => {
         this.setState({
             handleValue: value.trim(),
-            handleErrorMessage: null,
+            handleErrorMessage: undefined,
         });
 
         if (value === null || value.length === 0) {

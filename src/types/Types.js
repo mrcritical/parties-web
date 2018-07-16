@@ -65,6 +65,7 @@ type PostType = {
     when: Date,
     text: string,
     likes?: number,
+    liked?: boolean,
     comments?: Array<CommentType>,
     image?: MediaImageType,
     video?: MediaVideoType,
@@ -114,6 +115,7 @@ type BagType = {
 
 export type {
     IntLType,
+    NameType,
     MediaImageType,
     MediaVideoType,
     CommentType,

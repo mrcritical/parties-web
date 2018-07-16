@@ -71,7 +71,7 @@ const party = {
             }
         }
     ],
-    invited: [
+    guests: [
         {
             id: '',
             name: {

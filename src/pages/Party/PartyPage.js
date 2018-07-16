@@ -66,7 +66,7 @@ type State = {
     activePost: ?PostType,
     showingBag: boolean,
     showingCatalog: boolean,
-    postCardRef?: any,
+    postCardRef: ?any,
 };
 
 class PartyPage extends React.Component<Props, State> {
@@ -76,6 +76,7 @@ class PartyPage extends React.Component<Props, State> {
         activePost: null,
         showingBag: false,
         showingCatalog: false,
+        postCardRef: null,
     };
 
     componentDidMount() {
@@ -91,7 +92,7 @@ class PartyPage extends React.Component<Props, State> {
         }
     }
 
-    handleChange: (activeTabIndex: number, event: SyntheticMouseEvent) => void = ({activeTabIndex, event}) => {
+    handleChange: ({ event: SyntheticMouseEvent<>, activeTabIndex: number }) => void = ({event, activeTabIndex}) => {
         event.preventDefault();
         // Change the active tab
         this.setState({
@@ -99,7 +100,7 @@ class PartyPage extends React.Component<Props, State> {
         });
         if (activeTabIndex === 2) {
             // Scroll to the post, if showing comments, making sure it is in view
-            if (this.state.postCardRef.current) {
+            if (this.state.postCardRef && this.state.postCardRef.current) {
                 this.state.postCardRef.current.scrollIntoView({behavior: "smooth"});
             }
         }
@@ -121,7 +122,7 @@ class PartyPage extends React.Component<Props, State> {
         this.forceUpdate();
     };
 
-    _handleSideBar: (activePost: PostType) => void = (activePost) => {
+    _handleSideBar: (activePost: PostType) => React.Element = (activePost) => {
         let content;
         switch (this.state.activeIndex) {
             case 1:
@@ -148,7 +149,7 @@ class PartyPage extends React.Component<Props, State> {
         return content;
     };
 
-    _handleMainContent: (activePost: PostType) => void = (activePost) => {
+    _handleMainContent: (activePost: PostType) => React.Element = (activePost) => {
         if(this.state.showingCatalog) {
             return <Box
                 display="flex"
@@ -391,6 +392,9 @@ const host = {
     },
     handle: 'host',
     status: 'invited',
+    avatar: {
+        url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRShKcascp7Qeo5DeMmvA1HVnJ5dp0HMsRFMgCogQnpCf-A1z9E',
+    },
 };
 
 const attendee1 = {
@@ -401,6 +405,9 @@ const attendee1 = {
     },
     handle: 'jane.doe',
     status: 'present',
+    avatar: {
+        url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThBNKVpuJZE0JcC6XD4rhGVgrIGQcBqDZ805aWiRk_EWZXB6cg',
+    },
 };
 
 const attendee2 = {
@@ -411,6 +418,9 @@ const attendee2 = {
     },
     handle: 'stacy.smith',
     status: 'invited',
+    avatar: {
+        url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr3QZAb7zfFhrw7JKUu8hGu6n9e3IFW_R1A74xF_Eav7KNT0iX',
+    },
 };
 
 const messages = [
@@ -531,13 +541,14 @@ const posts = [
 let bag = {
     items: [
         {
+            id: Math.floor(Math.random() * 1000) + '',
             image: {
                 url: 'https://www.sassydirect.com/uploads/news-pictures/11323-las-vegas-blog-post-image-20180312111027.jpg',
             },
-        name: 'Atlantis',
-        quantity: 2,
-        costPer: 10,
-        total: 20
+            name: 'Atlantis 1',
+            quantity: 2,
+            costPer: 10,
+            total: 20,
         }
     ],
     total: 20
