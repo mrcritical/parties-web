@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import {Box, Divider, IconButton, Text, TextArea} from 'gestalt';
-import type {AttendeeType, InitL, Post} from 'types/Types';
+import type {AttendeeType, IntLType, PostType} from 'types/Types';
 import AttendeeAvatar from 'components/Party/AttendeeAvatar';
 import Moment from 'react-moment';
 import * as moment from 'moment';
@@ -21,9 +21,9 @@ const translations = defineMessages({
 
 type Props = {
     me: AttendeeType,
-    post: Post,
+    post: PostType,
     onComment: Function,
-    intl: InitL,
+    intl: IntLType,
 };
 
 type State = {

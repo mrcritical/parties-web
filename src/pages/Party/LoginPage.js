@@ -1,6 +1,8 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
 import {Box, Button, Heading, Text, TextField} from 'gestalt';
-import {defineMessages, FormattedMessage, injectIntl, intlShape} from "react-intl";
+import {defineMessages, FormattedMessage, injectIntl} from "react-intl";
+import type {IntLType} from "types/Types";
 import AvatarChoice from 'components/Party/Login/AvatarChoice';
 import {withRouter} from 'react-router-dom'
 import compose from 'recompose/compose';
@@ -44,27 +46,33 @@ const FullPageContainer = styled.div`
     `}
 `;
 
-class LoginPage extends React.Component {
+type Props = {
+    intl: IntLType,
+};
 
-    constructor(props) {
-        super(props);
-        this.defaultAvatarId = Math.floor(Math.random() * 1000);
-        this.state = {
-            selectedAvatar: this.defaultAvatarId,
-            handleValue: me.name.first + '.' + me.name.last,
-            handleErrorMessage: null,
-        };
-        this.onAvatarChange = this.onAvatarChange.bind(this);
-        this.onHandleChange = this.onHandleChange.bind(this);
-    }
+type State = {
+    selectedAvatar: string,
+    handleValue: string,
+    handleErrorMessage: ?string,
+};
 
-    onAvatarChange(id) {
+class LoginPage extends React.Component<Props, State> {
+
+    defaultAvatarId = Math.floor(Math.random() * 1000) + '';
+
+    state = {
+        selectedAvatar: this.defaultAvatarId,
+        handleValue: me.name.first + '.' + me.name.last,
+        handleErrorMessage: null,
+    };
+
+    onAvatarChange: (id: string) => void = (id) => {
         this.setState({
             selectedAvatar: id,
         });
-    }
+    };
 
-    onHandleChange({value}) {
+    onHandleChange: (event: SyntheticInputEvent<>, value: string) => void = ({value}) => {
         this.setState({
             handleValue: value.trim(),
             handleErrorMessage: null,
@@ -91,7 +99,7 @@ class LoginPage extends React.Component {
                 handleErrorMessage: "Handle already taken"
             });
         }
-    }
+    };
 
     render() {
         const {formatMessage} = this.props.intl;
@@ -249,10 +257,6 @@ class LoginPage extends React.Component {
         </FullPageContainer>;
     }
 }
-
-LoginPage.propTypes = {
-    intl: intlShape.isRequired,
-};
 
 const party = {
     settings: {

@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import type {CatalogType, InitL, Product} from "types/Types";
+import type {CatalogType, IntLType, ProductType} from "types/Types";
 import {Box, Button, Masonry, SearchField, Tabs} from 'gestalt';
 import ProductCard from 'components/Party/ProductCard';
 import {defineMessages, injectIntl} from 'react-intl';
@@ -21,19 +21,19 @@ type Props = {
     onAddToBag: Function,
     hide: Function,
     currency: string,
-    intl: InitL,
+    intl: IntLType,
 };
 
 type State = {
     value: string,
     activeIndex: number,
-    products: Array<Product>,
+    products: Array<ProductType>,
 };
 
-type Tab = {
-  text: string,
-  href: string,
-};
+type TabType = {|
+    text: any,
+    href: string,
+|};
 
 class Catalog extends React.Component<Props, State> {
 
@@ -43,9 +43,9 @@ class Catalog extends React.Component<Props, State> {
         products: this.props.catalog.products,
     };
 
-    tabs: Array<Tab> = [];
+    tabs: Array<TabType> = [];
 
-    queries: Map<string, string> = {};
+    queries: Map<string, string> = new Map();
 
     static defaultProps = {
         currency: 'USD',
@@ -58,14 +58,15 @@ class Catalog extends React.Component<Props, State> {
                 text: 'All',
                 href: "#",
             }];
-            this.queries['All'] = '';
+            this.queries.set('All', '');
             const that = this;
-            props.catalog.categories.forEach(category => {
+            const categories = props.catalog.categories;
+            categories.forEach(category => {
                 that.tabs.push({
                     text: category.name,
                     href: "#",
                 });
-                that.queries[category.name] = category.id;
+                that.queries.set(category.name,  category.id);
             });
         }
     }
@@ -74,11 +75,11 @@ class Catalog extends React.Component<Props, State> {
         this.find(query, false);
         this.setState({
             value: query, // Add text to search box
-            activeIndex: query.length === 0 ? 0 : null, // No tab highlighted if there is a value
+            activeIndex: query.length === 0 ? 0 : -1, // No tab highlighted if there is a value
         });
     }
 
-    find: (query: string, exact: string) => void = (query, exact) => {
+    find: (query: string, exact: boolean) => void = (query, exact) => {
         const {products} = this.props.catalog;
         const normalized = query.toLowerCase();
         const matches = products.filter(product => {
@@ -97,7 +98,13 @@ class Catalog extends React.Component<Props, State> {
         this.setState({
             activeIndex: activeTabIndex
         });
-        this.find(this.queries[this.tabs[activeTabIndex].text], true);
+        const selectedTab = this.tabs[activeTabIndex];
+        if(selectedTab) {
+            const query = this.queries.get(selectedTab.text);
+            if(query) {
+                this.find(query, true);
+            }
+        }
     };
 
     render() {

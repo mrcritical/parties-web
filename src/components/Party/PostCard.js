@@ -3,7 +3,7 @@ import * as React from 'react';
 import {Box, Button, Image, Text} from 'gestalt';
 import Moment from 'react-moment';
 import 'moment-timezone';
-import type {InitL, Post} from "types/Types";
+import type {IntLType, PostType} from "types/Types";
 import ReactPlayer from 'react-player';
 import AttendeeAvatar from 'components/Party/AttendeeAvatar';
 import {defineMessages, injectIntl} from 'react-intl';
@@ -27,18 +27,18 @@ const translations = defineMessages({
     },
 });
 
-type AvailableAction = {
+type AvailableActionType = {
     name: string,
     action: Function,
 }
 
 type Props = {
-    post: Post,
+    post: PostType,
     onSelect: Function,
     onLike: Function,
     highlighted?: boolean,
-    availableActions?: Array<AvailableAction>,
-    intl: InitL,
+    availableActions?: Array<AvailableActionType>,
+    intl: IntLType,
 };
 
 class PostCard extends React.Component<Props> {
@@ -49,7 +49,7 @@ class PostCard extends React.Component<Props> {
 
     myRef = React.createRef();
 
-    _handleLike: (post : Post) => void = (post) => {
+    _handleLike: (post : PostType) => void = (post) => {
         this.props.onLike(post);
     };
 

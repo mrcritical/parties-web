@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import {Box, IconButton, Image, Text} from 'gestalt';
-import type {BagType, InitL} from "types/Types";
+import type {BagType, IntLType} from "types/Types";
 import {defineMessages, FormattedMessage, FormattedNumber, injectIntl} from 'react-intl';
 
 const translations = defineMessages({
@@ -23,7 +23,7 @@ type Props = {
     bag: BagType,
     onRemove: Function,
     currency: string,
-    intl: InitL,
+    intl: IntLType,
 };
 
 class Bag extends React.Component<Props> {

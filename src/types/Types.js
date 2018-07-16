@@ -1,250 +1,130 @@
 // @flow
-import PropTypes from "prop-types";
 
-// const NameType = PropTypes.shape({
-//     first: PropTypes.string.isRequired,
-//     last: PropTypes.string.isRequired,
-// });
-
-const ImageType = PropTypes.shape({
-    url: PropTypes.string.isRequired,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    caption: PropTypes.string,
-});
-
-// const AttendeeType = PropTypes.shape({
-//     id: PropTypes.string.isRequired,
-//     name: NameType.isRequired,
-//     handle: PropTypes.string.isRequired,
-//     status: PropTypes.oneOf(['present','no-show','declined','invited','attended']),
-//     avatar: ImageType,
-// });
-
-// const CommentType = PropTypes.shape({
-//     id: PropTypes.string.isRequired,
-//     by: AttendeeType.isRequired,
-//     when: PropTypes.any.isRequired,
-//     text: PropTypes.string.isRequired,
-// });
-
-const VideoType = PropTypes.shape({
-    url: PropTypes.string.isRequired,
-    type: PropTypes.oneOf([
-        'youtube',
-        'facebook',
-        'soundcloud',
-        'vimeo',
-        'mp4'
-    ]).isRequired,
-    width: PropTypes.number,
-    height: PropTypes.number,
-});
-
-// const AvailableActionType = PropTypes.shape({
-//     name: PropTypes.oneOf(['catalog']),
-//     action: PropTypes.func.isRequired,
-// });
-
-// const PostActionTriggerType = PropTypes.shape({
-//     trigger: PropTypes.oneOf(['catalog']),
-// });
-
-// const PostType = PropTypes.shape({
-//     id: PropTypes.string.isRequired,
-//     by: AttendeeType.isRequired,
-//     when: PropTypes.any.isRequired,
-//     text: PropTypes.string.isRequired,
-//     likes: PropTypes.number,
-//     comments: PropTypes.arrayOf(CommentType),
-//     image: ImageType,
-//     video: VideoType,
-//     actions: PropTypes.arrayOf(PostActionTriggerType),
-// });
-
-// const MessageType = PropTypes.shape({
-//     id: PropTypes.string.isRequired,
-//     by: AttendeeType.isRequired,
-//     when: PropTypes.any.isRequired,
-//     text: PropTypes.string.isRequired,
-// });
-
-// const BagItemType = PropTypes.shape({
-//     id: PropTypes.string.isRequired,
-//     name: PropTypes.string.isRequired,
-//     image: ImageType.isRequired,
-//     quantity: PropTypes.number.isRequired,
-//     cost: PropTypes.number.isRequired,
-//     total: PropTypes.number.isRequired,
-// });
-
-// const BagType = PropTypes.shape({
-//     items: PropTypes.arrayOf(BagItemType),
-//     total: PropTypes.number.isRequired,
-// });
-
-// const ProductType = PropTypes.shape({
-//     id: PropTypes.string.isRequired,
-//     name: PropTypes.string.isRequired,
-//     image: ImageType.isRequired,
-//     cost: PropTypes.number.isRequired,
-//     qualifier: PropTypes.string,
-//     tags: PropTypes.arrayOf(PropTypes.string),
-// });
-
-// const CategoryType = PropTypes.shape({
-//     id: PropTypes.string.isRequired,
-//     name: PropTypes.string.isRequired,
-// });
-
-// const CatalogType = PropTypes.shape({
-//     products: PropTypes.arrayOf(ProductType),
-//     categories: PropTypes.arrayOf(CategoryType),
-//     currency: PropTypes.string,
-// });
-
-type BackgroundColor = 'green';
-type OnlineColor = 'white';
-type OfflineColor = 'pine';
+type BackgroundColorType = 'green';
+type OnlineColorType = 'white';
+type OfflineColorType = 'pine';
 
 type AttendeeColorsType = {
-    background?: BackgroundColor,
-    online?: OnlineColor,
-    offline?: OfflineColor,
+    background?: BackgroundColorType,
+    online?: OnlineColorType,
+    offline?: OfflineColorType,
 };
 
-type InitL = {
+type IntLType = {
     formatMessage: Function,
     formatNumber: Function,
 };
 
-type MediaImage = {
+type MediaImageType = {
     url: string,
     width?: number,
     height?: number,
     caption?: string,
 };
 
-type VideoSource = 'youtube' | 'facebook';
+type VideoSourceType = 'youtube' | 'facebook';
 
-type MediaVideo = {
+type MediaVideoType = {
     url: string,
-    source?: Array<VideoSource>,
+    source?: Array<VideoSourceType>,
     width?: number,
     height?: number,
 };
 
-type Name = {
+type NameType = {
     first: string,
     last: string,
 };
 
-type AttendeeStatus = 'present' | 'no-show' | 'declined' | 'invited' | 'attended';
+type AttendeeStatusType = 'present' | 'no-show' | 'declined' | 'invited' | 'attended';
 
 type AttendeeType = {
     id: string,
-    name: Name,
+    name: NameType,
     handle: string,
-    status?: AttendeeStatus,
-    avatar: MediaImage,
+    status?: AttendeeStatusType,
+    avatar: MediaImageType,
 };
 
-type Comment = {
+type CommentType = {
     id: string,
     by: AttendeeType,
     when: Date,
     text: string,
 };
 
-type ActionTrigger = 'catalog';
+type ActionTriggerType = 'catalog';
 
-type PostActionTrigger = {
-    trigger: ActionTrigger,
+type PostActionTriggerType = {
+    trigger: ActionTriggerType,
 };
 
-type Post = {
+type PostType = {
     id: string,
     by: AttendeeType,
     when: Date,
     text: string,
     likes?: number,
-    comments?: Array<Comment>,
-    image?: MediaImage,
-    video?: MediaVideo,
-    actions?: Array<PostActionTrigger>,
+    comments?: Array<CommentType>,
+    image?: MediaImageType,
+    video?: MediaVideoType,
+    actions?: Array<PostActionTriggerType>,
 };
 
-type Message = {
+type MessageType = {
     id: string,
     by: AttendeeType,
     when: Date,
     text: string,
 };
 
-type Product = {
+type ProductType = {
     id: string,
     name: string,
-    image: Image,
+    image: MediaImageType,
     cost: number,
     qualifier?: string,
     tags?: Array<string>,
 };
 
-type Category = {
+type CategoryType = {
     id: string,
     name: string,
 };
 
 type CatalogType = {
-    products: Array<Product>,
-    categories?: Array<Category>,
+    products: Array<ProductType>,
+    categories?: Array<CategoryType>,
     currency?: string,
 };
 
-type BagItem = {
+type BagItemType = {
     id: string,
     name: string,
-    image: MediaImage,
+    image: MediaImageType,
     quantity: number,
     cost: number,
     total: number,
 };
 
 type BagType = {
-    items: Array<BagItem>,
+    items: Array<BagItemType>,
     total: number,
 };
 
 export type {
-    InitL,
-    MediaImage,
-    MediaVideo,
-    Comment,
+    IntLType,
+    MediaImageType,
+    MediaVideoType,
+    CommentType,
     AttendeeType,
-    Post,
-    Message,
+    PostType,
+    MessageType,
     CatalogType,
-    Product,
-    Category,
+    ProductType,
+    CategoryType,
     BagType,
-    BagItem,
+    BagItemType,
     AttendeeColorsType,
-};
-
-export {
-    //NameType,
-    //AttendeeType,
-    //CommentType,
-    ImageType,
-    VideoType,
-    //PostType,
-    //PostActionTriggerType,
-    //MessageType,
-    //BagType,
-    //BagItemType,
-    //CatalogType,
-    //CategoryType,
-    //ProductType,
-    //AttendeeColorsType,
 };
 

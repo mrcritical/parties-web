@@ -2,7 +2,7 @@
 import * as React from 'react';
 import {Box, IconButton, Text, TextArea} from 'gestalt';
 import AttendeeAvatar from 'components/Party/AttendeeAvatar';
-import type {AttendeeType, InitL, Message} from 'types/Types';
+import type {AttendeeType, IntLType, MessageType} from 'types/Types';
 import styled from 'styled-components';
 import {defineMessages, injectIntl} from 'react-intl';
 
@@ -19,9 +19,9 @@ const translations = defineMessages({
 
 type Props = {
     me: AttendeeType,
-    messages: Array<Message>,
+    messages: Array<MessageType>,
     onNewMessage: Function,
-    intl: InitL,
+    intl: IntLType,
 };
 
 type State = {

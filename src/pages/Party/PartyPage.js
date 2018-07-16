@@ -9,7 +9,7 @@ import PostCard from "components/Party/PostCard";
 import Bag from "components/Party/Bag";
 import Catalog from "components/Party/Catalog";
 import update from 'immutability-helper';
-import type {InitL, Post, Comment, BagItem, Product, Message} from 'types/Types';
+import type {BagItemType, CommentType, IntLType, MessageType, PostType, ProductType} from 'types/Types';
 import {defineMessages, injectIntl} from 'react-intl';
 
 // All CSS measurements based on 4px * x
@@ -58,12 +58,12 @@ const ContrastingContainer = styled.div`
 `;
 
 type Props = {
-    intl: InitL,
+    intl: IntLType,
 };
 
 type State = {
     activeIndex: number,
-    activePost: Post,
+    activePost: ?PostType,
     showingBag: boolean,
     showingCatalog: boolean,
     postCardRef?: any,
@@ -105,7 +105,7 @@ class PartyPage extends React.Component<Props, State> {
         }
     };
 
-    _handleComments: (post: Post, ref: any) => void = (post, ref) => {
+    _handleComments: (post: PostType, ref: any) => void = (post, ref) => {
         this.setState({
             activePost: post,
             activeIndex: 0,
@@ -113,7 +113,7 @@ class PartyPage extends React.Component<Props, State> {
         });
     };
 
-    _handleNewComment: (id: string, comment: Comment) => void = (id, comment) => {
+    _handleNewComment: (id: string, comment: CommentType) => void = (id, comment) => {
         const post = posts.find((post) => post.id === id);
         if (post) {
             post.comments.push(comment);
@@ -121,7 +121,7 @@ class PartyPage extends React.Component<Props, State> {
         this.forceUpdate();
     };
 
-    _handleSideBar: (activePost: Post) => void = (activePost) => {
+    _handleSideBar: (activePost: PostType) => void = (activePost) => {
         let content;
         switch (this.state.activeIndex) {
             case 1:
@@ -148,7 +148,7 @@ class PartyPage extends React.Component<Props, State> {
         return content;
     };
 
-    _handleMainContent: (activePost: Post) => void = (activePost) => {
+    _handleMainContent: (activePost: PostType) => void = (activePost) => {
         if(this.state.showingCatalog) {
             return <Box
                 display="flex"
@@ -206,7 +206,7 @@ class PartyPage extends React.Component<Props, State> {
         })
     };
 
-    _removeFromBag: (itemToRemove: BagItem) => void = (itemToRemove) => {
+    _removeFromBag: (itemToRemove: BagItemType) => void = (itemToRemove) => {
         const index = bag.items.findIndex(item => item.id === itemToRemove.id);
         if (index > -1) {
             bag = update(bag, {
@@ -217,7 +217,7 @@ class PartyPage extends React.Component<Props, State> {
         }
     };
 
-    _addToBag: (product: Product, quantity: number) => void = (product, quantity) => {
+    _addToBag: (product: ProductType, quantity: number) => void = (product, quantity) => {
         const itemTotal = product.cost * quantity;
 
         let existingItem = bag.items.find((item) => item.name === product.name);
@@ -244,12 +244,12 @@ class PartyPage extends React.Component<Props, State> {
         });
     };
 
-    _onChatMessage: (message: Message) => void = (message) => {
+    _onChatMessage: (message: MessageType) => void = (message) => {
         messages.push(message);
         this.forceUpdate();
     };
 
-    _onPostLike: (post: Post) => void = (post) => {
+    _onPostLike: (post: PostType) => void = (post) => {
         if (post.liked) {
             post.likes--;
             post.liked = false;

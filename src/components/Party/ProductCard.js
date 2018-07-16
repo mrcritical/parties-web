@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react';
 import {Box, Button, Card, Flyout, Image, SelectList, Text} from 'gestalt';
+import type {IntLType, ProductType} from "types/Types";
 import styled from 'styled-components';
 import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 
@@ -24,34 +25,13 @@ const Container = styled.div`
   z-index: 1001;
 `;
 
-type InitL = {
-    formatMessage: Function,
-    formatNumber: Function,
-};
-
 type Currency = 'USD';
 
-type ProductImage = {
-    url: string,
-    width?: number,
-    height?: number,
-    caption?: string,
-};
-
-type Product = {
-    id: string,
-    name: string,
-    image: ProductImage,
-    cost: number,
-    qualifier?: string,
-    tags?: Array<string>,
-};
-
 type Props = {
-    data: Product,
+    data: ProductType,
     onAddToBag: Function,
     currency?: Currency,
-    intl: InitL,
+    intl: IntLType,
 };
 
 type State = {
@@ -84,7 +64,7 @@ class ProductCard extends React.Component<Props, State> {
     };
 
     render() {
-        const product: Product = this.props.data;
+        const product: ProductType = this.props.data;
         const {formatMessage, formatNumber} = this.props.intl;
 
         let amountOptions: Array<Option> = [];

@@ -1,13 +1,9 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
 import {Mask} from 'gestalt';
-import {ImageType} from 'types/Types';
-import PropTypes from 'prop-types';
+import type {IntLType, MediaImageType} from 'types/Types';
 import styled, {css} from 'styled-components';
-import {defineMessages, injectIntl, intlShape} from 'react-intl';
-
-const AvatarType = PropTypes.shape({
-    image: ImageType.isRequired,
-});
+import {defineMessages, injectIntl} from 'react-intl';
 
 const AvatarContainer = styled.div`
   ${props => props.selected && css`
@@ -23,7 +19,19 @@ const translations = defineMessages({
     }
 });
 
-function AvatarChoice(props) {
+type AvatarType = {
+    id: string,
+    image: MediaImageType,
+};
+
+type Props = {
+    avatar: AvatarType,
+    selected?: boolean,
+    onClick: Function,
+    intl: IntLType,
+}
+
+function AvatarChoice(props: Props) {
     const {avatar} = props;
     const {formatMessage} = props.intl;
     return <AvatarContainer
@@ -43,13 +51,6 @@ function AvatarChoice(props) {
         </Mask>
     </AvatarContainer>;
 }
-
-AvatarChoice.propTypes = {
-    avatar: AvatarType.isRequired,
-    selected: PropTypes.bool,
-    onClick: PropTypes.func.isRequired,
-    intl: intlShape.isRequired,
-};
 
 AvatarChoice.defaultProps = {
     avatar: {
