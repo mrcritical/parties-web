@@ -34,10 +34,6 @@ class Chat extends React.Component<Props, State> {
         value: '',
     };
 
-    constructor(props) {
-        super(props);
-    }
-
     handleChange: ({ event: SyntheticInputEvent<>, value: string }) => void = ({value}) => {
         this.setState({
             value
