@@ -1,9 +1,8 @@
-
 // @flow
 import type {PartyType} from "types/AdminTypes";
 import type CrudRepository from "CrudRepository";
 
-export default class PartiesRepository implements CrudRepository<PartyType> {
+export default class PartyRepository implements CrudRepository<PartyType> {
 
     create(party: PartyType) {
         return new Promise((resolve, reject) => {
