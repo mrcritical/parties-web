@@ -1,6 +1,8 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
 import {Box, Text} from 'gestalt';
-import {defineMessages, FormattedMessage, injectIntl, intlShape} from "react-intl";
+import {defineMessages, FormattedMessage, injectIntl} from "react-intl";
+import type {IntLType} from "types/Types";
 
 const translations = defineMessages({
     title: {
@@ -9,7 +11,11 @@ const translations = defineMessages({
     }
 });
 
-class DashboardPage extends React.Component {
+type Props = {
+    intl: IntLType,
+};
+
+class DashboardPage extends React.Component<Props> {
     render() {
         return <Box direction="row"
                     display="flex"
@@ -23,9 +29,5 @@ class DashboardPage extends React.Component {
         </Box>;
     }
 }
-
-DashboardPage.propTypes = {
-    intl: intlShape.isRequired,
-};
 
 export default injectIntl(DashboardPage);

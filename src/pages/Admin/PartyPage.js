@@ -1,6 +1,8 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
 import {Box, Text} from 'gestalt';
-import {defineMessages, FormattedMessage, injectIntl, intlShape} from "react-intl";
+import {defineMessages, FormattedMessage, injectIntl} from "react-intl";
+import type {IntLType} from 'types/Types';
 import * as moment from 'moment';
 
 const translations = defineMessages({
@@ -10,7 +12,11 @@ const translations = defineMessages({
     }
 });
 
-class PartyPage extends React.Component {
+type Props = {
+    intl: IntLType,
+};
+
+class PartyPage extends React.Component<Props> {
     render() {
         return <Box direction="row"
                     display="flex"
@@ -24,10 +30,6 @@ class PartyPage extends React.Component {
         </Box>;
     }
 }
-
-PartyPage.propTypes = {
-    intl: intlShape.isRequired,
-};
 
 const party = {
     id: '',
