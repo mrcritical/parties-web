@@ -1,6 +1,6 @@
 // @flow
 import type {PartyType} from "types/AdminTypes";
-import type CrudRepository from "CrudRepository";
+import type CrudRepository from "interfaces/CrudRepository";
 
 export default class PartyRepository implements CrudRepository<PartyType> {
 
