@@ -1,6 +1,8 @@
 // @flow
+import {CurrentUserType} from "types/AdminTypes";
+
 interface ReadRepository<T> {
-    list() : Promise<Array<T>>;
+    get(id: string, currentUser: CurrentUserType) : Promise<Array<T>>;
 }
 
 export default ReadRepository;

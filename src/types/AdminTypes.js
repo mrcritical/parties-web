@@ -113,6 +113,17 @@ type UserType = {
     name: NameType,
 };
 
+type CurrentUserType = {
+    id: string,
+    email: string,
+    name: NameType,
+    account: AccountReferenceType,
+};
+
+type AccountReferenceType = {
+    id: string,
+};
+
 type AccountPlanType = 'basic';
 
 type AccountType = {
@@ -152,7 +163,9 @@ export type {
     ChatsType,
     AccountType,
     AccountPlanType,
+    AccountReferenceType,
     BillType,
     UserType,
+    CurrentUserType,
 };
 

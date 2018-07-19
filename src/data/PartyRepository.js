@@ -1,34 +1,34 @@
 // @flow
-import type {PartyType} from "types/AdminTypes";
+import type {PartyType, CurrentUserType} from "types/AdminTypes";
 import type CrudRepository from "interfaces/CrudRepository";
 
 export default class PartyRepository implements CrudRepository<PartyType> {
 
-    create(party: PartyType) {
+    create(party: PartyType, currentUser: CurrentUserType) {
         return new Promise((resolve, reject) => {
             reject(new Error('Not implemented yet'));
         });
     }
 
-    list() {
+    list(currentUser: CurrentUserType) {
         return new Promise((resolve, reject) => {
             reject(new Error('Not implemented yet'));
         });
     }
 
-    get(id: string) {
+    get(id: string, currentUser: CurrentUserType) {
         return new Promise((resolve, reject) => {
             reject(new Error('Not implemented yet'));
         });
     }
 
-    update(id: string, party: PartyType) {
+    update(id: string, party: PartyType, currentUser: CurrentUserType) {
         return new Promise((resolve, reject) => {
             reject(new Error('Not implemented yet'));
         });
     }
 
-    delete(id: String) {
+    delete(id: String, currentUser: CurrentUserType) {
         return new Promise((resolve, reject) => {
             reject(new Error('Not implemented yet'));
         });
