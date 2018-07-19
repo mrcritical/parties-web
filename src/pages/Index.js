@@ -8,14 +8,8 @@ import AdminDashboardPage from "./Admin/DashboardPage";
 import AdminPartiesPage from "./Admin/PartiesPage";
 import AdminPartyPage from "./Admin/PartyPage";
 import {Consumer, Provider, UserContext} from 'data/Context';
-import Moment from 'react-moment';
-import 'moment-timezone';
 import 'gestalt/dist/gestalt.css';
 import styled from 'styled-components';
-
-// Start the pooled timer which runs every 60 seconds
-// (60000 milliseconds) by default.
-Moment.startPooledTimer();
 
 const PageContainer = styled.div`
   height: 100%;
@@ -27,10 +21,15 @@ type State = {
     context: UserContext,
 };
 
+
 class Index extends React.Component<Props, State> {
     state = {
         context: Provider.defaultValue,
     };
+
+    componentWillMount() {
+
+    }
 
     render() {
         return (

@@ -8,9 +8,11 @@ import de from 'react-intl/locale-data/de';
 import fr from 'react-intl/locale-data/fr';
 import localeData from 'translations/translations';
 import * as moment from 'moment';
+import Moment from 'react-moment';
 import 'moment/locale/de';
 import 'moment/locale/es';
 import 'moment/locale/fr';
+import 'moment-timezone';
 import registerServiceWorker from './registerServiceWorker';
 
 addLocaleData([...en, ...es, ...fr, ...de]);
@@ -18,6 +20,10 @@ addLocaleData([...en, ...es, ...fr, ...de]);
 const language = navigator.language.split(/[-_]/)[0];
 // Set Date/Time Locale
 moment.locale(language);
+
+// Start the pooled timer which runs every 60 seconds
+// (60000 milliseconds) by default.
+Moment.startPooledTimer();
 
 // Try full locale, fallback to 'en'
 const messages = localeData[language] || localeData.en;
