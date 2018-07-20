@@ -11,6 +11,7 @@ import Catalog from "components/Party/Catalog";
 import update from 'immutability-helper';
 import type {BagItemType, CommentType, IntLType, MessageType, PostType, ProductType} from 'types/Types';
 import {defineMessages, injectIntl} from 'react-intl';
+import {AccountType, AuthContext, ProfileType, Consumer} from 'data/Context';
 
 // All CSS measurements based on 4px * x
 
@@ -284,87 +285,92 @@ class PartyPage extends React.Component<Props, State> {
             });
         }
 
-        return <Box
-            direction="row"
-            display="flex"
-            flex="grow"
-            height="100%"
-            wrap
-        >
-            <Column span={12}
-                    mdSpan={8}>
-                <Box flex="grow"
-                     display="flex"
-                     direction="column"
-                     height="100%">
-                    <PageHeader image={party.settings.header.image.url}
-                                backgroundColor={party.settings.header.colors.background}
-                                headerContrast={party.settings.header.colors.contrast}>
-                        <Box direction="column"
+        return <Consumer>
+            {authContext => {
+                console.log('Auth: ' + JSON.stringify(authContext));
+                return <Box
+                    direction="row"
+                    display="flex"
+                    flex="grow"
+                    height="100%"
+                    wrap
+                >
+                    <Column span={12}
+                            mdSpan={8}>
+                        <Box flex="grow"
                              display="flex"
+                             direction="column"
                              height="100%">
-                            <Box justifyContent="end"
-                                 alignItems="start"
-                                 direction="row"
-                                 display="flex">
-                                <div
-                                    ref={i => {
-                                        this.bagAnchor = i;
-                                    }}>
-                                    <IconButton
-                                        accessibilityLabel={formatMessage(translations.shoppingBag)}
-                                        accessibilityHaspopup
-                                        icon="shopping-bag"
-                                        iconColor={party.settings.header.colors.bag}
-                                        onClick={this._handleBagButton}
-                                    />
-                                    {this.state.showingBag &&
-                                    <Flyout
-                                        anchor={this.bagAnchor}
-                                        onDismiss={this._handleHideBag}
-                                        idealDirection="down"
-                                        size="xl"
-                                    >
-                                        <Bag bag={bag}
-                                             onRemove={this._removeFromBag}/>
-                                    </Flyout>
-                                    }
-                                </div>
-                            </Box>
-                            <Box alignItems="center"
-                                 direction="row"
-                                 display="flex"
-                                 width="100%"
-                                 height="100%">
-                                <ContrastingContainer contrast={party.settings.header.colors.contrast}>
-                                    <Heading color={party.settings.header.colors.text}
-                                             size="lg">
-                                        {party.name}
-                                    </Heading>
-                                </ContrastingContainer>
-                            </Box>
+                            <PageHeader image={party.settings.header.image.url}
+                                        backgroundColor={party.settings.header.colors.background}
+                                        headerContrast={party.settings.header.colors.contrast}>
+                                <Box direction="column"
+                                     display="flex"
+                                     height="100%">
+                                    <Box justifyContent="end"
+                                         alignItems="start"
+                                         direction="row"
+                                         display="flex">
+                                        <div
+                                            ref={i => {
+                                                this.bagAnchor = i;
+                                            }}>
+                                            <IconButton
+                                                accessibilityLabel={formatMessage(translations.shoppingBag)}
+                                                accessibilityHaspopup
+                                                icon="shopping-bag"
+                                                iconColor={party.settings.header.colors.bag}
+                                                onClick={this._handleBagButton}
+                                            />
+                                            {this.state.showingBag &&
+                                            <Flyout
+                                                anchor={this.bagAnchor}
+                                                onDismiss={this._handleHideBag}
+                                                idealDirection="down"
+                                                size="xl"
+                                            >
+                                                <Bag bag={bag}
+                                                     onRemove={this._removeFromBag}/>
+                                            </Flyout>
+                                            }
+                                        </div>
+                                    </Box>
+                                    <Box alignItems="center"
+                                         direction="row"
+                                         display="flex"
+                                         width="100%"
+                                         height="100%">
+                                        <ContrastingContainer contrast={party.settings.header.colors.contrast}>
+                                            <Heading color={party.settings.header.colors.text}
+                                                     size="lg">
+                                                {party.name}
+                                            </Heading>
+                                        </ContrastingContainer>
+                                    </Box>
+                                </Box>
+                            </PageHeader>
+                            {mainContent}
                         </Box>
-                    </PageHeader>
-                    {mainContent}
-                </Box>
-            </Column>
-            <Column span={12} mdSpan={4}>
-                <Box color="white"
-                     display="flex"
-                     direction="column"
-                     height="100%">
-                    <Box
-                        padding={2}>
-                        <Tabs
-                            tabs={tabs}
-                            activeTabIndex={this.state.activeIndex}
-                            onChange={this.handleChange}
-                        />
-                    </Box>
-                    {sideBarContent}
-                </Box>
-            </Column>
-        </Box>;
+                    </Column>
+                    <Column span={12} mdSpan={4}>
+                        <Box color="white"
+                             display="flex"
+                             direction="column"
+                             height="100%">
+                            <Box
+                                padding={2}>
+                                <Tabs
+                                    tabs={tabs}
+                                    activeTabIndex={this.state.activeIndex}
+                                    onChange={this.handleChange}
+                                />
+                            </Box>
+                            {sideBarContent}
+                        </Box>
+                    </Column>
+                </Box>;
+            }}
+        </Consumer>;
     }
 }
 
