@@ -18,15 +18,12 @@ type ProfileType = {
 type AuthContext = {
     hasLoaded: boolean,
     user: ?User,
-    profile: ?ProfileType,
-    account: ?AccountType,
+    profile?: ?ProfileType,
+    account?: ?AccountType,
 }
 
 const {Provider, Consumer} = React.createContext({
     hasLoaded: false,
-    user: null,
-    profile: null,
-    account: null,
 });
 
 export type {

@@ -4,10 +4,12 @@ import {Box, Button, Heading, Text, TextField} from 'gestalt';
 import {defineMessages, FormattedMessage, injectIntl} from "react-intl";
 import type {IntLType} from "types/Types";
 import AvatarChoice from 'components/Party/Login/AvatarChoice';
+import type {RouterHistory} from 'react-router-dom';
 import {withRouter} from 'react-router-dom'
 import compose from 'recompose/compose';
 import styled, {css} from 'styled-components';
 import md5 from 'md5';
+import type {PartyViewType} from "types/Types";
 
 const translations = defineMessages({
     title: {
@@ -48,12 +50,14 @@ const FullPageContainer = styled.div`
 
 type Props = {
     intl: IntLType,
+    partyId: string,
+    history: RouterHistory,
 };
 
 type State = {
     selectedAvatar: string,
     handleValue: string,
-    handleErrorMessage?: string,
+    handleErrorMessage?: ?string,
 };
 
 class LoginPage extends React.Component<Props, State> {
@@ -64,6 +68,13 @@ class LoginPage extends React.Component<Props, State> {
         selectedAvatar: this.defaultAvatarId,
         handleValue: me.name.first + '.' + me.name.last,
     };
+
+    party: PartyViewType;
+
+    constructor(props) {
+        super(props);
+        this.party = party;
+    }
 
     onAvatarChange: (id: string) => void = (id) => {
         this.setState({
@@ -104,8 +115,8 @@ class LoginPage extends React.Component<Props, State> {
         const {formatMessage} = this.props.intl;
         const {selectedAvatar} = this.state;
 
-        return <FullPageContainer image={party.settings.welcome.background.image ? party.settings.welcome.background.image.url : null}
-                                  color={party.settings.welcome.background.color}
+        return <FullPageContainer image={this.party.settings && this.party.settings.welcome && this.party.settings.welcome.background && this.party.settings.welcome.background.image ? this.party.settings.welcome.background.image.url : null}
+                                  color={this.party.settings && this.party.settings.welcome && this.party.settings.welcome.background ? this.party.settings.welcome.background.color : null}
         >
             <Box direction="row"
                  display="flex"
@@ -182,7 +193,7 @@ class LoginPage extends React.Component<Props, State> {
                                         id="handle"
                                         placeholder={formatMessage(translations.chooseHandleLabel)}
                                         value={this.state.handleValue}
-                                        errorMessage={this.state.handleErrorMessage}
+                                        errorMessage={this.state.handleErrorMessage ? this.state.handleErrorMessage : ''}
                                         onChange={this.onHandleChange}
                                     />
                                 </Box>
@@ -244,7 +255,7 @@ class LoginPage extends React.Component<Props, State> {
                             <Button
                                 text={formatMessage(translations.joinButton)}
                                 color="red"
-                                disabled={this.state.handleErrorMessage !== null}
+                                disabled={this.state.handleErrorMessage !== undefined && this.state.handleErrorMessage !== null}
                                 onClick={() => {
                                     this.props.history.push('/parties/' + this.props.partyId);
                                 }}
@@ -258,6 +269,8 @@ class LoginPage extends React.Component<Props, State> {
 }
 
 const party = {
+    id: '1',
+    name: "Ava's Nail Party",
     settings: {
         welcome: {
             background: {
@@ -265,7 +278,27 @@ const party = {
                 //     url: 'https://colorstreet.com/wp-content/uploads/2017/11/2-24-17-Incoco-ColorStreet.jpg',
                 // },
                 color: 'purple',
-            }
+            },
+        },
+        header: {
+            image: {
+                url: 'https://vnailpro.com/wp-content/uploads/2017/08/5StarRSBanner1-min.png',
+            },
+            colors: {
+                text: 'white',
+                background: '#5b2677',
+                contrast: true,
+                bag: 'white',
+            },
+        },
+        attendees: {
+            colors: {
+                highlight: {
+                    background: 'green',
+                    online: 'white',
+                    offline: 'pine',
+                }
+            },
         },
     }
 };

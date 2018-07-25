@@ -7,7 +7,8 @@ import LoginPage from "./Party/LoginPage";
 import AdminDashboardPage from "./Admin/DashboardPage";
 import AdminPartiesPage from "./Admin/PartiesPage";
 import AdminPartyPage from "./Admin/PartyPage";
-import {AccountType, AuthContext, ProfileType, Provider} from 'data/Context';
+import type {AccountType, AuthContext, ProfileType} from 'data/Context';
+import {Provider} from 'data/Context';
 import {app, User} from 'firebase/app';
 import 'gestalt/dist/gestalt.css';
 import styled from 'styled-components';
@@ -34,13 +35,13 @@ class Index extends React.Component<Props, AuthContext> {
 
     unsubscribe: () => void;
 
-    componentWillMount() {
+    async componentWillMount() {
         const {firebase} = this.props;
 
         // If user already logged in and no profile then lookup account and profile
         if (this.state.user && this.state.profile === null) {
             try {
-                const result: UserLookup = this.lookup(this.state.user);
+                const result: UserLookup = await this.lookup(this.state.user);
                 this.setState({
                     account: result.account,
                     profile: result.profile,
@@ -53,7 +54,7 @@ class Index extends React.Component<Props, AuthContext> {
         // Handle any changes to auth state
         this.unsubscribe = firebase.auth().onAuthStateChanged(async user => {
             try {
-                const result: UserLookup = this.lookup(user);
+                const result: UserLookup = await this.lookup(user);
                 this.setState({
                     hasLoaded: !!user,
                     user,
@@ -66,7 +67,7 @@ class Index extends React.Component<Props, AuthContext> {
         });
     }
 
-    lookup = async (authUser: User): UserLookup => {
+    lookup = async (authUser: User): Promise<UserLookup> => {
         if (authUser) {
             const {firebase} = this.props;
             const user = await firebase

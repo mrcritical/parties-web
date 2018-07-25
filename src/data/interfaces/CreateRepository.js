@@ -1,8 +1,10 @@
 // @flow
-import {CurrentUserType} from "types/AdminTypes";
+import type {AuthContext} from "../Context";
 
 interface CreateRepository<T> {
-    create(item: T, currentUser: CurrentUserType) : Promise<T>;
+    create(item: T, context: AuthContext) : Promise<T>;
 }
 
-export default CreateRepository;
+export type {
+    CreateRepository
+}

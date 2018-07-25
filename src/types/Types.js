@@ -1,4 +1,5 @@
 // @flow
+import type {PartySettingsType} from "types/AdminTypes";
 
 type BackgroundColorType = 'green';
 type OnlineColorType = 'white';
@@ -113,6 +114,12 @@ type BagType = {
     total: number,
 };
 
+type PartyViewType = {
+    id: string,
+    name: string,
+    settings?: PartySettingsType,
+}
+
 export type {
     IntLType,
     NameType,
@@ -128,5 +135,6 @@ export type {
     BagType,
     BagItemType,
     AttendeeColorsType,
+    PartyViewType,
 };
 

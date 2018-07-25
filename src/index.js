@@ -46,6 +46,7 @@ const messages = localeData[language] || localeData.en;
 // If browser doesn't support Intl (i.e. Safari), then we manually import
 // the intl polyfill and locale data.
 if (!window.intl) {
+    // $FlowFixMe
     require.ensure([
         'intl',
         'intl/locale-data/jsonp/en.js',
@@ -62,6 +63,7 @@ if (!window.intl) {
             <IntlProvider locale={language} messages={messages}>
                 <Index firebase={firebaseApp} />
             </IntlProvider>,
+            // $FlowFixMe
             document.getElementById('root')
         );
     });
@@ -70,6 +72,7 @@ if (!window.intl) {
         <IntlProvider locale={language} messages={messages}>
             <Index firebase={firebaseApp} />
         </IntlProvider>,
+        // $FlowFixMe
         document.getElementById('root')
     );
 }

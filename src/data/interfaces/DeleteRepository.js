@@ -1,8 +1,10 @@
 // @flow
-import {CurrentUserType} from "types/AdminTypes";
+import type {AuthContext} from "data/Context";
 
 interface DeleteRepository<T> {
-    delete(id: String, currentUser: CurrentUserType) : Promise<Boolean>;
+    delete(id: String, context: AuthContext): Promise<Boolean>;
 }
 
-export default DeleteRepository;
+export type {
+    DeleteRepository
+} ;

@@ -11,7 +11,7 @@ import Catalog from "components/Party/Catalog";
 import update from 'immutability-helper';
 import type {BagItemType, CommentType, IntLType, MessageType, PostType, ProductType} from 'types/Types';
 import {defineMessages, injectIntl} from 'react-intl';
-import {AccountType, AuthContext, ProfileType, Consumer} from 'data/Context';
+import {Consumer} from 'data/Context';
 
 // All CSS measurements based on 4px * x
 
@@ -80,6 +80,8 @@ class PartyPage extends React.Component<Props, State> {
         postCardRef: null,
     };
 
+    bagAnchor = null;
+
     componentDidMount() {
         document.title = "Welcome to the Party";
     }
@@ -123,7 +125,10 @@ class PartyPage extends React.Component<Props, State> {
         this.forceUpdate();
     };
 
-    _handleSideBar: (activePost: PostType) => React.Element = (activePost) => {
+    _handleSideBar: (activePost: ?PostType) => ?React.Element<any> = (activePost) => {
+        if (activePost === undefined) {
+            return null;
+        }
         let content;
         switch (this.state.activeIndex) {
             case 1:
@@ -150,7 +155,10 @@ class PartyPage extends React.Component<Props, State> {
         return content;
     };
 
-    _handleMainContent: (activePost: PostType) => React.Element = (activePost) => {
+    _handleMainContent: (activePost: ?PostType) => ?React.Element<any> = (activePost) => {
+        if (activePost === undefined) {
+            return null;
+        }
         if(this.state.showingCatalog) {
             return <Box
                 display="flex"
@@ -253,10 +261,18 @@ class PartyPage extends React.Component<Props, State> {
 
     _onPostLike: (post: PostType) => void = (post) => {
         if (post.liked) {
-            post.likes--;
+            if (post.likes) {
+                post.likes--;
+            } else {
+                post.likes = 0;
+            }
             post.liked = false;
         } else {
-            post.likes++;
+            if (post.likes) {
+                post.likes++;
+            } else {
+                post.likes = 1;
+            }
             post.liked = true;
         }
         this.forceUpdate();
@@ -690,6 +706,7 @@ const catalog = {
 };
 
 const party = {
+    id: '1',
     name: "Ava's Nail Party",
     settings: {
         welcome: {

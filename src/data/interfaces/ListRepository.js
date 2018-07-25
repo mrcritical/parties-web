@@ -1,8 +1,10 @@
 // @flow
-import {CurrentUserType} from "types/AdminTypes";
+import type {AuthContext} from "data/Context";
 
 interface ListRepository<T> {
-    list(currentUser: CurrentUserType) : Promise<Array<T>>;
+    list(context: AuthContext) : Promise<Array<T>>;
 }
 
-export default ListRepository;
+export type {
+    ListRepository
+};

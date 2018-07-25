@@ -1,8 +1,10 @@
 // @flow
-import {CurrentUserType} from "types/AdminTypes";
+import type {AuthContext} from "data/Context";
 
 interface UpdateRepository<T> {
-    update(id: string, item: T, currentUser: CurrentUserType) : Promise<T>;
+    update(id: string, item: T, context: AuthContext) : Promise<T>;
 }
 
-export default UpdateRepository;
+export type {
+    UpdateRepository
+};
