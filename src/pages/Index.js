@@ -1,12 +1,12 @@
 // @flow
 import * as React from "react";
-import withRoot from '../withRoot';
+import withRoot from 'withRoot';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import PartyPage from "./Party/PartyPage";
-import LoginPage from "./Party/LoginPage";
-import AdminDashboardPage from "./Admin/DashboardPage";
-import AdminPartiesPage from "./Admin/PartiesPage";
-import AdminPartyPage from "./Admin/PartyPage";
+import PartyPage from "pages/Party/PartyPage";
+import LoginPage from "pages/Party/LoginPage";
+import AdminDashboardPage from "pages/Admin/DashboardPage";
+import AdminPartiesPage from "pages/Admin/PartiesPage";
+import AdminPartyPage from "pages/Admin/PartyPage";
 import type {AccountType, AuthContext, ProfileType} from 'data/Context';
 import {Provider} from 'data/Context';
 import {app, User} from 'firebase/app';
