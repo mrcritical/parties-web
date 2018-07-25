@@ -35,47 +35,49 @@ class Index extends React.Component<Props, AuthContext> {
 
     unsubscribe: () => void;
 
-    async componentWillMount() {
-        const {firebase} = this.props;
+    componentWillMount(): void {
+        (async () => {
+            const {firebase} = this.props;
 
-        // If user already logged in and no profile then lookup account and profile
-        if (this.state.user && this.state.profile === null) {
-            try {
-                const result: UserLookup = await this.lookup(this.state.user);
-                this.setState({
-                    account: result.account,
-                    profile: result.profile,
-                });
-            } catch (error) {
-                console.log('Error occurred on lookup: ' + error);
+            // If user already logged in and no profile then lookup account and profile
+            if (this.state.user && this.state.profile === null) {
+                try {
+                    const result: UserLookup = await this.lookup(this.state.user);
+                    this.setState({
+                        account: result.account,
+                        profile: result.profile,
+                    });
+                } catch (error) {
+                    console.log('Error occurred on lookup: ' + error);
+                }
             }
-        }
 
-        // Handle any changes to auth state
-        this.unsubscribe = firebase.auth().onAuthStateChanged(async user => {
-            try {
-                const result: UserLookup = await this.lookup(user);
-                this.setState({
-                    hasLoaded: !!user,
-                    user,
-                    account: result.account,
-                    profile: result.profile,
-                });
-            } catch (error) {
-                console.log('Error occurred on lookup on auth change: ' + error);
-            }
-        });
+            // Handle any changes to auth state
+            this.unsubscribe = firebase.auth().onAuthStateChanged(async user => {
+                try {
+                    const result: UserLookup = await this.lookup(user);
+                    this.setState({
+                        hasLoaded: !!user,
+                        user,
+                        account: result.account,
+                        profile: result.profile,
+                    });
+                } catch (error) {
+                    console.log('Error occurred on lookup on auth change: ' + error);
+                }
+            });
+        })();
     }
 
-    lookup = async (authUser: User): Promise<UserLookup> => {
-        if (authUser) {
+    async lookup(authUser: User): Promise<UserLookup> {
+        if (authUser && authUser.uid) {
             const {firebase} = this.props;
             const user = await firebase
                 .firestore()
                 .doc('users/' + authUser.uid)
                 .get();
             let profile = null;
-            if (user && user.exists) {
+            if (user && user.exists && user.data().profile) {
                 profile = await user.data().profile.get();
             } else {
                 throw new Error('User not found');
@@ -92,7 +94,7 @@ class Index extends React.Component<Props, AuthContext> {
                 profile: null,
             }
         }
-    };
+    }
 
     componentWillUnmount() {
         if (this.unsubscribe) {
