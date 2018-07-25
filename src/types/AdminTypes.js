@@ -9,7 +9,7 @@ import type {
     NameType,
     PostType,
     ProductType
-} from "./Types";
+} from "types/Types";
 
 type PartyType = {
     id: string,
@@ -133,6 +133,33 @@ type BillType = {
     total: number,
 };
 
+type ContactValueType = {
+    label: string,
+    value: string,
+    preferred: boolean,
+};
+
+type AddressType = {
+    label: string,
+    line1: string,
+    line2: string,
+    city: string,
+    province: string,
+    postalCode: string,
+    countryCode: string,
+    preferred: boolean,
+};
+
+type ContactType = {
+    id: string,
+    name: NameType,
+    emailAddresses: Array<ContactValueType>,
+    phoneNumbers?: Array<ContactValueType>,
+    addresses?: Array<AddressType>,
+    tags?: Array<string>,
+    parties?: Array<string>,
+};
+
 export type {
     PartyType,
     PartyWhenType,
@@ -154,5 +181,8 @@ export type {
     AccountPlanType,
     BillType,
     UserType,
+    ContactType,
+    AddressType,
+    ContactValueType,
 };
 

@@ -1,11 +1,11 @@
 // @flow
-import type {UserType} from "types/AdminTypes";
+import type {ContactType} from "types/AdminTypes";
 import type {AuthContext} from "data/Context";
 import type {CrudRepository} from "data/interfaces/CrudRepository";
 
-export default class UserRepository implements CrudRepository<UserType> {
+export default class ContactRepository implements CrudRepository<ContactType> {
 
-    create(user: UserType, context: AuthContext) {
+    create(contact: ContactType, context: AuthContext) {
         return new Promise((resolve, reject) => {
             reject(new Error('Not implemented yet'));
         });
@@ -23,7 +23,7 @@ export default class UserRepository implements CrudRepository<UserType> {
         });
     }
 
-    update(id: string, user: UserType, context: AuthContext) {
+    update(id: string, contact: ContactType, context: AuthContext) {
         return new Promise((resolve, reject) => {
             reject(new Error('Not implemented yet'));
         });

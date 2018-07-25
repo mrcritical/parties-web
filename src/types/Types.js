@@ -33,8 +33,11 @@ type MediaVideoType = {
 };
 
 type NameType = {
+    title?: string,
     first: string,
+    middle?: string,
     last: string,
+    suffix?: string,
 };
 
 type AttendeeStatusType = 'present' | 'no-show' | 'declined' | 'invited' | 'attended';

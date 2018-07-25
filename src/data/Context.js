@@ -20,6 +20,7 @@ type AuthContext = {
     user: ?User,
     profile?: ?ProfileType,
     account?: ?AccountType,
+    partyId?: string,
 }
 
 const {Provider, Consumer} = React.createContext({
