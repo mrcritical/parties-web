@@ -2,15 +2,14 @@
 import type {UserType} from "types/AdminTypes";
 import type {AuthContext} from "data/Context";
 import type {CrudRepository} from "data/interfaces/CrudRepository";
-import firestore from 'data/firestore';
 import type {Profile} from "data/schema";
+import firestore from 'data/firestore';
 import type {
     CollectionReference,
     DocumentReference,
     DocumentSnapshot,
-    Firestore,
     QuerySnapshot
-} from '@firebase/firestore';
+} from 'data/firestore';
 
 export default class UserRepository implements CrudRepository<UserType> {
 
