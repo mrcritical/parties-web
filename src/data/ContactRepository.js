@@ -2,11 +2,9 @@
 import type {ContactType} from "types/AdminTypes";
 import type {AuthContext} from "data/Context";
 import type {CrudRepository} from "data/interfaces/CrudRepository";
-import * as firebase from 'firebase';
+import firestore from 'data/firestore';
 import type {Contact, Profile} from "data/schema";
 import type {CollectionReference, DocumentReference, Firestore} from '@firebase/firestore';
-
-const firestore: Firestore = firebase.firestore();
 
 export default class ContactRepository implements CrudRepository<ContactType> {
 
@@ -29,7 +27,7 @@ export default class ContactRepository implements CrudRepository<ContactType> {
         const contactDoc: DocumentReference = await this.contacts.add({
             tags: contact.tags,
             profile: profileDoc.ref,
-            account: firebase.doc('accounts/' + context.account.id),
+            account: firestore.doc('accounts/' + context.account.id),
         });
 
         const contactData: Contact = contactDoc.data;
