@@ -18,45 +18,31 @@ export type {
 
 export default class OrderRepository implements ReadRepository<OrderType>, DeleteRepository<OrderType>, UpdateRepository<OrderType> {
 
-    create(partyId: string, order: OrderType, context: AuthContext) : Promise<OrderType> {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async create(partyId: string, order: OrderType, context: AuthContext) : OrderType {
+        new Error('Not implemented yet');
     }
 
-    list(partyId: string, context: AuthContext) : Promise<Array<OrderType>> {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async list(partyId: string, context: AuthContext) : Array<OrderType> {
+        new Error('Not implemented yet');
     }
 
-    addToBag(item: NewOrderItemType, context: AuthContext) : Promise<OrderType> {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async addToBag(item: NewOrderItemType, context: AuthContext) : OrderType {
+        new Error('Not implemented yet')
     }
 
-    removeFromBag(id: string, context: AuthContext) : Promise<OrderType> {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async removeFromBag(id: string, context: AuthContext) : OrderType {
+        new Error('Not implemented yet');
     }
 
-    get(id: string, context: AuthContext) {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async get(id: string, context: AuthContext) {
+        new Error('Not implemented yet');
     }
 
-    update(id: string, order: OrderType, context: AuthContext) {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async update(id: string, order: OrderType, context: AuthContext) {
+        new Error('Not implemented yet');
     }
 
-    delete(id: String, currentUser: AuthContext) {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async delete(id: String, currentUser: AuthContext) {
+        new Error('Not implemented yet');
     }
 }

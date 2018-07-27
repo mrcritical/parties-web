@@ -1,7 +1,6 @@
 // @flow
 import type {NameType, MediaImageType} from "types/Types";
 import * as React from "react";
-import {User} from 'firebase/app';
 
 type AccountType = {
     id: string,
@@ -17,7 +16,7 @@ type ProfileType = {
 
 type AuthContext = {
     hasLoaded: boolean,
-    user: ?User,
+    user: ?$npm$firebase$auth$User,
     profile?: ?ProfileType,
     account?: ?AccountType,
     partyId?: string,

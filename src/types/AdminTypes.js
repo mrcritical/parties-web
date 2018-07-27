@@ -108,7 +108,7 @@ type ChatsType = {
 };
 
 type UserType = {
-    id: string,
+    id?: string,
     email: string,
     name: NameType,
 };
@@ -144,7 +144,7 @@ type AddressType = {
     line1: string,
     line2: string,
     city: string,
-    province: string,
+    state: string,
     postalCode: string,
     countryCode: string,
     preferred: boolean,

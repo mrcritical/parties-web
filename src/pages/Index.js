@@ -9,7 +9,7 @@ import AdminPartiesPage from "pages/Admin/PartiesPage";
 import AdminPartyPage from "pages/Admin/PartyPage";
 import type {AccountType, AuthContext, ProfileType} from 'data/Context';
 import {Provider} from 'data/Context';
-import {app, User} from 'firebase/app';
+import type {App} from '@firebase/app';
 import 'gestalt/dist/gestalt.css';
 import styled from 'styled-components';
 
@@ -18,7 +18,7 @@ const PageContainer = styled.div`
 `;
 
 type Props = {
-    firebase: app.App,
+    firebase: App,
 };
 
 type UserLookup = {
@@ -69,7 +69,7 @@ class Index extends React.Component<Props, AuthContext> {
         })();
     }
 
-    async lookup(authUser: User): Promise<UserLookup> {
+    async lookup(authUser: any): Promise<UserLookup> {
         if (authUser && authUser.uid) {
             const {firebase} = this.props;
             const user = await firebase

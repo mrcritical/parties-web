@@ -2,7 +2,7 @@
 import type {AuthContext} from "data/Context";
 
 interface DeleteRepository<T> {
-    delete(id: String, context: AuthContext): Promise<Boolean>;
+    delete(id: String, context: AuthContext): void;
 }
 
 export type {

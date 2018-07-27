@@ -23,63 +23,43 @@ export type {
 
 export default class PartyRepository implements CrudRepository<PartyType> {
 
-    create(party: PartyType, context: AuthContext) {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async create(party: PartyType, context: AuthContext) {
+        new Error('Not implemented yet');
     }
 
-    list(context: AuthContext) {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async list(context: AuthContext) {
+        new Error('Not implemented yet');
     }
 
-    get(id: string, context: AuthContext) {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async get(id: string, context: AuthContext) {
+        new Error('Not implemented yet');
     }
 
-    addAttendee(partyId: string, attendee: NewAttendeeType, context: AuthContext): Promise<AttendeeType> {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async addAttendee(partyId: string, attendee: NewAttendeeType, context: AuthContext): AttendeeType {
+        new Error('Not implemented yet');
     }
 
-    emailAttendee(partyId: string, attendeeId: string, email: NewEmailType, context: AuthContext): Promise<void> {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async emailAttendee(partyId: string, attendeeId: string, email: NewEmailType, context: AuthContext): void {
+        new Error('Not implemented yet');
     }
 
-    sendAuthToAttendee(partyId: string, attendeeId: string, context: AuthContext): Promise<void> {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async sendAuthToAttendee(partyId: string, attendeeId: string, context: AuthContext): void {
+        new Error('Not implemented yet');
     }
 
-    emailAttendees(partyId: string, email: NewEmailType, context: AuthContext): Promise<void> {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async emailAttendees(partyId: string, email: NewEmailType, context: AuthContext): void {
+        new Error('Not implemented yet');
     }
 
-    removeAttendee(partyId: string, attendeeId: string, context: AuthContext): Promise<void> {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async removeAttendee(partyId: string, attendeeId: string, context: AuthContext): void {
+        new Error('Not implemented yet');
     }
 
-    update(id: string, party: PartyType, context: AuthContext) {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async update(id: string, party: PartyType, context: AuthContext) {
+        new Error('Not implemented yet');
     }
 
-    delete(id: String, currentUser: AuthContext) {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async delete(id: String, currentUser: AuthContext) {
+        new Error('Not implemented yet');
     }
 }

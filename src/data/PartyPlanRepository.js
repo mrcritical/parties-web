@@ -16,33 +16,23 @@ export type {
 
 export default class PartyPlanRepository implements ReadRepository<PartyPlanType>, DeleteRepository<PartyPlanType>, UpdateRepository<PartyPlanType> {
 
-    create(partyId: string, plan: NewPartyPlanType, context: AuthContext) : Promise<PartyPlanType> {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async create(partyId: string, plan: NewPartyPlanType, context: AuthContext) : PartyPlanType {
+        new Error('Not implemented yet');
     }
 
-    list(partyId: string, context: AuthContext) : Promise<Array<PartyPlanType>> {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async list(partyId: string, context: AuthContext) : Array<PartyPlanType> {
+        new Error('Not implemented yet');
     }
 
-    get(id: string, context: AuthContext) {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async get(id: string, context: AuthContext) {
+        new Error('Not implemented yet');
     }
 
-    update(id: string, plan: PartyPlanType, context: AuthContext) {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async update(id: string, plan: PartyPlanType, context: AuthContext) {
+        new Error('Not implemented yet');
     }
 
-    delete(id: String, currentUser: AuthContext) {
-        return new Promise((resolve, reject) => {
-            reject(new Error('Not implemented yet'));
-        });
+    async delete(id: String, currentUser: AuthContext) {
+        new Error('Not implemented yet');
     }
 }

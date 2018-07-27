@@ -1,7 +1,9 @@
 // @flow
 
 // @path('/accounts/<id>')
-type Account = {
+import {DocumentReference} from "firebase/firestore";
+
+export type Account = {
     id: string,
     plan: string, // ref<AccountPlan>
     bills?: Array<string>, // ref<Bill>
@@ -9,17 +11,17 @@ type Account = {
 };
 
 // @path('/account-plans/<id>')
-type AccountPlan = {
+export type AccountPlan = {
     id: string,
     name: string,
     cost: number,
     qualifier: PlanQualifier,
 };
 
-type PlanQualifier = 'monthly' | 'yearly' | 'quarterly' | 'lifetime';
+export type PlanQualifier = 'monthly' | 'yearly' | 'quarterly' | 'lifetime';
 
 // @path('/account-bills/<id>')
-type Bill = {
+export type Bill = {
     from: Date,
     to: Date,
     total: number,
@@ -28,7 +30,7 @@ type Bill = {
 };
 
 // @path('/account-discounts/<id>')
-type Discount = {
+export type Discount = {
     id: string,
     name: string,
     code: string,
@@ -36,7 +38,7 @@ type Discount = {
 }
 
 // @path('/parties/<id>')
-type Party = {
+export type Party = {
     id: string,
     name: string,
     when?: PartyWhen,
@@ -49,7 +51,7 @@ type Party = {
     settings: PartySettings,
 };
 
-type PartyWhen = {
+export type PartyWhen = {
     created: Date,
     plannedStart?: Date,
     actualStart?: Date,
@@ -58,14 +60,14 @@ type PartyWhen = {
     closed?: Date,
 };
 
-type PartySettings = {
+export type PartySettings = {
 
 }
 
-type PartyStatus = 'created' | 'opened' | 'in_progress' | 'ended' | 'closed';
+export type PartyStatus = 'created' | 'opened' | 'in_progress' | 'ended' | 'closed';
 
 // @path('/parties/<id>/attendees/<id>')
-type Attendee = {
+export type Attendee = {
     id: string,
     profile: string, // ref<Profile>
     handle: string,
@@ -74,10 +76,10 @@ type Attendee = {
     presenter?: boolean,
 };
 
-type AttendeeStatus = 'created' | 'invited' | 'accepted' | 'present' | 'attended' | 'no_show' | 'declined';
+export type AttendeeStatus = 'created' | 'invited' | 'accepted' | 'present' | 'attended' | 'no_show' | 'declined';
 
 // @path('/parties/<id>/plans/<id>')
-type PartyPlan = {
+export type PartyPlan = {
     id: string,
     by: string, // ref<Profile>
     when: string, // relative or a specific date
@@ -87,62 +89,61 @@ type PartyPlan = {
 }
 
 // @path('/users/<id>')
-type User = {
-    id: string,
-    account: string, // ref<Account>
-    profile: string, // ref<Profile>
+export type User = {
+    id?: string,
+    account: DocumentReference, // ref<Account>
+    profile: DocumentReference, // ref<Profile>
 };
 
 // @path('/contacts/<id>')
-type Contact = {
-    id: string,
-    profile?: string, // ref<Profile>
+export type Contact = {
+    id?: string,
+    profile?: DocumentReference, // ref<Profile>
     tags?: Array<string>,
-    account: string, // ref<Account>
+    account: DocumentReference, // ref<Account>
 };
 
 // @path('/profiles/<id>')
-type Profile = {
-    id: string,
+export type Profile = {
+    id?: string,
     prefix?: string,
     first: string,
     middle?: string,
     last: string,
     suffix?: string,
-    avatar: Avatar,
+    avatar?: Avatar,
     preferredHandle?: string,
-    emailAddresses: Array<EmailAddress>,
-    phoneNumbers?: Array<PhoneNumber>,
-    physicalAddress?: Array<PhysicalAddress>,
+    emailAddresses: Array<ContactValue>,
+    phoneNumbers?: Array<ContactValue>,
+    physicalAddresses?: Array<PhysicalAddress>,
     user?: string, // ref<User>
 };
 
-type Avatar = {
+export type Avatar = {
     url: string,
 }
 
-type PhysicalAddress = {
-    label: string,
+export type PhysicalAddress = {
+    label: label,
     line1: string,
     line2?: string,
     city: string,
     state: string,
     postalCode: string,
     country?: string,
+    preferred?: boolean,
 }
 
-type EmailAddress = {
-    label: string,
-    address: string,
-}
+export type label = 'primary' | 'home' | 'work' | 'mobile' | 'other';
 
-type PhoneNumber = {
-    label: string,
-    number: string,
+export type ContactValue = {
+    label: label,
+    value: string,
+    preferred?: boolean,
 }
 
 // @path('/channels/<id>')
-type Channel = {
+export type Channel = {
     id: string,
     members: Array<string>, // ref<Attendee>
     messages?: Array<string>, // ref<Message>
@@ -150,19 +151,19 @@ type Channel = {
 };
 
 // @path('/channels/<id>/messages/<id>')
-type Message = {
+export type Message = {
     id: string,
     when: Date,
     by: string, // ref<Attendee>
     text: string,
 };
 
-type MediaType = 'video' | 'png' | 'jpeg';
+export type MediaType = 'video' | 'png' | 'jpeg';
 
-type MediaSource = 'youtube' | 'facebook';
+export type MediaSource = 'youtube' | 'facebook';
 
 // @path('/media/<id>')
-type Medium = {
+export type Medium = {
     id: string,
     type: MediaType,
     url: string,
@@ -173,12 +174,12 @@ type Medium = {
     account: string, // ref<Account>
 };
 
-type NamedAction = {
+export type NamedAction = {
     trigger: string,
 };
 
 // @path('/posts/<id>')
-type Post = {
+export type Post = {
     id: string,
     when: Date,
     by: string, // ref<Attendee>
@@ -191,13 +192,13 @@ type Post = {
 };
 
 // @path('/posts/<id>/likes/<id>')
-type Like = {
+export type Like = {
     id: string,
     by: string, // ref<Attendee>
 }
 
 // @path('/posts/<id>/comments/<id>')
-type Comment = {
+export type Comment = {
     id: string,
     when: Date,
     by: string, // ref<Attendee>
@@ -205,7 +206,7 @@ type Comment = {
 };
 
 // @path('/orders/<id>')
-type Order = {
+export type Order = {
     id: string,
     by: string, // ref<Attendee>
     items: Array<OrderItem>,
@@ -215,7 +216,7 @@ type Order = {
 };
 
 // @path('/orders/<id>/items/<id>')
-type OrderItem = {
+export type OrderItem = {
     id: string,
     product: string, // ref<Product>
     quantity: number,
@@ -223,20 +224,20 @@ type OrderItem = {
 };
 
 // @path('/catalogs/<id>')
-type Catalog = {
+export type Catalog = {
     id: string,
     name: string,
     products?: Array<string>, // ref<Product>
     categories?: Array<CatalogCategory>,
 }
 
-type CatalogCategory = {
+export type CatalogCategory = {
     id: string,
     name: string,
 };
 
 // @path('/catalogs/<id>/products/<id>')
-type Product = {
+export type Product = {
     id: string,
     name: string,
     cost: number,
