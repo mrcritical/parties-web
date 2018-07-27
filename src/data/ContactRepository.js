@@ -2,7 +2,7 @@
 import type {ContactType} from "types/AdminTypes";
 import type {AuthContext} from "data/Context";
 import type {CrudRepository} from "data/interfaces/CrudRepository";
-import firebase from 'firebase';
+import * as firebase from 'firebase';
 import type {Contact, Profile} from "data/schema";
 import type {CollectionReference, DocumentReference, Firestore} from '@firebase/firestore';
 
