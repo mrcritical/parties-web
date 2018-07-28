@@ -3,8 +3,8 @@ import type {ContactType} from "types/AdminTypes";
 import type {AuthContext} from "data/Context";
 import type {CrudRepository} from "data/interfaces/CrudRepository";
 import type {Contact, Profile} from "data/schema";
-import firestore from 'data/firestore';
-import type {CollectionReference, DocumentReference} from 'data/firestore';
+import type {CollectionReference, DocumentReference, DocumentSnapshot} from 'data/firestore';
+import firestore, {DocumentSnapshot} from 'data/firestore';
 
 export default class ContactRepository implements CrudRepository<ContactType> {
 
@@ -26,7 +26,7 @@ export default class ContactRepository implements CrudRepository<ContactType> {
 
         const contactDoc: DocumentReference = await this.contacts.add({
             tags: contact.tags,
-            profile: profileDoc.ref,
+            profile: profileDoc,
             account: firestore.doc('accounts/' + context.account.id),
         });
 
@@ -47,16 +47,62 @@ export default class ContactRepository implements CrudRepository<ContactType> {
         };
     }
 
+    static async _fetch(doc: DocumentSnapshot): ContactType {
+        const profileData = await doc.data().profile.get().data();
+        return {
+            id: doc.id,
+            prefix: profileData.prefix,
+            first: profileData.first,
+            middle: profileData.middle,
+            last: profileData.last,
+            suffix: profileData.suffix,
+            emailAddresses: profileData.emailAddresses,
+            phoneNumbers: profileData.phoneNumbers,
+            physicalAddresses: profileData.physicalAddresses,
+            tags: doc.data().tags,
+        };
+    }
+
     async list(context: AuthContext): Array<ContactType> {
-        new Error('Not implemented yet');
+        return await this
+            .contacts()
+            .where("account", "==", firestore.doc('accounts/' + context.account.id))
+            .get()
+            .docs
+            .map(async (doc: DocumentSnapshot): ContactType => {
+                return ContactRepository._fetch(doc);
+            });
     }
 
     async get(id: string, context: AuthContext): ContactType {
-        new Error('Not implemented yet');
+        const doc: DocumentSnapshot = await firestore
+            .doc('contacts/' + id)
+            .get();
+        return await ContactRepository._fetch(doc);
     }
 
     async update(id: string, contact: ContactType, context: AuthContext): ContactType {
-        new Error('Not implemented yet');
+        const doc: DocumentSnapshot = await firestore
+            .doc('contacts/' + id)
+            .get();
+        const profileData: DocumentReference = await doc.data().profile;
+        await profileData.set({
+            prefix: contact.name.prefix,
+            first: contact.name.first,
+            middle: contact.name.middle,
+            last: contact.name.last,
+            suffix: contact.name.suffix,
+            emailAddresses: contact.emailAddresses,
+            phoneNumbers: contact.phoneNumbers,
+            physicalAddresses: contact.addresses,
+        });
+        await doc.ref.set({
+            tags: contact.tags,
+        }, {
+            merge: true
+        });
+        contact.id = id;
+        return contact;
     }
 
     async delete(id: String, currentUser: AuthContext): void {
