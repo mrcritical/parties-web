@@ -204,13 +204,17 @@ class PostCard extends React.Component<Props> {
                         marginTop={-4}
                         color="white"
                         shape="roundedBottom">
-                        <Button text={likesLabel}
-                                inline
-                                onClick={() => this._handleLike(post)}
-                        />
-                        <Button text={commentsLabel}
-                                inline
-                                onClick={() => this.props.onSelect(post, this.myRef)}/>
+                        <Box>
+                            <Button text={likesLabel}
+                                    inline
+                                    onClick={() => this._handleLike(post)}
+                            />
+                        </Box>
+                        <Box paddingX={2}>
+                            <Button text={commentsLabel}
+                                    inline
+                                    onClick={() => this.props.onSelect(post, this.myRef)}/>
+                        </Box>
                     </Box>
                 </Box>
             </Box>
